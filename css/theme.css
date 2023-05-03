@@ -1,0 +1,27 @@
+@import url(tokens.css);
+@import url(colors.module.css);
+@import url(typography.module.css);
+@import url(theme.light.css);
+@import url(theme.dark.css);
+@import url(text.css);
+
+.card.disabled img {
+    filter: grayscale(100%);
+}
+
+img.rotate-slow {
+  animation: rotation 30s infinite linear;
+}
+
+img.rotate-fast {
+  animation: rotation 40s infinite linear reverse;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}

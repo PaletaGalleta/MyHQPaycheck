@@ -1,0 +1,121 @@
+{
+    "ocd": {
+        "secret": false,
+        "title": "OCD Relief",
+        "description": "The illusion of having control has been fulfilled by installing this extension.",
+        "description2": "How thrilling it must be to add another layer of micromanagement to your life. Welcome to the mad house.",
+        "goal": 1
+    },
+    "devil": {
+        "secret": false,
+        "title": "Sending the devil to get his WIC card",
+        "description": "You have terped more than 666 minutes on a single shift",
+        "description2": "I'm sure your brain is just thrilled at the prospect of never getting a break.",
+        "goal": 666
+    },
+    "update": {
+        "secret": true,
+        "title": "Nice update!",
+        "description": "You have updated the extension",
+        "description2": "Thank you for performing the Herculean task of clicking a few buttons to update this thing. I'm in awe of your technical prowess.",
+        "goal": 1
+    },
+    "late": {
+        "secret": false,
+        "title": "The Late Worker",
+        "description": "Received a call past the end of your shift",
+        "description2": "Oh, congratulations on staying connected past your shift. I'm sure nobody noticed. Or cared. But still, bravo.",
+        "goal": 1
+    },
+    "otherlang": {
+        "secret": false,
+        "title": "奉仕することを誇りに思う",
+        "description": "Received a call that was meant for another language",
+        "description2": "Wow, you're branching out into new languages. Too bad it wasn't intentional.",
+        "goal": 1
+    },
+    "available": {
+        "secret": false,
+        "title": "Do I need to work today?",
+        "description": "You have been Available for over an hour",
+        "description2": "Oh, the patience. Wasting an hour of your life just to receive a call.",
+        "goal": 60
+    },
+    "2hrsAvail": {
+        "secret": false,
+        "title": "Getting paid for watching Netflix",
+        "description": "You have been Available for a total of two hours on a single shift",
+        "description2": "Two hours of peace and quiet. Too bad you weren't getting paid to nap.",
+        "goal": 120
+    },
+    "ml3": {
+        "secret": false,
+        "title": "The CS Rep",
+        "description": "You became a Customer Service Interpreter",
+        "description2": "Yay! Get ready to be the voice of reason in the most unreasonable customer complaints. Good luck with that.",
+        "goal": 1
+    },
+    "ml4": {
+        "secret": false,
+        "title": "The Medic",
+        "description": "You became a Medical Interpreter",
+        "description2": "Now you get to deal with all the medical jargon and be the middleman in high-pressure situations. Fun stuff!",
+        "goal": 1
+    },
+    "ml5": {
+        "secret": false,
+        "title": "The Lawyer",
+        "description": "You became a Legal Interpreter",
+        "description2": "Fantastic! You get to decipher complex legal language and navigate the labyrinth of the justice system. Buckle up!",
+        "goal": 1
+    },
+    "100": {
+        "secret": false,
+        "title": "The Specialist",
+        "description": "You spent 100 days using this extension",
+        "description2": "Wow, one hundred days with this thing installed. I'm sure time just flew by, didn't it?",
+        "goal": 100
+    },
+    "onesec": {
+        "secret": false,
+        "title": "Thank you for ca...",
+        "description": "You received a call that lasted one second",
+        "description2": "What an intense and productive call that must have been! You really missed out on that greeting opportunity, didn't you?",
+        "goal": 1
+    },
+    "zerosec": {
+        "secret": true,
+        "title": "Th... WTF",
+        "description": "You received a call that lasted zero seconds",
+        "description2": "Why did the system logged that call anyway?",
+        "goal": 1
+    },
+    "oneYear": {
+        "secret": false,
+        "title": "Human Quality Veteran",
+        "description": "You have stayed as a HQ interpreter for over a year",
+        "description2": "Congrats on surviving a year in this linguistic wasteland. Your sanity must be in better shape than most of the clients you've had to deal with.",
+        "goal": 365
+    },
+    "pinAlmostLocked": {
+        "secret": true,
+        "title": "Living on the edge",
+        "description": "Your PIN almost gets locked because of continued short calls",
+        "description2": "Only four bad calls in a row? You must be slacking off. Come on, you can do better than that!",
+        "goal": 1
+    },
+    "pinLocked": {
+        "secret": true,
+        "title": "A Five-Call Catastrophe",
+        "description": "Your PIN got locked because of continued short calls",
+        "description2": "Looks like you're on a roll today. Five bad calls in a row? That's impressive. At this rate, you'll be the star of the next company meeting...if you're still employed by then, that is.",
+        "goal": 1
+    },
+    "survivor": {
+        "secret": false,
+        "title": "The Survivors' Club",
+        "description": "You survived 50 hours of calls with one of the most difficult service providers - against all odds.",
+        "description2": "Your reward is a front-row seat to the apathy and desperation of humanity. Enjoy the show.",
+        "goal": 1
+    }
+}

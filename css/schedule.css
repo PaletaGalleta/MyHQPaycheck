@@ -1,0 +1,32 @@
+.scbody {
+    background-color: #007aff;
+    padding: 16px;
+    border-radius: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    margin: 0 8px;
+}
+
+.scbody h2 {
+    margin: 0;
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.scbody button {
+    background-color: white;
+    outline: none;
+    border: 0;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.scbody button:hover {
+    background-color: gainsboro;
+}
+
+.scbody button:active {
+    background-color: gray;
+}
+

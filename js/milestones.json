@@ -1,0 +1,40 @@
+{
+    "long": {
+        "title": "Longest Call",
+        "msg": [
+            "There's nothing here, you sure you work with HQ?",
+            "There is a button for ending the call, you know?",
+            "Gee, thanks for reminding us about the 'end call' button, we almost forgot it existed.",
+            "Nice try telling everyone the call disconnected, but I think we all know the truth. How very creative of you.",
+            "Well, aren't you just the champion of long calls, keeping everyone else on hold for all that time."
+        ]
+    },
+    "juicy": {
+        "title": "Juiciest Paycheck",
+        "msg": [
+            "You gotta pump those numbers up",
+            "Wow, you must have been really desperate for money to request that much overtime. You requested it, ...right?",
+            "Did you request a crazy amount of OT, or you cheated? Either way you are a greedy human being",
+            "Wow, making more money than expected. How convenient. I'm sure it's just a huge coincidence and not at all suspicious.",
+            "Oh wow, making almost double as everyone else. I hope everything's okay, because that kind of success is just too good to be true."
+        ]
+    },
+    "ap": {
+        "title": "Personal Absences (AP) Time",
+        "msg": [
+            "Wow, you must be a true model of reliability and responsibility, not taking a single unauthorized absence.",
+            "Oh, lucky you! So many AP's there, how did you manage to keep your job?",
+            "Well, aren't you just the model employee, with all those absent periods.",
+            "Oh, don't worry about the consequences of being absent. Keep skipping work, it'll only result in unemployment. Yay!"
+        ]
+    },
+    "same": {
+        "title": "Calls received from same provider",
+        "msg": [
+            "Oh boy, must be a slow day if you're not getting calls from the same number over and over again.",
+            "Oh, how convenient for you, getting all those calls from the same number. Must be nice to have a dedicated fan.",
+            "Wow, you must have made quite the impression for that number to keep calling you back, again and again.",
+            "Impressive, receiving so many calls from the same number, you must be a popular person."
+        ]
+    }
+}

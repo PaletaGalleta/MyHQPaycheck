@@ -1,0 +1,138 @@
+* {
+   font-family: 'Roboto Flex', sans-serif;
+}
+
+/* Display Large */
+.display-lg {
+   line-height: 64px;
+   font-size: 3.5625em;
+   font-weight: 400;
+   letter-spacing: 0;
+   margin-top: 12px;
+}
+
+/* Display Medium */
+.display-md {
+   line-height: 52px;
+   font-size: 2.8125em;
+   font-weight: 400;
+   letter-spacing: 0;
+   margin-top: 12px;
+}
+
+/* Display Small */ 
+.display-sm {
+   line-height: 44px;
+   font-size: 2.25em;
+   font-weight: 400;
+   letter-spacing: 0;
+   margin-top: 10px;
+}
+
+/* Header Large */
+.header-lg {
+   line-height: 40px;
+   font-size: 2em;
+   font-weight: 400;
+   letter-spacing: 0;
+}
+
+/* Header Medium */
+.header-md {
+   line-height: 36px;
+   font-size: 1.75em;
+   font-weight: 400;
+   letter-spacing: 0;
+   margin-top: 10px;
+}
+
+/* Header Small */
+.header-sm {
+   line-height: 32px;
+   font-size: 1.5em;
+   font-weight: 400;
+   letter-spacing: 0;
+}
+
+/* Title Large */
+.title-lg {
+   line-height: 28px;
+   font-size: 1.375em;
+   font-weight: 400;
+   letter-spacing: 0;
+}
+
+/* Title Medium */
+.title-md {
+   line-height: 24px;
+   font-size: 1em;
+   font-weight: 500;
+   letter-spacing: 0.15;
+}
+
+/* Title Small */
+.title-sm {
+   line-height: 20px;
+   font-size: 0.875em;
+   font-weight: 500;
+   letter-spacing: 0.1;
+}
+
+/* Label Large */
+.label-lg {
+   line-height: 20px;
+   font-size: 0.875em;
+   font-weight: 500;
+   letter-spacing: 0.1;
+}
+
+/* Label Medium */
+.label-md {
+   line-height: 16px;
+   font-size: 0.75em;
+   font-weight: 500;
+   letter-spacing: 0.5;
+}
+
+/* Label Small */
+.label-sm {
+   line-height: 16px;
+   font-size: 0.6875em;
+   font-weight: 500;
+   letter-spacing: 0.5;
+}
+
+/* Body Large */
+.body-lg {
+   line-height: 24px;
+   font-size: 1em;
+   font-weight: 400;
+   letter-spacing: 0.5;
+}
+
+/* Body Medium */
+.body-md {
+   line-height: 20px;
+   font-size: 0.875em;
+   font-weight: 400;
+   letter-spacing: 0.25;
+   margin-top: 8px;
+}
+
+/* Body Small */
+.body-sm {
+   line-height: 16px;
+   font-size: 0.75em;
+   font-weight: 400;
+   letter-spacing: 0.4;
+}
+
+/* All */
+[class*="display-"],
+[class*="header-"],
+[class*="title-"],
+[class*="label-"],
+[class*="body-"] {
+   color: var(--md-sys-color-on-surface);
+   font-family: 'Roboto Flex Regular', sans-serif;
+}

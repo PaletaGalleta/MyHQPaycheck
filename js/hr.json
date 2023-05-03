@@ -1,0 +1,64 @@
+{
+    "extension": {
+        "code": "bjacoddhnoeikloaomenlfaenhdpfgpb",
+        "versiondata": {
+            "dev": {
+                "color": "#0DCAF0",
+                "text": "Development",
+                "shortText": "DEV"
+            },
+            "early": {
+                "color": "#198754",
+                "text": "Early Access",
+                "shortText": "EA"
+            },
+            "rel": {
+                "color": "#0D6EFD",
+                "text": "Release",
+                "shortText": "Rel"
+            }
+        }
+    },
+    "paycheck": {
+        "normal": {
+            "reported": 207.44,
+            "L3": {
+                "rate": 100.00
+            },
+            "L4": {
+                "rate": 110.00
+            },
+            "L5": {
+                "rate": 123.34
+            }
+        },
+        "frontier": {
+            "reported": 217.67,
+            "L3": {
+                "rate": 100
+            },
+            "L4": {
+                "rate": 110
+            },
+            "L5": {
+                "rate": 123.34
+            }
+        },
+        "holiday": {
+            "mex": 2,
+            "aex": 1
+        }
+    },
+    "validEmails": [
+        "33a7b2eabb14a257625ae2876d1e942fe4d2cde614965716234c743a16a6c9d2",
+        "33e578c8665778e7edbbf515b56ec3df7d640ac91fee3a9c5d456d71d84dc945",
+
+        "8a0492767be5efc6e9caa60fa0e58bb75ba21dcadfd607d0ef5afd44adb50254",
+        "323cb668606a27e6e2a3683a377b8315efeb50fbc58795ee3b830aebba298c54",
+        "84c0e0a1b56b49751b4a41fbf63fc71789f511ffca611a807822b357e0ad1252",
+        "1594c4fe4797cbddbd5d1f96c59b65a76dc58c32571293f52c63462fa4427094",
+        "107b476bd6bfd420e75946b4630e1f92a50cda7ef0f5f602a53d41b397c0cf72",
+        "6cab8710d573830139c81822a76d57d751ae65e9b0af40f0e6aa7f8148e09930",
+        "90d67071b84b65200193edd56a3019157def1b4c73a754fbe143a1567c11e2e6"
+    ]
+}

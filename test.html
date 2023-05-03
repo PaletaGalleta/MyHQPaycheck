@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <title>Test</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css"></script>
+    <script src="js/bootstrap/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar primary sticky-top" data-bs-theme="dark">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">
+          <img src="/images/icon32.png" alt="Logo" height="24" class="d-inline-block align-text-top">
+          MyHQ Paycheck 
+          <span class="badge text-bg-success" id="earlyaccessbadge">Early Access</span>
+        </span>
+        <span class="badge" id="version">V</span>
+      </div>
+    </nav>
+    <br>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a style="text-decoration: none;" href="#dashboard"><button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard-tab-pane" type="button" role="tab" aria-controls="dashboard-tab-pane" aria-selected="true">Dashboard</button></a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a style="text-decoration: none;" href="#calculator"><button class="nav-link" id="calculator-tab" data-bs-toggle="tab" data-bs-target="#calculator-tab-pane" type="button" role="tab" aria-controls="calculator-tab-pane" aria-selected="false">Calculator</button></a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a style="text-decoration: none;" href="#log"><button class="nav-link" id="log-tab" data-bs-toggle="tab" data-bs-target="#log-tab-pane" type="button" role="tab" aria-controls="log-tab-pane" aria-selected="false">Log</button></a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a style="text-decoration: none;" href="#milestones"><button class="nav-link" id="milestones-tab" data-bs-toggle="tab" data-bs-target="#milestones-tab-pane" type="button" role="tab" aria-controls="milestones-tab-pane" aria-selected="false">Milestones</button></a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a style="text-decoration: none;"href="#settings"><button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-pane" type="button" role="tab" aria-controls="settings-tab-pane" aria-selected="false">Settings</button></a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a style="text-decoration: none;" href="#about"><button class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about-tab-pane" type="button" role="tab" aria-controls="about-tab-pane" aria-selected="false">About</button></a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a style="text-decoration: none;" href="#pro"><button class="nav-link" id="pro-tab" data-bs-toggle="tab" data-bs-target="#pro-tab-pane" type="button" role="tab" aria-controls="pro-tab-pane" aria-selected="false">Support Us <span class="badge text-bg-primary">PRO</span></button></a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <br>
+      <!-- Dashboard -->
+      <div class="tab-pane fade show active container" id="dashboard-tab-pane" role="tabpanel" aria-labelledby="dashboard-tab" tabindex="0">
+        <div class="row align-items-center">
+          <div class="col">
+            <h3 id="welcome">Welcome, User</h3>
+          </div>
+          <div class="col-auto text-end">
+
+            <small>Quick Links</small>
+            <div class="mb-3">
+              <a type="button mb-3" class="btn btn-info" href="https://myllsworld.com" target="_blank">Salesforce</a>
+              <a type="button" class="btn btn-primary" href="https://impact360.languageline.com" target="_blank">Impact 360</a>
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <div class="row">
+          <div class="col-12 col-md-6 mb-3" id="todayscard">
+            <div class="card">
+              <h5 class="card-header">Today's Progress</h5>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 mb-3">
+                    <h5 class="card-title">Calls</h5>
+                    <h2 class="card-title placeholder-glow" id="today-calls">
+                      <span class="placeholder col-2"></span>
+                    </h2>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <div class="row">
+
+                      <h5 class="card-title">Call Time</h5>
+                      <div class="col-6">
+                        <h3 class="card-title placeholder-glow mb-3" id="today-calltime">
+                          <span class="placeholder col-10"></span>
+                        </h3>
+                        <p class="card-text mb-0"><small>Average</small></p>
+                        <h4 class="card-title placeholder-glow" id="today-callaverage">
+                          <span class="placeholder col-10"></span>
+                        </h4>
+                      </div>
+                      <div class="col-6 mb-3">
+                        <p class="card-text mb-0"><small>Longest </small></p>
+                        <p class="card-text placeholder-glow mb-1" id="today-calllongest">
+                          <span class="placeholder col-10"></span>
+                        </p>
+                        <p class="card-text mb-0"><small>Shortest </small></p>
+                        <p class="card-text placeholder-glow mb-0" id="today-callshortest">
+                          <span class="placeholder col-10"></span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <div class="row">
+                      <h5 class="card-title">Total Minutes</h5>
+                      <div class="col-6">
+                        <h2 class="card-title placeholder-glow" id="today-totalminutes">
+                          <span class="placeholder col-10"></span></h2>
+                      </div>
+                      <div class="col-6">
+                        <p class="card-text mb-0"><small>AP</small></p>
+                        <p class="card-text mb-1 placeholder-glow" id="today-totalap">
+                          <span class="placeholder col-10"></span>
+                        </p>
+                        <p class="card-text">
+                          <span class="card-text"><small>Lunch/Breaks </small></span>
+                          <span class="card-text placeholder-glow" id="today-totalbreaks">
+                            <span class="placeholder col-10"></span>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <h5 class="card-title">Income</h5>
+                    <h2 class="card-title placeholder-glow">
+                      <span class="placeholder col-6"></span>
+                    </h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-3" id="todayscard-norecs" style="display: none">
+            <div class="card col-12">
+              <h5 class="card-header">Today's Progress</h5>
+              <div class="card-body">
+                <br>
+                <h4 class="card-title placeholder-glow" id="week-goal">
+                  No Records Found
+                </h4>
+                <p class="card-text">
+                  There are no records for today, make sure you have collected the information manually from Salesforce and Impact360.
+                </p>
+                <p class="card-text">
+                  You can use the buttons at the top to go to any of those pages.
+                </p>
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 mb-3">
+            <div class="card mb-4">
+              <h5 class="card-header">Last 7 shifts</h5>
+              <div class="card-body">
+                <canvas id="myChart"></canvas>
+                <div class="col-6">
+                  <p class="card-text mb-0"><small>Daily Goal</small></p>
+                  <h4 class="card-title placeholder-glow" id="week-goal">
+                    <span class="placeholder col-10"></span>
+                  </h4>
+                </div>
+                <p class="card-text mt-3">It's very important for you to keep track of missing hours so you can cover them before the paycheck.</p>
+              </div>
+            </div>
+            
+            <div class="card">
+              <h5 class="card-header">Pay Period Summary</h5>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 col-sm-0 mb-3">
+                    <h6 class="card-title">Total calls</h6>
+                    <h1 class="card-title">35</h1>
+                  </div>
+                  <div class="col-md-6 col-sm-0 mb-3">
+                    <h6 class="card-title">Longest call</h6>
+                    <h1 class="card-title">2:35:45</h1>
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                  </div>
+                  <div class="col-md-6 col-sm-0 mb-3">
+                    <h6 class="card-title">Total Interpreted Time</h6>
+                    <h2 class="card-title">8 hours 35 seconds</h2>
+                  </div>
+                  <div class="col-md-6 col-sm-0 mb-3">
+                    <h6 class="card-title">Estimated Paycheck</h6>
+                    <h2 class="card-title">$0</h2>
+                  </div>
+                </div>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+
+      <div class="tab-pane fade container" id="calculator-tab-pane" role="tabpanel" aria-labelledby="calculator-tab" tabindex="1">
+        <!-- Calculator -->
+        ...
+      </div>
+
+      <!-- Log -->
+      <div class="tab-pane fade container" id="log-tab-pane" role="tabpanel" aria-labelledby="log-tab" tabindex="2">
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Accordion Item #1
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Accordion Item #2
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Accordion Item #3
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Milestones -->
+      <div class="tab-pane fade container" id="milestones-tab-pane" role="tabpanel" aria-labelledby="milestones-tab" tabindex="3">
+        <h5>Show off your interpreting skills to the world! Because who wouldn't want to know how good you can interpret statements with mediocre accuracy? </h5>
+        <h5> You can also view the progress and completion of your achievements. I'm sure that's all you've ever wanted in life. Catch 'em all!</h5>
+        <br>
+        <h3>Milestones</h3>
+        <div class="row" id="milestonescontainer">
+          <!-- Autogenerated -->
+          <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
+            <div class="card">
+              <div class="card-body text-start">
+                <h5 class="card-title placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </h5>
+                <h2 class="card-text placeholder-glow">
+                  <span class="placeholder col-4"></span>
+                </h2>
+                <p class="card-text text-muted placeholder-glow">
+                  <span class="placeholder col-9"></span>
+                  <span class="placeholder col-11"></span>
+                </p>
+              </div>
+              <div class="card-footer text-muted placeholder-glow">
+                <span class="placeholder col-5"></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
+            <div class="card">
+              <div class="card-body text-start">
+                <h5 class="card-title placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </h5>
+                <h2 class="card-text placeholder-glow">
+                  <span class="placeholder col-4"></span>
+                </h2>
+                <p class="card-text text-muted placeholder-glow">
+                  <span class="placeholder col-9"></span>
+                  <span class="placeholder col-11"></span>
+                </p>
+              </div>
+              <div class="card-footer text-muted placeholder-glow">
+                <span class="placeholder col-5"></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
+            <div class="card">
+              <div class="card-body text-start">
+                <h5 class="card-title placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </h5>
+                <h2 class="card-text placeholder-glow">
+                  <span class="placeholder col-4"></span>
+                </h2>
+                <p class="card-text text-muted placeholder-glow">
+                  <span class="placeholder col-9"></span>
+                  <span class="placeholder col-11"></span>
+                </p>
+              </div>
+              <div class="card-footer text-muted placeholder-glow">
+                <span class="placeholder col-5"></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
+            <div class="card">
+              <div class="card-body text-start">
+                <h5 class="card-title placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </h5>
+                <h2 class="card-text placeholder-glow">
+                  <span class="placeholder col-4"></span>
+                </h2>
+                <p class="card-text text-muted placeholder-glow">
+                  <span class="placeholder col-9"></span>
+                  <span class="placeholder col-11"></span>
+                </p>
+              </div>
+              <div class="card-footer text-muted placeholder-glow">
+                <span class="placeholder col-5"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <h3>Achievements</h3>
+        <div class="mb-4">
+          <p id="acoveralltxt">0/23 Achievements unlocked</p>
+          <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar bg-success" id="acoverall" style="width:40%">40%</div>
+          </div>
+        </div>
+        <div class="row" id="achievementscontainer">
+          <!-- Autogenerated -->
+          <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+            <div class="card mb-3">
+              <div class="row g-0">
+                <div class="col-4">
+                </div>
+                <div class="col-8">
+                    <div class="card-body">
+                        <h5 class="card-title placeholder-glow">
+                          <span class="placeholder col-12"></span>
+                        </h5>
+                        <p class="card-text placeholder-glow">
+                          <span class="placeholder col-9"></span>
+                          <span class="placeholder col-11"></span>
+                          <span class="placeholder col-7"></span>
+                        </p>
+                        <p class="card-text placeholder-glow">
+                          <small>
+                            <span class="placeholder col-8"></span>
+                            <span class="placeholder col-5"></span>
+                          </small>
+                        </p>
+                        <div class="placeholder-wave  ">
+                          <span class="placeholder col-12 bg-success"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-secondary placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+            <div class="card mb-3">
+              <div class="row g-0">
+                <div class="col-4">
+                </div>
+                <div class="col-8">
+                    <div class="card-body">
+                        <h5 class="card-title placeholder-glow">
+                          <span class="placeholder col-12"></span>
+                        </h5>
+                        <p class="card-text placeholder-glow">
+                          <span class="placeholder col-9"></span>
+                          <span class="placeholder col-11"></span>
+                          <span class="placeholder col-7"></span>
+                        </p>
+                        <p class="card-text placeholder-glow">
+                          <small>
+                            <span class="placeholder col-8"></span>
+                            <span class="placeholder col-5"></span>
+                          </small>
+                        </p>
+                        <div class="placeholder-wave  ">
+                          <span class="placeholder col-12 bg-success"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-secondary placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+            <div class="card mb-3">
+              <div class="row g-0">
+                <div class="col-4">
+                </div>
+                <div class="col-8">
+                    <div class="card-body">
+                        <h5 class="card-title placeholder-glow">
+                          <span class="placeholder col-12"></span>
+                        </h5>
+                        <p class="card-text placeholder-glow">
+                          <span class="placeholder col-9"></span>
+                          <span class="placeholder col-11"></span>
+                          <span class="placeholder col-7"></span>
+                        </p>
+                        <p class="card-text placeholder-glow">
+                          <small>
+                            <span class="placeholder col-8"></span>
+                            <span class="placeholder col-5"></span>
+                          </small>
+                        </p>
+                        <div class="placeholder-wave">
+                          <span class="placeholder col-12 bg-success"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-secondary placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+            <div class="card mb-3">
+              <div class="row g-0">
+                <div class="col-4">
+                </div>
+                <div class="col-8">
+                    <div class="card-body">
+                        <h5 class="card-title placeholder-glow">
+                          <span class="placeholder col-12"></span>
+                        </h5>
+                        <p class="card-text placeholder-glow">
+                          <span class="placeholder col-9"></span>
+                          <span class="placeholder col-11"></span>
+                          <span class="placeholder col-7"></span>
+                        </p>
+                        <p class="card-text placeholder-glow">
+                          <small>
+                            <span class="placeholder col-8"></span>
+                            <span class="placeholder col-5"></span>
+                          </small>
+                        </p>
+                        <div class="placeholder-wave">
+                          <span class="placeholder col-12 bg-success"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-secondary placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+            <div class="card mb-3">
+              <div class="row g-0">
+                <div class="col-4">
+                </div>
+                <div class="col-8">
+                    <div class="card-body">
+                        <h5 class="card-title placeholder-glow">
+                          <span class="placeholder col-12"></span>
+                        </h5>
+                        <p class="card-text placeholder-glow">
+                          <span class="placeholder col-9"></span>
+                          <span class="placeholder col-11"></span>
+                          <span class="placeholder col-7"></span>
+                        </p>
+                        <p class="card-text placeholder-glow">
+                          <small>
+                            <span class="placeholder col-8"></span>
+                            <span class="placeholder col-5"></span>
+                          </small>
+                        </p>
+                        <div class="placeholder-wave">
+                          <span class="placeholder col-12 bg-success"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-secondary placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+            <div class="card mb-3">
+              <div class="row g-0">
+                <div class="col-4">
+                </div>
+                <div class="col-8">
+                    <div class="card-body">
+                        <h5 class="card-title placeholder-glow">
+                          <span class="placeholder col-12"></span>
+                        </h5>
+                        <p class="card-text placeholder-glow">
+                          <span class="placeholder col-9"></span>
+                          <span class="placeholder col-11"></span>
+                          <span class="placeholder col-7"></span>
+                        </p>
+                        <p class="card-text placeholder-glow">
+                          <small>
+                            <span class="placeholder col-8"></span>
+                            <span class="placeholder col-5"></span>
+                          </small>
+                        </p>
+                       <div class="placeholder-wave">
+                          <span class="placeholder col-12 bg-success"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-secondary placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="tab-pane fade container" id="settings-tab-pane" role="tabpanel" aria-labelledby="settings-tab" tabindex="4">
+        <div class="alert alert-danger mb-3" id="missinginfo" style="display:none">
+          <div class="card-body">
+            The extension has detected some missing information. Maybe it's caused by a new installation or update.<br>
+            MyHQ Paycheck <strong>will not work</strong> if the settings in this page are missing or incorrect.
+          </div>
+        </div>
+        <div class="alert alert-info mb-3">
+          The settings in this page help generate a paycheck estimate as accurate as possible.<br>
+          This information is private, and not shared with anyone else.
+        </div>
+        <br>
+        <form id="settingsform">
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="nickname" class="form-label">Nickname</label>
+              <input type="text" class="form-control" id="nickname" required>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="nickname" class="form-label">Interpreter Level </label>
+              <br>
+              <div class="btn-group" id="radiolevels" role="group" aria-label="radio toggle button group">
+                <input type="radio" class="btn-check" name="radiolevel" id="radiolevel3" value="3" autocomplete="off" required>
+                <label class="btn btn-outline-primary" for="radiolevel3">L3</label>
+                <input type="radio" class="btn-check" name="radiolevel" id="radiolevel4" value="4" autocomplete="off">
+                <label class="btn btn-outline-primary" for="radiolevel4">L4</label>
+                <input type="radio" class="btn-check" name="radiolevel" id="radiolevel5" value="5" autocomplete="off">
+                <label class="btn btn-outline-primary" for="radiolevel5">L5</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="starttime" class="form-label">Shift Start (PST)</label>
+              <input class="form-control" type="time" id="starttime" required/>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="hours" class="form-label">Hours Per Day</label>
+              <select class="form-select" id="hours" required>
+                <option value="0" disabled selected>Select an option</option>
+                <option value="4">4 hours (Part Time)</option>
+                <option value="8">8 hours (Full Time)</option>
+              </select>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="endtime" class="form-label">Shift End</label>
+              <input class="form-control" type="time" id="endtime" disabled/>
+              <div class="form-text">Calculated automatically</div>
+            </div>
+            <div class="row">
+              <div class="mb-3 col-6">
+              </div>
+              <div class="mb-3 col-6">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="checkdev">
+                  <label class="form-check-label" for="checkdev">Developer mode</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="savesettings">Save</button>
+        </form>
+      </div>
+
+      <!-- About -->
+      <div class="tab-pane fade container" id="about-tab-pane" role="tabpanel" aria-labelledby="about-tab" tabindex="5">
+
+        <div class="alert alert-success mb-3">
+          Thank you for installing this extension! We are dedicated to providing you with the best possible experience and continuously improving our product. If you encounter any issues while using our extension, please don't hesitate to reach out by using the feedback button in the 'Support Us' tab. We value your input and are always working to improve our offerings. <br>Thank you for choosing <strong>MyHQ Paycheck</strong> and we hope it exceeds your expectations.<br><br>
+          Happy Terping!
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-sm-0"></div>
+          <div class="col-md-6 col-sm-12">
+
+            <div class="card mb-3 text-center">
+              <div class="card-body">
+                <img src="/images/brand.svg" alt="Logo" height="80" class="d-inline-block align-text-top">
+                <p class="card-text text-muted">
+                  By Abdiel Jiménez & Mario Estrada
+                </p>
+                <p class="card-text">
+                  Original Concept by Abdiel Jiménez<br>
+                  Paycheck Changes by Human Quality<br>
+                  Chrome Extension Adaptation by Mario Estrada<br>
+                  Formula Modifications by Abdiel Jiménez<br>
+                  Graphics by Mario Estrada<br>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-0"></div>
+        </div>
+        <div class="row" id="changelogcontainer">
+          
+        </div>
+
+      </div>
+
+      <!-- Pro -->
+      <div class="tab-pane fade container" id="pro-tab-pane" role="tabpanel" aria-labelledby="pro-tab" tabindex="6">
+        ...
+      </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastcontainer">
+      <div id="liveToast" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <!-- <img src="..." class="rounded me-2" alt="..."> -->
+          <strong class="me-auto">Achievement unlocked!</strong>
+          <small>11 mins ago</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          <h6>Title</h6>
+          <p>Description</p>
+          <div class="mt-2 pt-2 border-top">
+            <button type="button" class="btn btn-light btn-sm">Milestones Page</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div class="container col-md-4 d-flex align-items-center">
+          <span class="mb-3 mb-md-0 text-muted">© 2023 Estrada, L. Jiménez, A</span>
+        </div>
+    
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+          <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+          <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+          <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+        </ul>
+      </footer>
+    </div>
+  </body>
+</html>
