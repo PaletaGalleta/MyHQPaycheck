@@ -20,17 +20,15 @@ window.onload = setTimeout(Injector, 3000);
 // Variable for Instructions
 let currentInstruction = "";
 
-
 /**
  * Injector Main function
- * 
+ *
  */
 function Injector() {
-
     notifications.showToast("Loaded for Impact360");
 
     // Get workspace container
-    let content = document.querySelector("#workspaceContainer");
+    const content = document.querySelector("#workspaceContainer");
     // Create new container
     let sidebarPanel = document.createElement("div");
 
@@ -81,10 +79,9 @@ function Injector() {
     </div>
 </div>
     `;
-    
-    
+
     // Check if the container is already loaded
-    if(content == undefined) {
+    if (content == undefined) {
         // Container not loaded. Let the user know
         notifications.showToast("MyHQ Paycheck: The extension has not loaded on time, please reload the page.");
         // Exit the function
@@ -103,24 +100,22 @@ function Injector() {
 
     // Get the iframe and set the listener everytime it loads info
     document.getElementById("mctnt").addEventListener("load", FrameLoaded);
-
 }
 
 /**
  * Function that redirects to the correct page for the records to be displayed
- * 
+ *
  */
 function send2Sched() {
     // Try to get the button "Personal" inside the menu "My Schedule"
     let button = document.getElementById("1_MY_HOME->1_FS_MYSCHEDULE->2_FS_MYSCHEDULE_PERSONAL");
 
     // Check if the button collection was succesful
-    if(button) {
+    if (button) {
         // Button exists, cancel additional instructions and click it
         currentInstruction = "";
         button.click();
-    }
-    else {
+    } else {
         // Button doesn't exist, add the instruction for clicking it and click the "My Schedule" button instead
         currentInstruction = "schedule";
         document.getElementById("1_MY_HOME->1_FS_MYSCHEDULE").click();
@@ -129,17 +124,17 @@ function send2Sched() {
 
 /**
  * Function that executes something when the iframe loads or reloads information
- * 
+ *
  */
 function FrameLoaded() {
     // Update the buttons
-    checkPage()
+    checkPage();
 
     // Exit if there's no instruction
-    if(currentInstruction == "") return;
-    
+    if (currentInstruction == "") return;
+
     // Check the curent instruction
-    switch(currentInstruction) {
+    switch (currentInstruction) {
         case "schedule":
             // The script has clicked "My Schedule", so now it needs to click the "Personal" button
             send2Sched();
@@ -158,16 +153,17 @@ function FrameLoaded() {
     }
 }
 
-
 /**
  * Function that checks the current page and enables the correct buttons for the extension to work correctly
- * 
+ *
  * @returns {boolean} - The result of the validation
- * 
+ *
  */
 function checkPage() {
     // Check if the current page matches the "My Schedule -> Personal" page
-    let chk = window.location.href.match("https://impact360.languageline.com/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL");
+    let chk = window.location.href.match(
+        "https://impact360.languageline.com/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL"
+    );
 
     // Set enabled state of the buttons accordingly
     document.getElementById("schedpersonbutton").disabled = chk;
@@ -175,19 +171,18 @@ function checkPage() {
 
     // Return the result of the validation
     return chk;
-
 }
 
 /**
  * Function that get the information displayed on the "My Schedule -> Personal" page
- * 
+ *
  */
 function getInfo() {
     // Generate today's date
     const now = moment();
 
     // Verify if we are in the correct page
-    if(!checkPage) {
+    if (!checkPage) {
         // Incorrect page, send to the correct page instead
         currentInstruction = "getInfo";
         send2Sched();
@@ -199,30 +194,30 @@ function getInfo() {
     let frame = document.getElementById("mctnt");
 
     // If frame not present, exit
-    if(!frame) return;
+    if (!frame) return;
 
     // Get "View" Dropdown
     dropdownView = frame.contentWindow.document.querySelector(".bpDropDownText");
 
     // If Dropdown not present, exit
-    if(!dropdownView) return;
-        
+    if (!dropdownView) return;
+
     // Check if we are in Textual or Graphical View
-    if(dropdownView.value == "Textual") {
+    if (dropdownView.value == "Textual") {
         // The user has the correct view, continue
 
         // Get frame content
         let content = frame.contentWindow.document.getElementById("workpaneListWrapper");
 
         // If content not present, exit
-        if(!content) return;
-        
+        if (!content) return;
+
         // Get Table
         let table = content.querySelector("tbody");
 
         // If table not present, exit
-        if(!table) return;
-        
+        if (!table) return;
+
         // Get rows of table
         let rowLength = table.rows.length;
 
@@ -230,7 +225,7 @@ function getInfo() {
         let regsSaved = 0;
 
         // Loop through days
-        for (i = 0; i < rowLength; i++){
+        for (i = 0; i < rowLength; i++) {
             // Initialize array for each day
             let regDay = {
                 type: "",
@@ -240,14 +235,14 @@ function getInfo() {
                     lunch: 0,
                     ap: 0,
                     overtime: 0,
-                    training: 0
+                    training: 0,
                 },
                 shift: {
                     start: "",
                     end: "",
                     realStart: "",
-                    realEnd: ""
-                }
+                    realEnd: "",
+                },
             };
 
             // Get cells of the row
@@ -258,7 +253,7 @@ function getInfo() {
 
             // Get info from cell 2 (Activities)
             let activities = oCells.item(2);
-            
+
             // Get date of the record
             let date = shiftInfo.querySelector(".shift-date").innerHTML;
 
@@ -266,15 +261,15 @@ function getInfo() {
             date = moment(date, "dddd LL");
 
             // Verify if the date is in the past range
-            if(date < now) {
+            if (date < now) {
                 // Get the shift textual information
                 let shiftInfoTxt = shiftInfo.querySelector(".shift-label");
-                if(shiftInfoTxt) shiftInfoTxt = shiftInfoTxt.innerHTML;
-                else shiftInfoTxt = shiftInfo.querySelectorAll('span')[1].innerHTML;
+                if (shiftInfoTxt) shiftInfoTxt = shiftInfoTxt.innerHTML;
+                else shiftInfoTxt = shiftInfo.querySelectorAll("span")[1].innerHTML;
 
                 // Check if it's a day off
-                if(shiftInfoTxt == "Off") {
-                    saveDay(moment(date).format('DD-MM-YYYY'), {"type": "Off"});
+                if (shiftInfoTxt == "Off") {
+                    saveDay(moment(date).format("DD-MM-YYYY"), { type: "Off" });
                     regsSaved++;
                     // Don't do anything anymore and continue to the next day
                     continue;
@@ -285,7 +280,7 @@ function getInfo() {
                 console.log(activitiesGroup.length + " activities detected");
 
                 // Loop for all activities
-                for(let j = 0; j < activitiesGroup.length; j++) {
+                for (let j = 0; j < activitiesGroup.length; j++) {
                     // Get Name of the activity
                     let actName = activitiesGroup[j].querySelector(".activity-event-activity").textContent.trim();
                     // Get Period of the activity
@@ -299,15 +294,15 @@ function getInfo() {
                     let second = moment(period.match(splitRegex)[3], "hh:mm A");
 
                     // If it's the first pass, save the first hour as the start hour of the shift
-                    if(j == 0) regDay.shift.start = moment(first).format('kk:mm:ss');
+                    if (j == 0) regDay.shift.start = moment(first).format("kk:mm:ss");
                     // If it's the last pass, save the last hour as the last hour of the shift
-                    if(j == activitiesGroup.length - 1) regDay.shift.end = moment(second).format('kk:mm:ss');
+                    if (j == activitiesGroup.length - 1) regDay.shift.end = moment(second).format("kk:mm:ss");
 
                     // Save it as a normal day
                     regDay.type = "Normal";
 
                     // Check if end is before start (Graveyard shifts), otherwise swap them
-                    if(second.diff(first, 'minutes') < 0) {
+                    if (second.diff(first, "minutes") < 0) {
                         let tt = second;
                         second = first;
                         first = tt;
@@ -315,38 +310,40 @@ function getInfo() {
                     }
 
                     // Save the minutes depending on the activity
-                    switch(actName) {
+                    switch (actName) {
                         case "Immediate":
                         case "IT":
                             // Save the start of the immediate shift if not saved yet
-                            if(regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format('kk:mm:ss');
+                            if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
                             // Save the end of the activity as the real end
-                            regDay.shift.realEnd = moment(second).format('kk:mm:ss');
+                            regDay.shift.realEnd = moment(second).format("kk:mm:ss");
 
-                            regDay.mins.immediate += second.diff(first, 'minutes');
+                            regDay.mins.immediate += second.diff(first, "minutes");
                             break;
                         case "AP":
+                        case "AAP":
                         case "UTO":
-                            regDay.mins.ap += second.diff(first, 'minutes');
+                        case "Voluntary Time Off":
+                            regDay.mins.ap += second.diff(first, "minutes");
                             break;
                         case "Lunch":
-                            regDay.mins.lunch += second.diff(first, 'minutes');
+                            regDay.mins.lunch += second.diff(first, "minutes");
                             break;
                         case "Break":
-                            regDay.mins.break += second.diff(first, 'minutes');
+                            regDay.mins.break += second.diff(first, "minutes");
                             break;
                         case "Additional Hours":
-                            regDay.mins.overtime += second.diff(first, 'minutes');
+                            regDay.mins.overtime += second.diff(first, "minutes");
                             break;
                         case "Shift/Overtime Gap":
                             break;
                         case "MED":
                         case "WMED":
                             // Save the start of the Training shift if not saved yet
-                            if(regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format('kk:mm:ss');
+                            if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
                             // Save the end of the activity as the real end
-                            regDay.shift.realEnd = moment(second).format('kk:mm:ss');
-                            regDay.mins.training += second.diff(first, 'minutes');
+                            regDay.shift.realEnd = moment(second).format("kk:mm:ss");
+                            regDay.mins.training += second.diff(first, "minutes");
                             break;
                         case "AEX":
                         case "MEX":
@@ -354,29 +351,33 @@ function getInfo() {
                             break;
                         default:
                             // No match, let the user know
-                            notifications.showToast("There is an activity on " + moment(date).format('DD-MM-YYYY') + " which was not recognized: " + actName, "bugreport");
+                            notifications.showToast(
+                                "There is an activity on " +
+                                    moment(date).format("DD-MM-YYYY") +
+                                    " which was not recognized: " +
+                                    actName,
+                                "bugreport"
+                            );
                             break;
                     }
-
-                    
                 } // end-for
-                
+
                 // Increment the days saved
                 regsSaved++;
-            }
-            else {
+            } else {
                 // Date is today or future, exit
                 break;
             }
-            
-            saveDay(moment(date).format('DD-MM-YYYY'), regDay);
 
+            saveDay(moment(date).format("DD-MM-YYYY"), regDay);
         } // end-for
 
-        if(regsSaved == 0) notifications.showToast( "No days have been saved in the system", "warning" );
-        else (regsSaved == 1) ? notifications.showToast( "1 day have been saved in the system", "success" ) : notifications.showToast( regsSaved + " days have been saved in the system", "success" );
-    }
-    else {
+        if (regsSaved == 0) notifications.showToast("No days have been saved in the system", "warning");
+        else
+            regsSaved == 1
+                ? notifications.showToast("1 day have been saved in the system", "success")
+                : notifications.showToast(regsSaved + " days have been saved in the system", "success");
+    } else {
         // The user has graphical mode
 
         // Show notification
@@ -389,42 +390,41 @@ function getInfo() {
 
 /**
  * Function for setting the Textual View
- * 
+ *
  */
 function setTextualView() {
     // Get the frame
     let frame = document.getElementById("mctnt");
 
     // If frame not present, exit
-    if(!frame) return;
-    
+    if (!frame) return;
+
     // Set instruction for getting info when reloaded
     currentInstruction = "getInfo";
-    
+
     // Get the dropdown option
-    let textualSel = frame.contentWindow.document.querySelector('.bpDropDownText');
-    let textualDrop = frame.contentWindow.document.querySelector('.bpDropDownList');
-    
+    let textualSel = frame.contentWindow.document.querySelector(".bpDropDownText");
+    let textualDrop = frame.contentWindow.document.querySelector(".bpDropDownList");
+
     // If dropdowns are not present, exit
-    if((!textualSel) || (!textualDrop)) return;
+    if (!textualSel || !textualDrop) return;
 
     // Change the dropdown values
     textualSel.value = "Textual";
     textualSel.fancytitle = "Textual";
     textualDrop.value = "myschedule";
     // Force a "change" event
-    textualDrop.dispatchEvent(new Event('change'));
+    textualDrop.dispatchEvent(new Event("change"));
 }
 
 /**
  * Function for saving and Processing the info
- * 
+ *
  * @param {string} date - The date for saving
  * @param {object} regDay - The object of the day's records
- * 
+ *
  */
 function saveDay(date, regDay) {
-
     // Save object on file
     var kKey = "shift-" + date;
     chrome.storage.local.set({ [kKey]: regDay });
