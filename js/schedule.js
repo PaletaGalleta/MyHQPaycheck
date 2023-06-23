@@ -352,10 +352,9 @@ function getInfo() {
                         default:
                             // No match, let the user know
                             notifications.showToast(
-                                "There is an activity on " +
-                                    moment(date).format("DD-MM-YYYY") +
-                                    " which was not recognized: " +
-                                    actName,
+                                `There is an activity on ${moment(date).format(
+                                    "DD-MM-YYYY"
+                                )} which was not recognized: ${actName}`,
                                 "bugreport"
                             );
                             break;

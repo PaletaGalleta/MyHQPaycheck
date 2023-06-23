@@ -5,7 +5,11 @@
       "date": "01-03-2023",
       "changes": [
         "Changed the Quick Links Section: Added Rackspace and SpeedTest",
-        "Fixed the Salesforce Button not showing on updated web apps"
+        "Fixed the Salesforce Button not showing on updated web apps",
+        "Changed Labels of Longest, Shortest and Average calls",
+        "Added AAP and Voluntary Time Off to supported schedules in Verint",
+        "Added tips file, for Tip of the Day and FAQ",
+        "Updated Salesforce Notifications and achievements fetcher"
       ]
     },
     {

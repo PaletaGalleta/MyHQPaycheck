@@ -1,11 +1,16 @@
 {
     "totd": [
-        "Your PIN may be locked if you had five short calls in a 30 minute time frame. A short call is any call that is less than 120 seconds long (2 minutes)"
+        "Your PIN may be locked if you had five short calls in a 30 minute time frame. A short call is any call that is less than 120 seconds long (2 minutes)",
+        "If you're locked and your supervisor is not answering, request Voluntary Time Off."
     ],
     "faq": [
         {
             "q": "What is considered a short call?",
             "a": "A short call is any call that is less than 120 seconds long (2 minutes)"
+        }, 
+        {
+            "q": "My PIN is locked and it needs to be unlocked from HQ, but my sup is not answering, what do I do?",
+            "a": "Try contacting the ERC or the onboarding specialists. In the meantime, request Voluntary Time Off to avoid adherence penalties"
         }
     ]
 }
