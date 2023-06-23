@@ -275,9 +275,9 @@ function saveDay(date, calls) {
 
         // Save object on file
         var kKey = "rec-" + date;
+        savedCalls++;
         chrome.storage.local.set({ [kKey]: dayRecords }).then(() => {
             notifications.showToast("Calls Saved on file succesfully - Date: " + date);
-            savedCalls++;
         });
     });
 }
@@ -315,8 +315,8 @@ function UnlockAchievement(name, date, time, value = 1) {
         const uAch = result["achievements"];
 
         // Get extension's url
-        const extensionUrl = chrome.extension.getURL("");
-        fetch(extensionUrl + "/js/achievements.json").then(val => {
+        const extensionUrl = chrome.runtime.getURL("");
+        fetch(extensionUrl + "js/achievements.json").then(val => {
             val.json().then(jj => {
                 const jsonAch = jj;
 

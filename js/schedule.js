@@ -191,13 +191,13 @@ function getInfo() {
     }
 
     // Get the frame
-    let frame = document.getElementById("mctnt");
+    const frame = document.getElementById("mctnt");
 
     // If frame not present, exit
     if (!frame) return;
 
     // Get "View" Dropdown
-    dropdownView = frame.contentWindow.document.querySelector(".bpDropDownText");
+    const dropdownView = frame.contentWindow.document.querySelector(".bpDropDownText");
 
     // If Dropdown not present, exit
     if (!dropdownView) return;
@@ -207,169 +207,191 @@ function getInfo() {
         // The user has the correct view, continue
 
         // Get frame content
-        let content = frame.contentWindow.document.getElementById("workpaneListWrapper");
+        const content = frame.contentWindow.document.getElementById("workpaneListWrapper");
 
         // If content not present, exit
         if (!content) return;
 
-        // Get Table
-        let table = content.querySelector("tbody");
+        // Get children tables
+        const children = content.children;
 
-        // If table not present, exit
-        if (!table) return;
+        let tables = [];
 
-        // Get rows of table
-        let rowLength = table.rows.length;
+        // Get Tables
+        for (let f = 0; f < children.length; f++) {
+            console.log(f);
+            console.log(children[f]);
+            console.log(children[f].tagName);
+            if (children[f].tagName === "TBODY") tables.push(children[f]);
+        }
+
+        // If no tables, exit
+        if (tables.length == 0) return;
+        console.log("Tables found: " + tables.length);
 
         // Create counter
         let regsSaved = 0;
 
-        // Loop through days
-        for (i = 0; i < rowLength; i++) {
-            // Initialize array for each day
-            let regDay = {
-                type: "",
-                mins: {
-                    immediate: 0,
-                    break: 0,
-                    lunch: 0,
-                    ap: 0,
-                    overtime: 0,
-                    training: 0,
-                },
-                shift: {
-                    start: "",
-                    end: "",
-                    realStart: "",
-                    realEnd: "",
-                },
-            };
+        // Tables iterator
+        for (let it = 0; it < tables.length; it++) {
+            const table = tables[it];
 
-            // Get cells of the row
-            let oCells = table.rows.item(i).cells;
+            // Get rows of table
+            const rowLength = table.rows.length;
+            console.log("Rows in table: " + rowLength);
 
-            // Get info from cell 1 (Date and Shift info)
-            let shiftInfo = oCells.item(1);
+            // Loop through rows
+            for (i = 0; i < rowLength; i++) {
+                // Get Row
+                const row = table.rows.item(i);
 
-            // Get info from cell 2 (Activities)
-            let activities = oCells.item(2);
+                // Initialize array for each day
+                let regDay = {
+                    type: "",
+                    mins: {
+                        immediate: 0,
+                        break: 0,
+                        lunch: 0,
+                        ap: 0,
+                        overtime: 0,
+                        training: 0,
+                    },
+                    shift: {
+                        start: "",
+                        end: "",
+                        realStart: "",
+                        realEnd: "",
+                    },
+                };
 
-            // Get date of the record
-            let date = shiftInfo.querySelector(".shift-date").innerHTML;
+                // Get cells of the row
+                const oCells = row.cells;
+                console.log("Cells in row: " + oCells.length);
 
-            // Convert the date
-            date = moment(date, "dddd LL");
+                // Get info from cell 1 (Date and Shift info)
+                const shiftInfo = oCells.item(1);
 
-            // Verify if the date is in the past range
-            if (date < now) {
-                // Get the shift textual information
-                let shiftInfoTxt = shiftInfo.querySelector(".shift-label");
-                if (shiftInfoTxt) shiftInfoTxt = shiftInfoTxt.innerHTML;
-                else shiftInfoTxt = shiftInfo.querySelectorAll("span")[1].innerHTML;
+                // Get info from cell 2 (Activities)
+                const activities = oCells.item(2);
 
-                // Check if it's a day off
-                if (shiftInfoTxt == "Off") {
-                    saveDay(moment(date).format("DD-MM-YYYY"), { type: "Off" });
+                // Get date of the record
+                let date = shiftInfo.querySelector(".shift-date").innerHTML;
+
+                // Convert the date
+                date = moment(date, "dddd LL");
+
+                // Verify if the date is in the past range
+                if (date < now) {
+                    // Get the shift textual information
+                    let shiftInfoTxt = shiftInfo.querySelector(".shift-label");
+                    if (shiftInfoTxt) shiftInfoTxt = shiftInfoTxt.innerHTML;
+                    else shiftInfoTxt = shiftInfo.querySelectorAll("span")[1].innerHTML;
+
+                    // Check if it's a day off
+                    if (shiftInfoTxt == "Off") {
+                        saveDay(moment(date).format("DD-MM-YYYY"), { type: "Off" });
+                        regsSaved++;
+                        // Don't do anything anymore and continue to the next day
+                        continue;
+                    }
+
+                    // Enlist activities
+                    let activitiesGroup = activities.querySelectorAll(".activity-event");
+                    console.log(activitiesGroup.length + " activities detected");
+
+                    // Loop for all activities
+                    for (let j = 0; j < activitiesGroup.length; j++) {
+                        // Get Name of the activity
+                        let actName = activitiesGroup[j].querySelector(".activity-event-activity").textContent.trim();
+                        // Get Period of the activity
+                        let period = activitiesGroup[j].querySelector(".activity-event-period").textContent.trim();
+
+                        // Create the regex for splitting the period into two hours
+                        let splitRegex = /(\d+:\d+ [AP]M)(?: - (\d{1,2}\/\d{1,2}\/\d{4})?\s*(\d+:\d+ [AP]M))?/;
+
+                        // Format the hours
+                        let first = moment(period.match(splitRegex)[1], "hh:mm A");
+                        let second = moment(period.match(splitRegex)[3], "hh:mm A");
+
+                        // If it's the first pass, save the first hour as the start hour of the shift
+                        if (j == 0) regDay.shift.start = moment(first).format("kk:mm:ss");
+                        // If it's the last pass, save the last hour as the last hour of the shift
+                        if (j == activitiesGroup.length - 1) regDay.shift.end = moment(second).format("kk:mm:ss");
+
+                        // Save it as a normal day
+                        regDay.type = "Normal";
+
+                        // Check if end is before start (Graveyard shifts), otherwise swap them
+                        if (second.diff(first, "minutes") < 0) {
+                            let tt = second;
+                            second = first;
+                            first = tt;
+                            tt = null;
+                        }
+
+                        // Save the minutes depending on the activity
+                        switch (actName) {
+                            case "Immediate":
+                            case "IT":
+                            case "PE":
+                                // Save the start of the immediate shift if not saved yet
+                                if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
+                                // Save the end of the activity as the real end
+                                regDay.shift.realEnd = moment(second).format("kk:mm:ss");
+
+                                regDay.mins.immediate += second.diff(first, "minutes");
+                                break;
+                            case "AP":
+                            case "AAP":
+                            case "UTO":
+                            case "Voluntary Time Off":
+                                regDay.mins.ap += second.diff(first, "minutes");
+                                break;
+                            case "Lunch":
+                                regDay.mins.lunch += second.diff(first, "minutes");
+                                break;
+                            case "Break":
+                                regDay.mins.break += second.diff(first, "minutes");
+                                break;
+                            case "Additional Hours":
+                                regDay.mins.overtime += second.diff(first, "minutes");
+                                break;
+                            case "Shift/Overtime Gap":
+                                break;
+                            case "MED":
+                            case "WMED":
+                                // Save the start of the Training shift if not saved yet
+                                if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
+                                // Save the end of the activity as the real end
+                                regDay.shift.realEnd = moment(second).format("kk:mm:ss");
+                                regDay.mins.training += second.diff(first, "minutes");
+                                break;
+                            case "AEX":
+                            case "MEX":
+                                regDay.type = actName;
+                                break;
+                            default:
+                                // No match, let the user know
+                                notifications.showToast(
+                                    `There is an activity on ${moment(date).format(
+                                        "DD-MM-YYYY"
+                                    )} which was not recognized: ${actName}`,
+                                    "bugreport"
+                                );
+                                break;
+                        }
+                    } // end-for
+
+                    // Increment the days saved
                     regsSaved++;
-                    // Don't do anything anymore and continue to the next day
-                    continue;
+                } else {
+                    // Date is today or future, exit
+                    break;
                 }
 
-                // Enlist activities
-                let activitiesGroup = activities.querySelectorAll(".activity-event");
-                console.log(activitiesGroup.length + " activities detected");
-
-                // Loop for all activities
-                for (let j = 0; j < activitiesGroup.length; j++) {
-                    // Get Name of the activity
-                    let actName = activitiesGroup[j].querySelector(".activity-event-activity").textContent.trim();
-                    // Get Period of the activity
-                    let period = activitiesGroup[j].querySelector(".activity-event-period").textContent.trim();
-
-                    // Create the regex for splitting the period into two hours
-                    let splitRegex = /(\d+:\d+ [AP]M)(?: - (\d{1,2}\/\d{1,2}\/\d{4})?\s*(\d+:\d+ [AP]M))?/;
-
-                    // Format the hours
-                    let first = moment(period.match(splitRegex)[1], "hh:mm A");
-                    let second = moment(period.match(splitRegex)[3], "hh:mm A");
-
-                    // If it's the first pass, save the first hour as the start hour of the shift
-                    if (j == 0) regDay.shift.start = moment(first).format("kk:mm:ss");
-                    // If it's the last pass, save the last hour as the last hour of the shift
-                    if (j == activitiesGroup.length - 1) regDay.shift.end = moment(second).format("kk:mm:ss");
-
-                    // Save it as a normal day
-                    regDay.type = "Normal";
-
-                    // Check if end is before start (Graveyard shifts), otherwise swap them
-                    if (second.diff(first, "minutes") < 0) {
-                        let tt = second;
-                        second = first;
-                        first = tt;
-                        tt = null;
-                    }
-
-                    // Save the minutes depending on the activity
-                    switch (actName) {
-                        case "Immediate":
-                        case "IT":
-                            // Save the start of the immediate shift if not saved yet
-                            if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
-                            // Save the end of the activity as the real end
-                            regDay.shift.realEnd = moment(second).format("kk:mm:ss");
-
-                            regDay.mins.immediate += second.diff(first, "minutes");
-                            break;
-                        case "AP":
-                        case "AAP":
-                        case "UTO":
-                        case "Voluntary Time Off":
-                            regDay.mins.ap += second.diff(first, "minutes");
-                            break;
-                        case "Lunch":
-                            regDay.mins.lunch += second.diff(first, "minutes");
-                            break;
-                        case "Break":
-                            regDay.mins.break += second.diff(first, "minutes");
-                            break;
-                        case "Additional Hours":
-                            regDay.mins.overtime += second.diff(first, "minutes");
-                            break;
-                        case "Shift/Overtime Gap":
-                            break;
-                        case "MED":
-                        case "WMED":
-                            // Save the start of the Training shift if not saved yet
-                            if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
-                            // Save the end of the activity as the real end
-                            regDay.shift.realEnd = moment(second).format("kk:mm:ss");
-                            regDay.mins.training += second.diff(first, "minutes");
-                            break;
-                        case "AEX":
-                        case "MEX":
-                            regDay.type = actName;
-                            break;
-                        default:
-                            // No match, let the user know
-                            notifications.showToast(
-                                `There is an activity on ${moment(date).format(
-                                    "DD-MM-YYYY"
-                                )} which was not recognized: ${actName}`,
-                                "bugreport"
-                            );
-                            break;
-                    }
-                } // end-for
-
-                // Increment the days saved
-                regsSaved++;
-            } else {
-                // Date is today or future, exit
-                break;
-            }
-
-            saveDay(moment(date).format("DD-MM-YYYY"), regDay);
-        } // end-for
+                saveDay(moment(date).format("DD-MM-YYYY"), regDay);
+            } // end-for
+        }
 
         if (regsSaved == 0) notifications.showToast("No days have been saved in the system", "warning");
         else
@@ -393,7 +415,7 @@ function getInfo() {
  */
 function setTextualView() {
     // Get the frame
-    let frame = document.getElementById("mctnt");
+    const frame = document.getElementById("mctnt");
 
     // If frame not present, exit
     if (!frame) return;
@@ -402,8 +424,8 @@ function setTextualView() {
     currentInstruction = "getInfo";
 
     // Get the dropdown option
-    let textualSel = frame.contentWindow.document.querySelector(".bpDropDownText");
-    let textualDrop = frame.contentWindow.document.querySelector(".bpDropDownList");
+    const textualSel = frame.contentWindow.document.querySelector(".bpDropDownText");
+    const textualDrop = frame.contentWindow.document.querySelector(".bpDropDownList");
 
     // If dropdowns are not present, exit
     if (!textualSel || !textualDrop) return;
