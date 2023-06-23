@@ -17,6 +17,9 @@ const minDuration = 150;
 /** The period in minutes where the short calls get registered for it to be considered work avoidance and lock pins */
 const shortCallsMins = 30;
 
+/** Saves counter */
+let savedCalls = 0;
+
 /**
  * Get Notifications
  */
@@ -63,11 +66,13 @@ function getInfo() {
     let callInfo = [];
 
     /** Scrape Table */
-    let CallTB = document.querySelector("table .list");
+    const CallTB = document.querySelector("table .list");
 
     /** The rows of the table */
     let rowLength = CallTB.rows.length;
     console.log(rowLength + " call records found");
+
+    savedCalls = 0;
 
     // Loop through calls
     for (i = rowLength - 1; i > 0; i--) {
@@ -139,6 +144,9 @@ function getInfo() {
     saveProviders();
     // Update the sidebar
     updateSidebar("Saved " + rowLength + " calls");
+
+    if (savedCalls > 0) notifications.showToast(rowLength + " call records found. " + savedCalls + " days updated");
+    else notifications.showToast(rowLength + " call records found. No changes detected");
 }
 
 /**
@@ -269,6 +277,7 @@ function saveDay(date, calls) {
         var kKey = "rec-" + date;
         chrome.storage.local.set({ [kKey]: dayRecords }).then(() => {
             notifications.showToast("Calls Saved on file succesfully - Date: " + date);
+            savedCalls++;
         });
     });
 }
@@ -305,7 +314,9 @@ function UnlockAchievement(name, date, time, value = 1) {
     chrome.storage.local.get(["achievements"], result => {
         const uAch = result["achievements"];
 
-        fetch("chrome-extension://bjacoddhnoeikloaomenlfaenhdpfgpb/js/achievements.json").then(val => {
+        // Get extension's url
+        const extensionUrl = chrome.extension.getURL("");
+        fetch(extensionUrl + "/js/achievements.json").then(val => {
             val.json().then(jj => {
                 const jsonAch = jj;
 
