@@ -218,16 +218,10 @@ function getInfo() {
         let tables = [];
 
         // Get Tables
-        for (let f = 0; f < children.length; f++) {
-            console.log(f);
-            console.log(children[f]);
-            console.log(children[f].tagName);
-            if (children[f].tagName === "TBODY") tables.push(children[f]);
-        }
+        for (let f = 0; f < children.length; f++) if (children[f].tagName === "TBODY") tables.push(children[f]);
 
         // If no tables, exit
         if (tables.length == 0) return;
-        console.log("Tables found: " + tables.length);
 
         // Create counter
         let regsSaved = 0;
@@ -236,12 +230,8 @@ function getInfo() {
         for (let it = 0; it < tables.length; it++) {
             const table = tables[it];
 
-            // Get rows of table
-            const rowLength = table.rows.length;
-            console.log("Rows in table: " + rowLength);
-
             // Loop through rows
-            for (i = 0; i < rowLength; i++) {
+            for (i = 0; i < table.rows.length; i++) {
                 // Get Row
                 const row = table.rows.item(i);
 
@@ -266,7 +256,6 @@ function getInfo() {
 
                 // Get cells of the row
                 const oCells = row.cells;
-                console.log("Cells in row: " + oCells.length);
 
                 // Get info from cell 1 (Date and Shift info)
                 const shiftInfo = oCells.item(1);
