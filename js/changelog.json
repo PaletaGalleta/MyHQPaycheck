@@ -9,7 +9,10 @@
         "Changed Labels of Longest, Shortest and Average calls",
         "Added AAP, PE and Voluntary Time Off to supported schedules in Verint",
         "Added tips file, for Tip of the Day and FAQ",
-        "Updated Salesforce Notifications and achievements fetcher"
+        "Updated Salesforce Notifications and achievements fetcher",
+        "Added 'Tools' and 'Community Tools' quick link support",
+        "Fixed schedule reading on Impact, now it can read all months at the same time",
+        "Changed Labels of Longest, Shortest and Average calls"
       ]
     },
     {
