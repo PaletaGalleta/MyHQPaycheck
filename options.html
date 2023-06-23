@@ -111,10 +111,18 @@
               <button type="button" class="btn btn-dark d-flex border border-secondary" id="reload-dashboard"><span class="material-symbols-outlined">refresh</span>&nbsp;Refresh Tabs</button>
             </div>
             <div class="col-auto d-flex flex-column align-items-start border-start">
-              <small>Quick Links</small>
-              <div class="d-flex flex-md-row flex-column gap-1">
-                <a type="button mb-3" class="btn btn-info btn-sm" href="https://myllsworld.com" target="_blank" role="button">Salesforce</a>
-                <a type="button" class="btn btn-primary btn-sm" href="https://impact360.languageline.com/wfo/control/myschedule" target="_blank" role="button">Impact 360</a>
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Quick Links
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="https://myllsworld.com" target="_blank">Salesforce</a></li>
+                  <li><a class="dropdown-item" href="https://impact360.languageline.com/wfo/control/myschedule" target="_blank">Impact 360</a></li>
+                  <li><a class="dropdown-item" href="https://apps.rackspace.com/a/webmail.php" target="_blank">Rackspace</a></li>
+                  <li><a class="dropdown-item" href="http://speedtest.llsapi.com" target="_blank">SpeedTest</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#" target="_blank">More Links Coming Soon</a></li>
+                </ul>
               </div>
             </div>
           </div>
