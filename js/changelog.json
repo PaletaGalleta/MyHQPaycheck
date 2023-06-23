@@ -4,7 +4,8 @@
       "version": "0.6.0 (Current)",
       "date": "01-03-2023",
       "changes": [
-        "Changed the Quick Links Section: Added Rackspace and SpeedTest"
+        "Changed the Quick Links Section: Added Rackspace and SpeedTest",
+        "Fixed the Salesforce Button not showing on updated web apps"
       ]
     },
     {

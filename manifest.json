@@ -23,7 +23,7 @@
   "update_url":"http://clients2.google.com/service/update2/crx",
   "content_scripts": [
     {
-      "matches": ["https://lls--c.na109.visual.force.com/apex/ContactCallRecordPlugin*"], 
+      "matches": ["https://*.visual.force.com/apex/ContactCallRecordPlugin*"], 
       "js": [
         "js/moment.js",
         "js/bootstrap/js/bootstrap.bundle.min.js",
