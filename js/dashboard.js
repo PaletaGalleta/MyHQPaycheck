@@ -132,14 +132,11 @@ async function loadWeek() {
     // Store the loop Promises
     const dataPromises = [];
 
+    // Validation flag
+    let loadedDays = 0;
+
     // Load the info of the last 7 days
-    for (let i = 0; i < 7; i++) {
-        // Set the labels for the day
-        weekGraphInfo.labels.unshift(
-            moment(now)
-                .add(i * -1, "days")
-                .format("ddd DD/MM")
-        );
+    for (let i = 0; i < 9; i++) {
         // Generate a new Promise for the data to load
         const promise = new Promise((resolve, reject) => {
             // Get the shift data of the day
@@ -153,15 +150,18 @@ async function loadWeek() {
                 .then(value => {
                     // Check if shift records are present
                     if (!value.empty && value.type != "Off") {
+                        // Set the labels for the day
+                        weekGraphInfo.labels.unshift(
+                            moment(now)
+                                .add(i * -1, "days")
+                                .format("ddd DD/MM")
+                        );
                         // Add the values
                         weekGraphInfo.datasets[0].data.unshift(value.mins.immediate);
                         weekGraphInfo.datasets[1].data.unshift(value.mins.ap * -1);
                         weekGraphInfo.datasets[2].data.unshift(value.mins.lunch + value.mins.break);
-                    } else {
-                        // Add values in 0
-                        weekGraphInfo.datasets[0].data.unshift(0);
-                        weekGraphInfo.datasets[1].data.unshift(0);
-                        weekGraphInfo.datasets[2].data.unshift(0);
+                        // Increase the value of the loaded days
+                        loadedDays++;
                     }
                     // Send the resolve to the promise
                     resolve(value);
