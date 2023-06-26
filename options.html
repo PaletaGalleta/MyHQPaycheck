@@ -233,9 +233,11 @@
                       <div class="row">
                         <div class="col-6">
                           <p class="card-text mb-0"><small>Daily Goal</small></p>
-                          <h4 class="card-title placeholder-glow" id="week-goal">
-                            <span class="placeholder col-8"></span>
-                          </h4>
+                          <div class="input-group">
+                            <button type="button" class="btn btn-outline-secondary" id="goaldec">-</button>
+                            <input type="text" class="form-control text-center" id="goal" value="0" disabled>
+                            <button type="button" class="btn btn-outline-secondary" id="goalinc">+</button>
+                          </div>
                         </div>
                         <div class="col-6">
                           <p class="card-text mb-0"><small>Hour Difference</small></p>

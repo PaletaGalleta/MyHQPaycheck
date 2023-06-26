@@ -7,17 +7,28 @@
 
 // Imports
 import * as storage from "./storage.js";
+import * as settings from "./settings.js";
 import * as notifications from "./notifications.js";
+
+/**
+ * Dashboard Config
+ */
+const maxGoal = 9;
 
 /**
  * Variables for graphs
  */
 let weekGraphLoaded = null;
+let weekGraphInfo;
 
 // Add listener for the Refresh button
 document.getElementById("reload-dashboard").addEventListener("click", () => {
     location.reload();
 });
+
+// Listeners for goal increase/decrease
+document.getElementById("goalinc").addEventListener("click", increaseGoal);
+document.getElementById("goaldec").addEventListener("click", decreaseGoal);
 
 /**
  * Dashboard Initializer
@@ -37,11 +48,13 @@ export function Init() {
  *
  */
 function loadToday() {
+    // Get Elements
+    const todayCard = document.getElementById("todayscard");
     // Check if there's something already available on storage for today
     storage.getDataFromLocalStorage("rec-" + moment().format("DD-MM-YYYY")).then(value => {
         if (!value.empty) {
             // Call records are present, display the information
-            document.getElementById("todayscard").style.display = "flex";
+            todayCard.style.display = "flex";
             document.getElementById("todayscard-norecs").style.display = "none";
             document.getElementById("today-calls").innerHTML = value.calls.length;
             document.getElementById("today-calltime").innerHTML = value.totalDuration;
@@ -50,7 +63,7 @@ function loadToday() {
             document.getElementById("today-callaverage").innerHTML = value.avgDuration;
         } else {
             // Call records not present, show additional info
-            document.getElementById("todayscard").style.display = "none";
+            todayCard.style.display = "none";
             document.getElementById("todayscard-norecs").style.display = "flex";
         }
     });
@@ -99,7 +112,7 @@ async function loadWeek() {
     };
 
     // Graph Data
-    let weekGraphInfo = {
+    weekGraphInfo = {
         labels: [],
         datasets: [
             {
@@ -184,6 +197,75 @@ async function loadWeek() {
         // Refresh the chart
         weekGraphLoaded.update();
     }
+
+    // Get the saved daily goal
+    document.getElementById("goal").value = settings.savedSettings.dailyGoal;
+
+    // Calculate Hour Difference
+    calculateHrDiff();
+
+    // Lock Daily Goal's buttons if needed
+    goalButtonCheck();
+}
+
+function changeGoal(chgNum) {
+    // Get element
+    const goalInput = document.getElementById("goal");
+
+    // Get number
+    const num = +goalInput.value;
+    const newNum = num + chgNum;
+
+    // Increase or decrease, if possible
+    if (newNum >= 0 && newNum <= maxGoal) {
+        goalInput.value = newNum;
+        // Check buttons
+        goalButtonCheck();
+
+        // Set the new number in settings
+        settings.savedSettings.dailyGoal = newNum;
+
+        // Calculate Hour Difference
+        calculateHrDiff();
+
+        // Save settings
+        settings.saveSettings();
+    }
+}
+
+function increaseGoal() {
+    changeGoal(0.5);
+}
+
+function decreaseGoal() {
+    changeGoal(-0.5);
+}
+
+function goalButtonCheck() {
+    const goalNum = document.getElementById("goal").value;
+    const goalInc = document.getElementById("goalinc");
+    const goalDec = document.getElementById("goaldec");
+
+    goalDec.disabled = goalNum == 0;
+    goalInc.disabled = goalNum == maxGoal;
+}
+
+function calculateHrDiff() {
+    const dailyGoal = +document.getElementById("goal").value;
+    const loadedDays = +weekGraphInfo.labels.length;
+
+    const acumGoal = dailyGoal * loadedDays;
+
+    let workedHours = 0;
+    for (let i = 0; i < loadedDays; i++) {
+        workedHours += weekGraphInfo.datasets[0].data[i];
+        workedHours += weekGraphInfo.datasets[2].data[i];
+    }
+
+    workedHours /= 60;
+
+    const hourDiff = document.getElementById("week-difference");
+    hourDiff.innerHTML = +(acumGoal - workedHours) + " hours";
 }
 
 /**
