@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "MyHQPaycheck",
   "description": "Unofficial Paycheck Calculator for LanguageLine Solutions interpreters who work for Human Quality in Mexico",
-  "version": "0.6.0",
-  "version_name": "0.6.0-early",
+  "version": "0.6.5",
+  "version_name": "0.6.5-early",
   "background": {
     "service_worker": "background.js",
     "type": "module"
@@ -43,6 +43,6 @@
   ],
   "web_accessible_resources": [{
     "matches": ["<all_urls>"],
-    "resources": ["js/notifications.js", "js/storage.js", "js/achievements.json"]
+    "resources": ["js/*"]
   }]
 }

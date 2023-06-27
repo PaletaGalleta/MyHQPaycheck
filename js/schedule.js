@@ -24,7 +24,11 @@ let currentInstruction = "";
  * Injector Main function
  *
  */
-function Injector() {
+async function Injector() {
+    if (!notifications) {
+        const src = chrome.runtime.getURL("js/notifications.js");
+        notifications = await import(src);
+    }
     notifications.showToast("Loaded for Impact360");
 
     // Get workspace container

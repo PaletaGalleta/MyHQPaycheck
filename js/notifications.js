@@ -6,20 +6,20 @@
  */
 
 // Imports
-import * as storage from './storage.js';
+import * as storage from "./storage.js";
 
 /**
  * Shows a toast with the specified type and message
- * 
+ *
  * @param {string} msg - The message to display
  * @param {string} type - The type of toast. Defaults to "info"
- * 
+ *
  */
 export function showToast(msg, type = "info") {
     // Load Achievements Toast Container
-    const toastContainer = document.getElementById('toastcontainer');
+    const toastContainer = document.getElementById("toastcontainer");
 
-    if(toastContainer) {
+    if (toastContainer) {
         let btn = "";
 
         // Create new toast container
@@ -30,14 +30,13 @@ export function showToast(msg, type = "info") {
         newToast.classList.add("toast");
         // Configure the toasts role and HTML variables
         newToast.role = "alert";
-        newToast.ariaLive= "assertive"
-        newToast.ariaAtomic= "true"
-        
+        newToast.ariaLive = "assertive";
+        newToast.ariaAtomic = "true";
+
         // Handlers for Debug and BugReport toasts
-        if(type == "debug") {
-            type = "info"
-        }
-        else if(type == "bugreport") {
+        if (type == "debug") {
+            type = "info";
+        } else if (type == "bugreport") {
             btn = `
                 <div class="mt-2 pt-2 border-top">
                     <button id="msp" type="button" class="btn btn-light btn-sm">Send Bug Report</button>
@@ -51,7 +50,8 @@ export function showToast(msg, type = "info") {
         newToast.classList.add(colorClass);
 
         // Create the toast content
-        var ht = `
+        var ht =
+            `
             <div class="toast-header">
                 <!-- <img src="..." class="rounded me-2" alt="..."> -->
                 <strong class="me-auto">MyHQ Paycheck</strong>
@@ -59,22 +59,25 @@ export function showToast(msg, type = "info") {
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
-                <p>` + msg + `</p>` + btn + `
+                <p>` +
+            msg +
+            `</p>` +
+            btn +
+            `
             </div>
         `;
-        
+
         // Set the content as inner of the toast object
         newToast.innerHTML = ht;
-        
+
         // Add the new toast to the container
         toastContainer.append(newToast);
-        
+
         // Generate the toast functionality and show it!
         const toast = new bootstrap.Toast(newToast);
         toast.show();
         console.log("Showing toast: " + msg);
-    }
-    else {
+    } else {
         // There's no container, create one
         createToastContainer();
 
@@ -85,15 +88,15 @@ export function showToast(msg, type = "info") {
 
 /**
  * Shows a toast with achievement related information
- * 
+ *
  * @param {string} code - The code of the achievement to display
- * 
+ *
  */
 export function showAchievementToast(code) {
     // Load Achievements Toast Container
-    const toastContainer = document.getElementById('toastcontainer');
+    const toastContainer = document.getElementById("toastcontainer");
 
-    if(toastContainer) {
+    if (toastContainer) {
         // Create new toast container
         let newToast = document.createElement("div");
         // Configure the toasts id
@@ -102,16 +105,17 @@ export function showAchievementToast(code) {
         newToast.classList.add("toast", "text-bg-success");
         // Configure the toasts role and HTML variables
         newToast.role = "alert";
-        newToast.ariaLive= "assertive"
-        newToast.ariaAtomic= "true"
+        newToast.ariaLive = "assertive";
+        newToast.ariaAtomic = "true";
 
         // Get the achievements info
-        storage.loadJSON("/js/achievements.json").then((jsonAch) => {
+        storage.loadJSON("/js/achievements.json").then(jsonAch => {
             // Save achievement information
             let achievementInfo = jsonAch[code];
 
             // Create the toast content
-            var ht = `
+            var ht =
+                `
                 <div class="toast-header">
                     <img src="/images/ach/achievement.png" class="rounded me-2" height="20" alt="achievement">
                     <strong class="me-auto">Achievement unlocked!</strong>
@@ -119,24 +123,27 @@ export function showAchievementToast(code) {
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
-                    <h6>` + achievementInfo.title + `</h6>
-                    <p>` + achievementInfo.description + `</p>
+                    <h6>` +
+                achievementInfo.title +
+                `</h6>
+                    <p>` +
+                achievementInfo.description +
+                `</p>
                 </div>
             `;
-            
+
             // Set the content as inner of the toast object
             newToast.innerHTML = ht;
-            
+
             // Add the new toast to the container
             toastContainer.append(newToast);
-            
+
             // Generate the toast functionality and show it!
             const toast = new bootstrap.Toast(newToast);
             toast.show();
             console.log("Showing achievement toast");
         });
-    }
-    else {
+    } else {
         // There's no container, create one
         createToastContainer();
 
@@ -147,7 +154,7 @@ export function showAchievementToast(code) {
 
 /**
  * Creates the toast container
- * 
+ *
  */
 function createToastContainer() {
     // Create the container
