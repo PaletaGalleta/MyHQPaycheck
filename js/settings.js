@@ -14,6 +14,24 @@ import * as achievements from "./achievement.js";
 export const settingsVersion = 3;
 export const sysDev = true;
 
+// Import input
+let importInput;
+let importLabel;
+
+// Checkbox variables
+let exportAll;
+let exportSettings;
+let exportCalls;
+let exportShifts;
+let exportPaycheck;
+
+let exportArray = [exportSettings, exportCalls, exportShifts, exportPaycheck];
+
+// Button Variables
+let importButton;
+let importButtonOverride;
+let exportButton;
+
 /**
  * Saved Settings container
  */
@@ -26,7 +44,6 @@ let betaModal;
 
 /**
  * Settings Initializer
- *
  */
 export function load() {
     // Create the Beta modal
@@ -78,6 +95,40 @@ export function load() {
         },
         true
     );
+
+    // Import input
+    importInput = document.getElementById("import-file");
+    importLabel = document.getElementById("import-label");
+
+    // Checkbox variables
+    exportAll = document.getElementById("export-all");
+    exportSettings = document.getElementById("export-settings");
+    exportCalls = document.getElementById("export-calls");
+    exportShifts = document.getElementById("export-shifts");
+    exportPaycheck = document.getElementById("export-paycheck");
+
+    exportArray = [exportSettings, exportCalls, exportShifts, exportPaycheck];
+
+    // Button Variables
+    importButton = document.getElementById("import-button");
+    importButtonOverride = document.getElementById("import-button-override");
+    exportButton = document.getElementById("export-button");
+
+    // Listeners
+    importInput.addEventListener("change", importHandler);
+    exportAll.addEventListener("change", exportHandler);
+    exportSettings.addEventListener("change", exportHandler);
+    exportCalls.addEventListener("change", exportHandler);
+    exportShifts.addEventListener("change", exportHandler);
+    exportPaycheck.addEventListener("change", exportHandler);
+
+    exportButton.addEventListener("click", exportData);
+    importButton.addEventListener("click", importData);
+    importButtonOverride.addEventListener("click", () => {
+        storage.importData(true).then(res => {
+            if (res) notifications.showToast("Records Imported Succesfully", "info");
+        });
+    });
 }
 
 /**
@@ -119,6 +170,7 @@ function verifyEmail() {
                         "Welcome, " + email + "! You have unlimited access to the Beta Version, enjoy!",
                         "success"
                     );
+                    savedSettings["email"] = email;
                     // Hide Modal
                     showBetaModal(false);
                     // Exit
@@ -212,5 +264,112 @@ export async function saveSettings() {
     return new Promise((resolve, reject) => {
         chrome.storage.local.set({ settings: savedSettings });
         resolve();
+    });
+}
+
+function exportHandler(checkbox) {
+    // Get checkbox
+    const check = checkbox.target;
+
+    // Checked counter
+    let chkAmt = 0;
+
+    // "All" checkbox
+    if (check.id === "export-all") {
+        exportArray.forEach(chck => {
+            chck.checked = check.checked;
+        });
+        if (check.checked) chkAmt++;
+    }
+    // The rest of the checkboxes
+    else {
+        // Flag
+        let fl = 0;
+        exportArray.forEach(chck => {
+            if (!chck.checked) fl++;
+            else chkAmt++;
+        });
+        exportAll.checked = fl == 0;
+    }
+
+    exportButton.disabled = chkAmt == 0;
+}
+
+function exportData(e) {
+    e.preventDefault();
+    storage.exportData().then(res => {
+        if (res) notifications.showToast("Export file created. Check Downloads folder", "info");
+    });
+}
+
+function importHandler() {
+    // Verify that the file is ready
+    if (importInput.files[0].name != "") {
+        // Read content of the file
+        importLabel.innerHTML = "Abriendo archivo...";
+        const selectedFile = importInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            const fileContent = event.target.result;
+
+            importLabel.innerHTML = "Verificando Información...";
+
+            try {
+                // Parse to JSON
+                const backupData = JSON.parse(fileContent);
+                // Verify the backup date
+                const today = moment();
+                const backupDate = moment(backupData.backup.date, "DD-MM-YYYY");
+                console.log(today.diff(backupDate, "days"));
+
+                let infoString = "Backup Date: " + backupData.backup.date;
+
+                infoString += ", Settings: ";
+                infoString += backupData.settings ? "YES" : "NO";
+
+                // Read all keys
+                const keys = Object.keys(backupData);
+                let recs = 0;
+                let shifts = 0;
+                let periods = 0;
+                for (let i = 0; i < keys.length; i++) {
+                    const key = keys[i];
+
+                    // Get recs
+                    if (key.startsWith("rec-")) recs += backupData[key].calls.length;
+                    // get schedules
+                    if (key.startsWith("shift-")) shifts++;
+                    // Get periods
+                    if (key.startsWith("per-")) periods++;
+                }
+
+                infoString += ", Calls: ";
+                infoString += recs > 0 ? recs : "NO";
+
+                infoString += ", Shifts: ";
+                infoString += shifts > 0 ? shifts : "NO";
+
+                infoString += ", Paycheck Periods: ";
+                infoString += periods > 0 ? periods : "NO";
+
+                // Enable button
+                importButton.disabled = false;
+                importLabel.innerHTML = infoString;
+                console.log(backupData);
+            } catch (e) {
+                importLabel.innerHTML = "¡Archivo no válido!";
+                importButton.disabled = true;
+            }
+        };
+
+        reader.readAsText(selectedFile);
+    } else importButton.disabled = true;
+}
+
+function importData(e) {
+    e.preventDefault();
+    storage.importData().then(res => {
+        if (res) notifications.showToast("Records Imported Succesfully", "info");
     });
 }

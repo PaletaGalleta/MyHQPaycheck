@@ -1,8 +1,14 @@
 {
   "changelog": [
     {
-      "version": "0.6.0 (Current)",
-      "date": "01-03-2023",
+      "version": "0.7.0 (Current)",
+      "date": "01-07-2023",
+      "changes": [
+      ]
+    },
+    {
+      "version": "0.6.0",
+      "date": "25-06-2023",
       "changes": [
         "Changed the Quick Links Section: Added Rackspace and SpeedTest",
         "Fixed the Salesforce Button not showing on updated web apps",

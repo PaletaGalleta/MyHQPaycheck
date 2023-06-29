@@ -858,69 +858,138 @@
       
             <!-- Settings -->
             <div class="tab-pane fade container" id="settings-tab-pane" role="tabpanel" aria-labelledby="settings-tab" tabindex="4">
-              <div class="row align-items-center mb-3">
-                <h4 class="m-0">Settings</h4>
-              </div>
-              <div class="alert alert-danger mb-3" id="missinginfo" style="display:none">
-                <div class="card-body">
-                  The extension has detected some missing information. Maybe it's caused by a new installation or update.<br>
-                  MyHQ Paycheck <strong>will not work</strong> if the settings in this page are missing or incorrect.
+              <ul class="nav nav-pills">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="settingstab-tab" data-bs-toggle="tab" data-bs-target="#settingstab" type="button" role="tab" aria-controls="settingstab" aria-selected="true">Settings</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="importexport-tab" data-bs-toggle="tab" data-bs-target="#importexport" type="button" role="tab" aria-controls="importexport" aria-selected="false">Import/Export</button>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="settingstab" role="tabpanel" aria-labelledby="settingstab-tab" tabindex="0">
+                  <div class="row align-items-center mb-3">
+                    <h4 class="m-0 mt-4">Settings</h4>
+                  </div>
+                  <div class="alert alert-danger mb-3" id="missinginfo" style="display:none">
+                    <div class="card-body">
+                      The extension has detected some missing information. Maybe it's caused by a new installation or update.<br>
+                      MyHQ Paycheck <strong>will not work</strong> if the settings in this page are missing or incorrect.
+                    </div>
+                  </div>
+                  <div class="alert alert-info mb-3">
+                    The settings in this page help generate a paycheck estimate as accurate as possible.<br>
+                    This information is private, and not shared with anyone else.
+                  </div>
+                  <br>
+                  <form id="settingsform">
+                    <div class="row">
+                      <div class="mb-3 col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="email" required disabled>
+                        <div class="form-text">This will be the email attached to the PRO and Early Access versions</div>
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label for="nickname" class="form-label">Nickname</label>
+                        <input type="text" class="form-control" id="nickname" required>
+                      </div>
+                      <div class="mb-3 col-md-6 col-lg-3">
+                        <label for="radiolevels" class="form-label">Interpreter Level </label>
+                        <br>
+                        <div class="btn-group" id="radiolevels" role="group" aria-label="radio toggle button group">
+                          <input type="radio" class="btn-check" name="radiolevel" id="radiolevel3" value="3" autocomplete="off" required>
+                          <label class="btn btn-outline-primary" for="radiolevel3">L3</label>
+                          <input type="radio" class="btn-check" name="radiolevel" id="radiolevel4" value="4" autocomplete="off">
+                          <label class="btn btn-outline-primary" for="radiolevel4">L4</label>
+                          <input type="radio" class="btn-check" name="radiolevel" id="radiolevel5" value="5" autocomplete="off">
+                          <label class="btn btn-outline-primary" for="radiolevel5">L5</label>
+                        </div>
+                      </div>
+                      <div class="mb-3 col-md-6 col-lg-3">
+                        <label for="radiotypes" class="form-label">Salary Type</label>
+                        <br>
+                        <div class="btn-group" id="radiotypes" role="group" aria-label="radio toggle button group">
+                          <input type="radio" class="btn-check" name="radiotype" id="radiotypenormal" value="normal" autocomplete="off" required>
+                          <label class="btn btn-outline-primary" for="radiotypenormal">Normal</label>
+                          <input type="radio" class="btn-check" name="radiotype" id="radiotypefrontier" value="frontier" autocomplete="off">
+                          <label class="btn btn-outline-primary" for="radiotypefrontier">Border</label>
+                        </div>
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label for="startwork" class="form-label">Job Start Date</label>
+                        <input class="form-control" type="date" id="startwork"/>
+                        <div class="form-text">The date you started working formally in HQ (the day you took calls for the first time)</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="d-flex mb-3 justify-content-start flex-row-reverse">
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" role="switch" id="checkdev">
+                          <label class="form-check-label" for="checkdev">Developer mode</label>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="savesettings">Save Settings</button>
+                  </form>
                 </div>
-              </div>
-              <div class="alert alert-info mb-3">
-                The settings in this page help generate a paycheck estimate as accurate as possible.<br>
-                This information is private, and not shared with anyone else.
-              </div>
-              <br>
-              <form id="settingsform">
-                <div class="row">
-                  <div class="mb-3 col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="email" required disabled>
-                    <div class="form-text">This will be the email attached to the PRO and Early Access versions</div>
+                <div class="tab-pane" id="importexport" role="tabpanel" aria-labelledby="importexport-tab" tabindex="0">
+                  <div class="row align-items-center mb-3">
+                    <h4 class="m-0 mt-4">Import / Export</h4>
                   </div>
-                  <div class="mb-3 col-md-6">
-                    <label for="nickname" class="form-label">Nickname</label>
-                    <input type="text" class="form-control" id="nickname" required>
-                  </div>
-                  <div class="mb-3 col-md-6 col-lg-3">
-                    <label for="radiolevels" class="form-label">Interpreter Level </label>
+                  <div class="alert alert-info mb-3">
+                    All your data is currently being saved locally, and it doesn't allow syncing across devices (yet).<br>
+                    If you need to backup/update/reinstall/change/move to another device/burn your computer/etc. You can use this tool to export all your saved data into a nice file which you can later import into another instance of the extension.
                     <br>
-                    <div class="btn-group" id="radiolevels" role="group" aria-label="radio toggle button group">
-                      <input type="radio" class="btn-check" name="radiolevel" id="radiolevel3" value="3" autocomplete="off" required>
-                      <label class="btn btn-outline-primary" for="radiolevel3">L3</label>
-                      <input type="radio" class="btn-check" name="radiolevel" id="radiolevel4" value="4" autocomplete="off">
-                      <label class="btn btn-outline-primary" for="radiolevel4">L4</label>
-                      <input type="radio" class="btn-check" name="radiolevel" id="radiolevel5" value="5" autocomplete="off">
-                      <label class="btn btn-outline-primary" for="radiolevel5">L5</label>
-                    </div>
-                  </div>
-                  <div class="mb-3 col-md-6 col-lg-3">
-                    <label for="radiotypes" class="form-label">Salary Type</label>
                     <br>
-                    <div class="btn-group" id="radiotypes" role="group" aria-label="radio toggle button group">
-                      <input type="radio" class="btn-check" name="radiotype" id="radiotypenormal" value="normal" autocomplete="off" required>
-                      <label class="btn btn-outline-primary" for="radiotypenormal">Normal</label>
-                      <input type="radio" class="btn-check" name="radiotype" id="radiotypefrontier" value="frontier" autocomplete="off">
-                      <label class="btn btn-outline-primary" for="radiotypefrontier">Border</label>
+                    Keep in mind that the import/export will work ONLY if the email corresponds to the one in the file
+                  </div>
+                  <br>
+                  <div class="row align-items-center mb-3">
+                    <h4 class="m-0 mt-4">Import</h4>
+                  </div>
+                  <form class="row" id="import-form">
+                    <div class="col-auto">
+                      <input class="form-control" type="file" id="import-file">
                     </div>
-                  </div>
-                  <div class="mb-3 col-md-6">
-                    <label for="startwork" class="form-label">Job Start Date</label>
-                    <input class="form-control" type="date" id="startwork"/>
-                    <div class="form-text">The date you started working formally in HQ (the day you took calls for the first time)</div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="d-flex mb-3 justify-content-start flex-row-reverse">
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" role="switch" id="checkdev">
-                      <label class="form-check-label" for="checkdev">Developer mode</label>
+                    <div class="col-auto">
+                      <button type="submit" class="btn btn-primary" id="import-button" disabled>Import From File</button>
                     </div>
+                  </form>
+                  <p class="small mt-3" id="import-label"></p>
+                  <br>
+                  <div class="row align-items-center mb-3">
+                    <h4 class="m-0 mt-4">Export</h4>
                   </div>
+                  <p>When you click the button below, MyHQPaycheck will generate a JSON file that contains all the captured shifts, as well as the settings and paycheck info.</p>
+                  <p>Once you've saved the file, you can use the import function in another instance of the extension to restore your backup</p>
+                  <h6>Choose what to export</h6>
+                  <form id="export-form">
+                    <div class="form-check py-2">
+                      <input class="form-check-input" type="checkbox" value="" id="export-all">
+                      <label class="form-check-label" for="export-all">All content</label>
+                    </div>
+                    <hr>
+                    <div class="form-check py-2">
+                      <input class="form-check-input" type="checkbox" value="" id="export-settings">
+                      <label class="form-check-label" for="export-settings">Settings</label>
+                    </div>
+                    <div class="form-check py-2">
+                      <input class="form-check-input" type="checkbox" value="" id="export-calls">
+                      <label class="form-check-label" for="export-calls">Calls</label>
+                    </div>
+                    <div class="form-check py-2">
+                      <input class="form-check-input" type="checkbox" value="" id="export-shifts">
+                      <label class="form-check-label" for="export-shifts">Shifts</label>
+                    </div>
+                    <div class="form-check py-2">
+                      <input class="form-check-input" type="checkbox" value="" id="export-paycheck">
+                      <label class="form-check-label" for="export-paycheck">Paycheck Information</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3" id="export-button" disabled>Download Export File</button>
+                  </form>
                 </div>
-                <button type="submit" class="btn btn-primary" id="savesettings">Save Settings</button>
-              </form>
+              </div>
+              
             </div>
       
             <!-- About -->
@@ -989,7 +1058,7 @@
       </div>
     </div>
     <!-- Early Access Modal -->
-    <div class="modal fade" id="betaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="betaModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -1014,6 +1083,39 @@
                 <button type="button" class="btn btn-primary btn-lg" id="verify-email">Verify</button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="importWarning" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Warning</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>The extension has saved records. If you proceed with the import, the imported data will be merged with the current data, which means that new days will be added, and duplicated records will be overridden. Do you wish to continue?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="import-button-override" data-bs-dismiss="modal">Import</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="import-error" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Error</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p id="import-error-text"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
           </div>
         </div>
       </div>
