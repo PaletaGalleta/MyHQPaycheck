@@ -5,8 +5,6 @@
  * Date: 09-02-2023
  */
 
-import * as settings from "./settings.js";
-
 // Constants
 const BACKUP_VERSION = "1";
 
@@ -146,7 +144,7 @@ function exportJSONToFile(jsonData, filename) {
 /**
  * Import Data
  */
-export async function importData(override = false) {
+export async function importData(savedEmail, override = false) {
     return new Promise((resolve, reject) => {
         // Import input
         const importInput = document.getElementById("import-file");
@@ -169,7 +167,7 @@ export async function importData(override = false) {
                     const keys = Object.keys(data);
 
                     // Check if the backup has the same email
-                    if (settings.savedSettings.email !== backupData.settings.email) {
+                    if (savedEmail !== backupData.settings.email) {
                         // Show modal and exit
                         const warningModal = new bootstrap.Modal("#import-error", {
                             keyboard: false,

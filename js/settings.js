@@ -125,7 +125,7 @@ export function load() {
     exportButton.addEventListener("click", exportData);
     importButton.addEventListener("click", importData);
     importButtonOverride.addEventListener("click", () => {
-        storage.importData(true).then(res => {
+        storage.importData(savedSettings.email, true).then(res => {
             if (res) notifications.showToast("Records Imported Succesfully", "info");
         });
     });
@@ -369,7 +369,7 @@ function importHandler() {
 
 function importData(e) {
     e.preventDefault();
-    storage.importData().then(res => {
+    storage.importData(savedSettings.email).then(res => {
         if (res) notifications.showToast("Records Imported Succesfully", "info");
     });
 }
