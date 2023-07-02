@@ -48,7 +48,6 @@ export function getDataFromLocalStorage(key) {
 
 /**
  * Gets JSON data from a file.
- * Needs to be called from an async function, using -then-
  *
  * @async
  *
@@ -58,9 +57,13 @@ export function getDataFromLocalStorage(key) {
  *
  */
 export async function loadJSON(filename) {
-    const response = await fetch(filename);
-    const data = await response.json();
-    return data;
+    return new Promise((resolve, reject) => {
+        fetch(filename).then(response => {
+            response.json().then(data => {
+                resolve(data);
+            });
+        });
+    });
 }
 
 /**
