@@ -2,8 +2,19 @@
   "changelog": [
     {
       "version": "0.7.0 (Current)",
-      "date": "01-07-2023",
+      "date": "02-07-2023",
       "changes": [
+        "Added Information to popup page",
+        "Removed all dependencies from the Storage module",
+        "Changed AEX multiplier to 0. They are not paid",
+        "Added FDBCK and FWA codes as immediate",
+        "Added Import/export feature. Available in settings page",
+        "Changed the way how Injectors handle JS modules",
+        "Changed function definitions",
+        "Added Daily Hour calculations for Last 7 Days card",
+        "Added a 'saveSettings' export function",
+        "Dashboard Graph no longer shows days off",
+        "Changed 'Frontier' to 'Border' in settings"
       ]
     },
     {
