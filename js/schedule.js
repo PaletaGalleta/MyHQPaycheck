@@ -32,56 +32,81 @@ async function Injector() {
     notifications.showToast("Loaded for Impact360");
 
     // Get workspace container
-    const content = document.querySelector("#workspaceContainer");
-    // Create new container
-    let sidebarPanel = document.createElement("div");
+    // const content = document.querySelector("#workspaceContainer");
+    const content = document.querySelector("#viewport-innerCt");
+
+    // Create new container for the dropdown
+    const dropDown = document.createElement("div");
 
     // Add class and ID
-    sidebarPanel.classList.add("sidebarModule");
-    sidebarPanel.id = "sd-panel";
+    dropDown.classList.add("sidebarModule", "position-absolute", "dropdown");
+    dropDown.id = "sd-panel";
+    dropDown.style.zIndex = 19999;
+    dropDown.style.right = "10px";
+    dropDown.style.top = "43px";
 
     // Add the custom HTML
-    sidebarPanel.innerHTML = `
-    <div class="accordion" id="accordionExample">
-    <div class="accordion-item border-primary">
-        <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            MyHQPaycheck
-            </button>
-        </h2>
-        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-            <div class="accordion-body text-bg-primary">
-                <h5 class="card-title">MyHQ Paycheck</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Impact360</h6>
-                <br>
-                <div class="row">
-                    <div class="col-4">
-                        <h6 class="card-title">Step 1</h6>
-                        <p class="card-text">To get the shifts info, you can either go to <strong>My Schedule -> Personal</strong> or click the button below</p>
-                        <button type="button" class="btn btn-light btn-sm" id="schedpersonbutton">Show Personal Schedule Page</button>
+    dropDown.innerHTML = `
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/images/brand.svg" alt="Logo" height="30" class="align-text-top" id="extension-logo">
+        </button>
+        <ul class="dropdown-menu">
+        <li><button type="button" class="dropdown-item" id="schedpersonbutton">1: Show Personal Schedule Page</button></li>
+        <li><button type="button" class="dropdown-item" id="getinfo" disabled>2: Get Records</button></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><button type="button" class="dropdown-item" id="autopilot">Autopilot <span class="badge text-bg-warning text-dark">PRO</span></button></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><button class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#extensionModal">How to capture</button></li>
+        </ul>
+    `;
+
+    // Add the image source
+    dropDown.querySelector("#extension-logo").src = chrome.runtime.getURL("images/brand.svg");
+
+    // Create new container for the modal
+    const extModal = document.createElement("div");
+
+    // Add class and ID
+    extModal.classList.add("modal", "fade");
+    extModal.id = "extensionModal";
+    extModal.tabIndex = -1;
+    extModal.ariaHidden = true;
+    extModal.style.zIndex = 20001;
+
+    // Add the custom HTML
+    extModal.innerHTML = `
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">How to use Impact360 capture</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <h6 class="card-title">Step 1</h6>
+                            <p class="card-text">To get the schedule information, you can either go to <strong>My Schedule → Personal</strong> or click the button on the dropdown</p>
+                            <br>
+                            <h6 class="card-title">Step 2</h6>
+                            <p class="card-text">To save the information that is <strong>currently displayed</strong>, click on "Get Records"</p>
+                            <p class="card-text">You need to display the information from the days you want before getting the records. Otherwise, they may be incomplete</p>
+                            <p class="card-text"><strong>Note:</strong> If the "Get Records" option is disabled, the extension is not recognizing the current page as <strong>My Schedule → Personal</strong>. Please run the Step 1 again</p>
+                        </div>
+                        <div class="col-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">Autopilot!</h6>
+                                    <p class="card-text">You can also use the autopilot to get all missing schedules at once</p>
+                                    <p class="card-text">The extension checks for any missing days and tries to get them from this page</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <h6 class="card-title">Step 2</h6>
-                        <p class="card-text">To save the information <strong>displayed below</strong>, click the button</p>
-                        <p class="card-text"><strong>Note:</strong> You need to display the info from the days you want before getting the records. Otherwise, they may be incomplete</p>
-                        <button type="button" class="btn btn-light" id="getinfo" disabled>Get Records</button>
-                    </div>
-                    <div class="col-4 border-start border-light">
-                        <h6 class="card-title">Autopilot!</h6>
-                        <p class="card-text">You can also use the autopilot to get all missing info at once</p>
-                        <p class="card-text">The extension checks for any missing days and tries to get them from below</p>
-                        <button type="button" class="btn btn-dark position-relative" id="autopilot">
-                            Get all missing Info
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">
-                                PRO
-                            </span>
-                        </button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    </div>
-</div>
     `;
 
     // Check if the container is already loaded
@@ -93,7 +118,9 @@ async function Injector() {
     }
 
     // Container loaded, insert it before the iframe
-    content.insertBefore(sidebarPanel, content.children[0]);
+    content.insertBefore(dropDown, content.children[0]);
+
+    document.body.append(extModal);
 
     // Add the button listeners
     document.getElementById("schedpersonbutton").addEventListener("click", send2Sched);

@@ -38,11 +38,14 @@
         "js/bootstrap/js/bootstrap.bundle.min.js",
         "js/schedule.js"
       ],
-      "css": ["js/bootstrap/css/bootstrap.min.css"]
+      "css": [
+        "js/bootstrap/css/bootstrap.min.css",
+        "css/sidebar.css"
+      ]
     }
   ],
   "web_accessible_resources": [{
     "matches": ["<all_urls>"],
-    "resources": ["js/*"]
+    "resources": ["js/*", "images/*"]
   }]
 }
