@@ -297,8 +297,11 @@ function exportHandler(checkbox) {
 
 function exportData(e) {
     e.preventDefault();
+    if (exportAll.checked) achievements.setProgress("backup", 1);
     storage.exportData().then(res => {
-        if (res) notifications.showToast("Export file created. Check Downloads folder", "info");
+        if (res) {
+            notifications.showToast("Export file created. Check Downloads folder", "info");
+        }
     });
 }
 

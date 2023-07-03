@@ -117,5 +117,12 @@
         "description": "You survived 50 hours of calls with one of the most difficult service providers - against all odds.",
         "description2": "Your reward is a front-row seat to the apathy and desperation of humanity. Enjoy the show.",
         "goal": 1
+    },
+    "backup": {
+        "secret": false,
+        "title": "Master Scheduler",
+        "description": "You have made a full backup of your schedule",
+        "description2": "Hail the Guardian of Time! Congratulations on safeguarding your mundane records. Now you can take your regrets along with you.",
+        "goal": 1
     }
 }
