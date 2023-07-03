@@ -36,7 +36,7 @@ async function initialize() {
         <div id="sd-body" class="sidebarModuleBody">
             <span id="sd-status">No Results</span>
             <br>
-            <button id="sd-getinfo">Save Call Records</button>
+            <button id="sd-getinfo" disabled>Save Call Records</button>
         </div>
     `;
     sidebar.append(sidebarPanel);
@@ -45,9 +45,12 @@ async function initialize() {
     document.getElementById("sd-getinfo").addEventListener("click", getInfo);
 
     // Get providers info
-    const result = chrome.storage.local.get(["providers"]);
-    const objectResult = result["providers"];
-    providers = objectResult ? objectResult : {};
+    const result = await chrome.storage.local.get(["providers"]);
+    console.log(result);
+    providers = result ? result : {};
+
+    // Enable button
+    document.getElementById("sd-getinfo").disabled = false;
 }
 initialize();
 
@@ -55,7 +58,7 @@ initialize();
  * Function to get info from rows
  *
  */
-function getInfo() {
+async function getInfo() {
     /** Current date (cache) */
     let currentDate = "0";
 
@@ -120,7 +123,7 @@ function getInfo() {
             // Date not in cache, check if its first run or day change
             if (currentDate != "0") {
                 // Its day change, save the previous object
-                saveDay(currentDate, callInfo);
+                await saveDay(currentDate, callInfo);
                 // Create new CallRec
                 callInfo = [];
             }
@@ -140,15 +143,17 @@ function getInfo() {
     }
 
     // Save Day
-    saveDay(currentDate, callInfo);
+    await saveDay(currentDate, callInfo);
 
     // Save providers
     saveProviders();
-    // Update the sidebar
-    updateSidebar("Saved " + rowLength + " calls");
 
-    if (savedCalls > 0) notifications.showToast(rowLength + " call records found. " + savedCalls + " days updated");
-    else notifications.showToast(rowLength + " call records found. No changes detected");
+    if (savedCalls > 0) {
+        const days = savedCalls == 1 ? " day" : " days";
+        notifications.showToast(`${rowLength} call records found. ${savedCalls + days} updated`);
+    } else notifications.showToast(rowLength + " call records found. No changes detected");
+
+    console.log(providers);
 }
 
 /**
@@ -159,127 +164,132 @@ function getInfo() {
  *
  */
 function saveDay(date, calls) {
-    // Check if call record already exists
-    chrome.storage.local.get("rec-" + date, result => {
-        // Get the records
-        let ach = result["rec-" + date];
+    return new Promise((resolve, reject) => {
+        // Check if call record already exists
+        chrome.storage.local.get("rec-" + date, result => {
+            // Get the records
+            const ach = result["rec-" + date];
 
-        // Check if theres already a record saved on file
-        if (ach) {
-            // Check if the amount of calls is the same
-            if (ach.calls.length == calls.length) return; // Don't save anything
-        }
-
-        // Generate DayRecords object
-        let dayRecords = {
-            calls: calls,
-            reports: 0,
-        };
-
-        // Create counters
-        let totalDuration = 0;
-        let highestDuration = 0;
-        let lowestDuration = 99999;
-        let shortCalls = [];
-        let availableTime = 0;
-
-        // Iterate through calls
-        for (var i = 0; i < dayRecords.calls.length; i++) {
-            // Shortcut to duration
-            let dur = dayRecords.calls[i].duration;
-
-            // Get time between calls
-            if (i > 0) {
-                let tim = moment(dayRecords.calls[i].startTime, "HH:mm:ss").diff(
-                    moment(dayRecords.calls[i - 1].endTime, "HH:mm:ss"),
-                    "seconds"
-                );
-                availableTime += tim;
-            }
-
-            // Add duration to totals
-            totalDuration += dur;
-
-            // Unlock devil achievement
-            if (totalDuration / 60 > 666) {
-                UnlockAchievement("devil", date, dayRecords.calls[i].endTime, 666);
-            }
-
-            // Check if it's higher
-            if (dur > highestDuration) highestDuration = dur;
-
-            // Check if it's lower
-            if (dur < lowestDuration) lowestDuration = dur;
-
-            // Check if duration is less than permitted time for shortcalls
-            if (dur < minDuration) {
-                // Check if it's the first short call of the day
-                if (shortCalls.length > 0) {
-                    // There's at least one short call in the list
-
-                    let miniCtr = 0; // Counter for calls that need to be disposed
-
-                    // Cycle between short calls
-                    for (let s = 0; s < shortCalls.length; s++) {
-                        if (
-                            moment(dayRecords.calls[i].startTime, "HH:mm:ss").diff(moment(shortCalls[s], "HH:mm:ss"), "minutes") >
-                            shortCallsMins
-                        ) {
-                            // It's not in the half hour range anymore, increase the counter
-                            miniCtr++;
-                        } else break; // No need to check again
-                    }
-
-                    // Delete the calls from the counter
-                    while (miniCtr > 0) {
-                        shortCalls.shift();
-                        miniCtr--;
-                    }
+            // Check if theres already a record saved on file
+            if (ach) {
+                // Check if the amount of calls is the same
+                if (ach.calls.length == calls.length) {
+                    resolve(false); // Don't save anything
+                    return;
                 }
-                // Add the short call
-                shortCalls.push(dayRecords.calls[i].startTime);
-
-                // Check if short call amount is 5
-                if (shortCalls.length >= 5) UnlockAchievement("pinLocked", date, dayRecords.calls[i].startTime);
-                // Check if short call amount is 4
-                else if (shortCalls.length == 4) UnlockAchievement("pinAlmostLocked", date, dayRecords.calls[i].startTime);
-
-                // Check if duration is 1 second
-                if (dur == 1) UnlockAchievement("onesec", date, dayRecords.calls[i].startTime);
-
-                // Check if duration is 0 seconds
-                if (dur == 0) UnlockAchievement("zerosec", date, dayRecords.calls[i].startTime);
             }
 
-            // Check if the call was in another language
-            if (dayRecords.calls[i].language != "SPANISH") UnlockAchievement("otherlang", date, dayRecords.calls[i].startTime);
+            // Generate DayRecords object
+            let dayRecords = {
+                calls: calls,
+                reports: 0,
+            };
 
-            // Increase the counter if call reports is YES
-            if (dayRecords.calls[i].report) dayRecords.reports++;
+            // Create counters
+            let totalDuration = 0;
+            let highestDuration = 0;
+            let lowestDuration = 99999;
+            let shortCalls = [];
+            let availableTime = 0;
 
-            // Delete the language field
-            delete dayRecords.calls[i].language;
+            // Iterate through calls
+            for (var i = 0; i < dayRecords.calls.length; i++) {
+                const callRec = dayRecords.calls[i];
+                // Shortcut to duration
+                const dur = callRec.duration;
 
-            // Get the providers info and send it to the function
-            addProvider(dayRecords.calls[i].account, dur);
+                // Get time between calls
+                if (i > 0) {
+                    let tim = moment(callRec.startTime, "HH:mm:ss").diff(
+                        moment(dayRecords.calls[i - 1].endTime, "HH:mm:ss"),
+                        "seconds"
+                    );
+                    availableTime += tim;
+                }
 
-            // Delete the provider field
-            delete dayRecords.calls[i].account;
-        }
+                // Add duration to totals
+                totalDuration += dur;
 
-        // Save counters
-        let avgDuration = Math.trunc(totalDuration / dayRecords.calls.length);
-        dayRecords.avgDuration = moment().startOf("day").second(avgDuration).format("HH:mm:ss");
-        dayRecords.totalDuration = moment().startOf("day").second(totalDuration).format("HH:mm:ss");
-        dayRecords.highestDuration = moment().startOf("day").second(highestDuration).format("HH:mm:ss");
-        dayRecords.lowestDuration = moment().startOf("day").second(lowestDuration).format("HH:mm:ss");
-        dayRecords.availableTime = availableTime;
+                // Unlock devil achievement
+                if (totalDuration / 60 > 666) {
+                    UnlockAchievement("devil", date, callRec.endTime, 666);
+                }
 
-        // Save object on file
-        var kKey = "rec-" + date;
-        savedCalls++;
-        chrome.storage.local.set({ [kKey]: dayRecords }).then(() => {
-            notifications.showToast("Calls Saved on file succesfully - Date: " + date);
+                // Check if it's higher
+                if (dur > highestDuration) highestDuration = dur;
+
+                // Check if it's lower
+                if (dur < lowestDuration) lowestDuration = dur;
+
+                // Check if duration is less than permitted time for shortcalls
+                if (dur < minDuration) {
+                    // Check if it's the first short call of the day
+                    if (shortCalls.length > 0) {
+                        // There's at least one short call in the list
+
+                        let miniCtr = 0; // Counter for calls that need to be disposed
+
+                        // Cycle between short calls
+                        for (let s = 0; s < shortCalls.length; s++) {
+                            const diff = moment(callRec.startTime, "HH:mm:ss").diff(moment(shortCalls[s], "HH:mm:ss"), "minutes");
+                            if (diff > shortCallsMins) {
+                                // It's not in the half hour range anymore, increase the counter
+                                miniCtr++;
+                            } else break; // No need to check again
+                        }
+
+                        // Delete the calls from the counter
+                        while (miniCtr > 0) {
+                            shortCalls.shift();
+                            miniCtr--;
+                        }
+                    }
+                    // Add the short call
+                    shortCalls.push(callRec.startTime);
+
+                    // Check if short call amount is 5
+                    if (shortCalls.length >= 5) UnlockAchievement("pinLocked", date, callRec.startTime);
+                    // Check if short call amount is 4
+                    else if (shortCalls.length == 4) UnlockAchievement("pinAlmostLocked", date, callRec.startTime);
+
+                    // Check if duration is 1 second
+                    if (dur == 1) UnlockAchievement("onesec", date, callRec.startTime);
+
+                    // Check if duration is 0 seconds
+                    if (dur == 0) UnlockAchievement("zerosec", date, callRec.startTime);
+                }
+
+                // Check if the call was in another language
+                if (callRec.language != "SPANISH") UnlockAchievement("otherlang", date, callRec.startTime);
+
+                // Increase the counter if call reports is YES
+                if (callRec.report) dayRecords.reports++;
+
+                // Delete the language field
+                delete callRec.language;
+
+                // Get the providers info and send it to the function
+                addProvider(callRec.account, dur);
+
+                // Delete the provider field
+                delete callRec.account;
+            }
+
+            // Save counters
+            let avgDuration = Math.trunc(totalDuration / dayRecords.calls.length);
+            dayRecords.avgDuration = moment().startOf("day").second(avgDuration).format("HH:mm:ss");
+            dayRecords.totalDuration = moment().startOf("day").second(totalDuration).format("HH:mm:ss");
+            dayRecords.highestDuration = moment().startOf("day").second(highestDuration).format("HH:mm:ss");
+            dayRecords.lowestDuration = moment().startOf("day").second(lowestDuration).format("HH:mm:ss");
+            dayRecords.availableTime = availableTime;
+
+            // Save object on file
+            var kKey = "rec-" + date;
+            savedCalls++;
+            chrome.storage.local.set({ [kKey]: dayRecords }).then(() => {
+                notifications.showToast("Calls Saved on file succesfully - Date: " + date);
+                resolve(true);
+            });
         });
     });
 }
