@@ -41,7 +41,7 @@ async function Injector() {
     // Add class and ID
     dropDown.classList.add("sidebarModule", "position-absolute", "dropdown");
     dropDown.id = "sd-panel";
-    dropDown.style.zIndex = 19999;
+    dropDown.style.zIndex = 200000;
     dropDown.style.right = "10px";
     dropDown.style.top = "43px";
 
@@ -71,7 +71,7 @@ async function Injector() {
     extModal.id = "extensionModal";
     extModal.tabIndex = -1;
     extModal.ariaHidden = true;
-    extModal.style.zIndex = 20001;
+    extModal.style.zIndex = 200001;
 
     // Add the custom HTML
     extModal.innerHTML = `
