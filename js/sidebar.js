@@ -21,38 +21,35 @@ const shortCallsMins = 30;
 let savedCalls = 0;
 
 /**
- * Get Notifications
+ * Main initializer for the sidebar
  */
-(async () => {
-    const src = chrome.runtime.getURL("js/notifications.js");
-    notifications = await import(src);
-})();
+async function initialize() {
+    // Get notifications library
+    notifications = await import(chrome.runtime.getURL("js/notifications.js"));
+    // Add sidebar to Page
+    const sidebar = document.querySelector("#sidebarDiv");
+    const sidebarPanel = document.createElement("div");
+    sidebarPanel.classList.add("sidebarModule");
+    sidebarPanel.id = "sd-panel";
+    sidebarPanel.innerHTML = `
+        <div class="sidebarModuleHeader brandPrimaryBgr"><h2 class="brandPrimaryFgr">MyHQ Paycheck</h2></div>
+        <div id="sd-body" class="sidebarModuleBody">
+            <span id="sd-status">No Results</span>
+            <br>
+            <button id="sd-getinfo">Save Call Records</button>
+        </div>
+    `;
+    sidebar.append(sidebarPanel);
 
-// Add sidebar to Page
-const sidebar = document.querySelector("#sidebarDiv");
-const sidebarPanel = document.createElement("div");
-sidebarPanel.classList.add("sidebarModule");
-sidebarPanel.id = "sd-panel";
-sidebarPanel.innerHTML = `
-    <div class="sidebarModuleHeader brandPrimaryBgr"><h2 class="brandPrimaryFgr">MyHQ Paycheck</h2></div>
-    <div id="sd-body" class="sidebarModuleBody">
-        <span id="sd-status">No Results</span>
-        <br>
-        <button id="sd-getinfo">Save Call Records</button>
-    </div>
-`;
-sidebar.append(sidebarPanel);
+    // Add click listener for getting call reg
+    document.getElementById("sd-getinfo").addEventListener("click", getInfo);
 
-// Add click listener for getting call reg
-document.getElementById("sd-getinfo").addEventListener("click", getInfo);
-
-// Get providers info
-(async () => {
-    chrome.storage.local.get(["providers"], function (result) {
-        const objectResult = result["providers"];
-        providers = objectResult ? objectResult : {};
-    });
-})();
+    // Get providers info
+    const result = chrome.storage.local.get(["providers"]);
+    const objectResult = result["providers"];
+    providers = objectResult ? objectResult : {};
+}
+initialize();
 
 /**
  * Function to get info from rows
@@ -68,8 +65,13 @@ function getInfo() {
     /** Scrape Table */
     const CallTB = document.querySelector("table .list");
 
+    if (!CallTB) {
+        notifications.showToast("No calls to save", "warning");
+        return;
+    }
+
     /** The rows of the table */
-    let rowLength = CallTB.rows.length;
+    const rowLength = CallTB.rows.length;
     console.log(rowLength + " call records found");
 
     savedCalls = 0;
@@ -77,7 +79,7 @@ function getInfo() {
     // Loop through calls
     for (i = rowLength - 1; i > 0; i--) {
         /** Object for the calls of the day */
-        let callDay = {
+        const callDay = {
             startTime: "",
             endTime: "",
             account: "",
@@ -87,31 +89,31 @@ function getInfo() {
         };
 
         /** Calls in the row */
-        let oCells = CallTB.rows.item(i).cells;
+        const oCells = CallTB.rows.item(i).cells;
 
         // Get info from cell 2 (Call Report)
-        let rep = oCells.item(2).innerHTML;
+        const rep = oCells.item(2).innerHTML;
         if (rep == "Yes") callDay.report = true;
 
         // Get info from cell 4 (Start Time)
-        var strt = oCells.item(4).innerHTML.replace(/\&nbsp;/g, "");
-        var startTime = moment(strt, "MM-DD-YYYY hh:mm:ss A");
+        const strt = oCells.item(4).innerHTML.replace(/\&nbsp;/g, "");
+        const startTime = moment(strt, "MM-DD-YYYY hh:mm:ss A");
 
         // Get info from cell 5 (End Time)
-        var end = oCells.item(5).innerHTML.replace(/\&nbsp;/g, "");
-        var endTime = moment(end, "MM-DD-YYYY hh:mm:ss A");
+        const end = oCells.item(5).innerHTML.replace(/\&nbsp;/g, "");
+        const endTime = moment(end, "MM-DD-YYYY hh:mm:ss A");
 
         // Get info from cell 6 (Account)
-        var acct = oCells.item(6).innerHTML.replace(/,/g, "");
+        const acct = oCells.item(6).innerHTML.replace(/,/g, "");
 
         // Get info from cell 7 (Language)
-        var lang = oCells.item(7).innerHTML.replace(/,/g, "");
+        const lang = oCells.item(7).innerHTML.replace(/,/g, "");
 
         // Get info from cell 8 (Duration)
-        var dur = oCells.item(8).innerHTML.replace(/,/g, "");
+        const dur = oCells.item(8).innerHTML.replace(/,/g, "");
 
         // Get date from start
-        var startDate = moment(startTime).format("DD-MM-YYYY");
+        const startDate = moment(startTime).format("DD-MM-YYYY");
 
         // Check if date is on cache
         if (currentDate != startDate) {
