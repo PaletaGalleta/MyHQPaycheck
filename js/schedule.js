@@ -351,6 +351,7 @@ function getInfo() {
 
                         // Save the minutes depending on the activity
                         switch (actName) {
+                            // Immediates
                             case "Immediate":
                             case "IT":
                             case "FDBCK":
@@ -363,23 +364,35 @@ function getInfo() {
 
                                 regDay.mins.immediate += second.diff(first, "minutes");
                                 break;
+
+                            // Downtime
                             case "AP":
                             case "AAP":
                             case "UTO":
                             case "Voluntary Time Off":
                                 regDay.mins.ap += second.diff(first, "minutes");
                                 break;
+
+                            // Lunch
                             case "Lunch":
                                 regDay.mins.lunch += second.diff(first, "minutes");
                                 break;
+
+                            // Break
                             case "Break":
                                 regDay.mins.break += second.diff(first, "minutes");
                                 break;
+
+                            // Overtime
                             case "Additional Hours":
                                 regDay.mins.overtime += second.diff(first, "minutes");
                                 break;
+
+                            // Gaps
                             case "Shift/Overtime Gap":
                                 break;
+
+                            // Training
                             case "MED":
                             case "WMED":
                                 // Save the start of the Training shift if not saved yet
@@ -388,12 +401,16 @@ function getInfo() {
                                 regDay.shift.realEnd = moment(second).format("kk:mm:ss");
                                 regDay.mins.training += second.diff(first, "minutes");
                                 break;
+
+                            // Holidays
+                            case "AE":
                             case "AEX":
                             case "MEX":
                                 regDay.type = actName;
                                 break;
+
+                            // No match, let the user know
                             default:
-                                // No match, let the user know
                                 notifications.showToast(
                                     `There is an activity on ${moment(date).format(
                                         "DD-MM-YYYY"
