@@ -1,0 +1,462 @@
+{
+    "AA": {
+        "type": "Absence",
+        "description": "Work Suspension"
+    },
+    "Additional Hours": {
+        "type": "Overtime",
+        "description": "Additional Hours"
+    },
+    "AE": {
+        "type": "Holiday",
+        "description": "Unpaid Excused Time Off overstaffed"
+    },
+    "AEX": {
+        "type": "Holiday",
+        "description": "Unpaid Assigned Time Off overstaffed"
+    },
+    "AM": {
+        "type": "Absence",
+        "description": "Military Duty Unpaid Case by Case"
+    },
+    "AO": {
+        "type": "Absence",
+        "description": "Unpaid Personal Time Off (mgr approval or MEX Disability Leave/BL)"
+    },
+    "AS": {
+        "type": "Absence",
+        "description": "Absence Sickness - Unpaid Case by Case"
+    },
+    "AAS": {
+        "type": "Absence",
+        "description": "Absence Sickness - Unpaid - Selected via Impact"
+    },
+    "AP": {
+        "type": "Absence",
+        "description": "Unexcused Absence Personal (used for absence including tardy)"
+    },
+    "AAP": {
+        "type": "Absence",
+        "description": "Unexcused Absence Personal - used for absence, selected via Impact "
+    },
+    "BL": {
+        "type": "Paid Absence",
+        "description": "Bereavement Leave Paid 1-3 days "
+    },
+    "BU": {
+        "type": "Absence",
+        "description": "Bereavement Leave Unpaid 1-3 days"
+    },
+    "DO": {
+        "type": "Absence",
+        "description": "Day Off"
+    },
+    "HO": {
+        "type": "Paid Absence",
+        "description": "Holiday Off Paid"
+    },
+    "JP": {
+        "type": "Paid Absence",
+        "description": "Jury Duty Paid <= 30 days"
+    },
+    "JU": {
+        "type": "Absence",
+        "description": "Jury Duty > 30 Days - Unpaid"
+    },
+    "NA": {
+        "type": "Absence",
+        "description": "Not Available"
+    },
+    "PE": {
+        "type": "Paid Absence",
+        "description": "Paid Excused Time"
+    },
+    "PHA": {
+        "type": "Paid Absence",
+        "description": "Pre Hire Agreement Time Off Case by Case"
+    },
+    "PS": {
+        "type": "Paid Absence",
+        "description": "Sick Paid Case by Case not applicable to all "
+    },
+    "PSSCA": {
+        "type": "Paid Absence",
+        "description": "PS Case by Case SCA calls"
+    },
+    "TEL": {
+        "type": "Absence",
+        "description": "Telephone Issues Unpaid"
+    },
+    "UN": {
+        "type": "Absence",
+        "description": "General Unavailablity"
+    },
+    "UTO": {
+        "type": "Absence",
+        "description": "Unpaid Time Off"
+    },
+    "Vacation": {
+        "type": "Paid Absence",
+        "description": "Paid Vacation Day Case by Case"
+    },
+    "Voluntary Time Off": {
+        "type": "Absence",
+        "description": "Voluntary Time Off if system shows overstaffing/via netstaffing/time off"
+    },
+    "DS": {
+        "type": "Leave",
+        "description": "Disability Case by Case"
+    },
+    "LV": {
+        "type": "Leave",
+        "description": "Unpaid Personal Leave Max 30 days"
+    },
+    "PL": {
+        "type": "Leave",
+        "description": "Preganancy Disability - Unpaid 3 months"
+    },
+    "FMLFS": {
+        "type": "Leave",
+        "description": "Unpaid FMLA"
+    },
+    "FMLFY": {
+        "type": "Paid Leave",
+        "description": "FMLA-PS paid sick days used at beginning of FMLA"
+    },
+    "FMLVP": {
+        "type": "Leave",
+        "description": "FMLA-PV current year vac used at beginning of FMLA"
+    },
+    "FMLVW": {
+        "type": "Leave",
+        "description": "FMLA - PW Carryover Vac used at beginning of FMLA"
+    },
+    "WC": {
+        "type": "Leave",
+        "description": "Workers Comp Absence - Unpaid"
+    },
+    "Lunch": {
+        "type": "Lunch",
+        "description": "Regular or additional break during shift"
+    },
+    "Break": {
+        "type": "Break",
+        "description": "Regular or additional break during shift"
+    },
+    "IDLE": {
+        "type": "Break",
+        "description": "Unpaid Break/Used for Gap in OT"
+    },
+    "NURS": {
+        "type": "Break",
+        "description": "Unpaid Break for Breast Feeding/30 min attached to brks 3 mon(may ask for longer)"
+    },
+    "Shift/Overtime Gap": {
+        "type": "Gap",
+        "description": "Shift/Additional Hours GAP"
+    },
+    "Immediate": {
+        "type": "Activity",
+        "description": "Normal Shift"
+    },
+    "APPT": {
+        "type": "Activity",
+        "description": "Int appoint w customer, offline, paid."
+    },
+    "CARSV": {
+        "type": "Activity",
+        "description": "CA - Reserve Customer Agent"
+    },
+    "DEBRF": {
+        "type": "Activity",
+        "description": "CIDS - Debrief from Stressful Call"
+    },
+    "FDBCK": {
+        "type": "Activity",
+        "description": "Feedback from Service Observation"
+    },
+    "FEMA": {
+        "type": "Activity",
+        "description": "FEMA Agent"
+    },
+    "HR": {
+        "type": "Activity",
+        "description": "Interpreter HR Dept. Activity"
+    },
+    "IC": {
+        "type": "Activity",
+        "description": "In-charge"
+    },
+    "IR": {
+        "type": "Activity",
+        "description": "Off-line Recruiting Activity"
+    },
+    "IT": {
+        "type": "Activity",
+        "description": "IT Activity/Platform Issue"
+    },
+    "OPI": {
+        "type": "Activity",
+        "description": "Over the phone interpretation (non-video)"
+    },
+    "OVI": {
+        "type": "Activity",
+        "description": "Over Video Conference"
+    },
+    "PROJ": {
+        "type": "Activity",
+        "description": "Offline Project"
+    },
+    "PYRL": {
+        "type": "Activity",
+        "description": "Payroll clerk work"
+    },
+    "QS": {
+        "type": "Activity",
+        "description": "Quality Specialist Work"
+    },
+    "QSU": {
+        "type": "Leave",
+        "description": "Unpaid Quality Specialist work activity"
+    },
+    "RELF": {
+        "type": "Activity",
+        "description": "Relief In-charge"
+    },
+    "SCHED": {
+        "type": "Activity",
+        "description": "Scheduling duties"
+    },
+    "SLS": {
+        "type": "Activity",
+        "description": "SLS Activities"
+    },
+    "SLSCR": {
+        "type": "Activity",
+        "description": "SLS Court Certification Related Activites"
+    },
+    "SLSIN": {
+        "type": "Activity",
+        "description": "SLS Insurance Certification Related Activites"
+    },
+    "SLSMD": {
+        "type": "Activity",
+        "description": "SLS Medical Certification Related Activities"
+    },
+    "SLSMT": {
+        "type": "Activity",
+        "description": "SLS Mtg. w /SO Mgr."
+    },
+    "SOMTG": {
+        "type": "Activity",
+        "description": "Quality Assurance Mtg. w /SO Mgr."
+    },
+    "TLMTG": {
+        "type": "Activity",
+        "description": "Team Leader Meeting"
+    },
+    "ACTST": {
+        "type": "Training",
+        "description": "Off-line AC Conversion Test"
+    },
+    "COURT": {
+        "type": "Training",
+        "description": "Court Training"
+    },
+    "CRTCT": {
+        "type": "Training",
+        "description": "Court Certification Test"
+    },
+    "CRTT": {
+        "type": "Training",
+        "description": "Trainer code for COURT"
+    },
+    "CSIAT": {
+        "type": "Training",
+        "description": "Recorded Statement Training"
+    },
+    "CSITT": {
+        "type": "Training",
+        "description": "Trainer code for CSIAT"
+    },
+    "CST": {
+        "type": "Training",
+        "description": "Customer Service Training"
+    },
+    "CSTT": {
+        "type": "Training",
+        "description": "Trainer code for CST"
+    },
+    "CUC": {
+        "type": "Training",
+        "description": "Cultural Competency"
+    },
+    "CUCT": {
+        "type": "Training",
+        "description": "Trainer code for CUC"
+    },
+    "ETEST": {
+        "type": "Training",
+        "description": "External Certification Testing"
+    },
+    "ETRN": {
+        "type": "Training",
+        "description": "External Training Activity"
+    },
+    "ETSTU": {
+        "type": "Absence",
+        "description": "Unpaid External Testing"
+    },
+    "FCSI": {
+        "type": "Training",
+        "description": "Full CSI Training"
+    },
+    "FIN": {
+        "type": "Training",
+        "description": "Finance Training"
+    },
+    "FINT": {
+        "type": "Training",
+        "description": "Trainer code for FIN"
+    },
+    "FWA": {
+        "type": "Training",
+        "description": "Fraud Waste and Abuse Training"
+    },
+    "GL": {
+        "type": "Training",
+        "description": "Guidelines Training"
+    },
+    "GLT": {
+        "type": "Training",
+        "description": "Trainer code for GL"
+    },
+    "GOBA": {
+        "type": "Training",
+        "description": "Financial Compliancy"
+    },
+    "INS": {
+        "type": "Training",
+        "description": "Insurance Training"
+    },
+    "INSCT": {
+        "type": "Training",
+        "description": "Insurance Certification Test"
+    },
+    "INST": {
+        "type": "Training",
+        "description": "Trainer code for INS"
+    },
+    "IPTRN": {
+        "type": "Training",
+        "description": "Information Protection Training"
+    },
+    "ITSTU": {
+        "type": "Absence",
+        "description": "Unpaid Internal Testing"
+    },
+    "KTEST": {
+        "type": "Training",
+        "description": "Kaiser Testing"
+    },
+    "LINC": {
+        "type": "Training",
+        "description": "LINC System Training"
+    },
+    "MED": {
+        "type": "Training",
+        "description": "Medical Training"
+    },
+    "MEDCT": {
+        "type": "Training",
+        "description": "Medical Certification Test"
+    },
+    "MEDT": {
+        "type": "Training",
+        "description": "Trainer code for MED"
+    },
+    "NHO": {
+        "type": "Training",
+        "description": "LLS New Hire Orientation"
+    },
+    "NHO2": {
+        "type": "Training",
+        "description": "2nd part of NHO Training (Enhanced NHO)"
+    },
+    "NHOT": {
+        "type": "Training",
+        "description": "Trainer code for NHO"
+    },
+    "NTEST": {
+        "type": "Training",
+        "description": "National Certification -LLU"
+    },
+    "OSI": {
+        "type": "Training",
+        "description": "On-Site Interpreting"
+    },
+    "OSIT": {
+        "type": "Training",
+        "description": "On-Site Interpreter Training"
+    },
+    "OSITR": {
+        "type": "Training",
+        "description": "On-Site Interpreting Travel"
+    },
+    "PRIV": {
+        "type": "Training",
+        "description": "USCIS Privacy Training"
+    },
+    "SDT": {
+        "type": "Training",
+        "description": "Stress Debriefing Training"
+    },
+    "SDTT": {
+        "type": "Training",
+        "description": "Trainer code for SDT"
+    },
+    "STUDY": {
+        "type": "Training",
+        "description": "Self Study - Review training materials"
+    },
+    "SYS": {
+        "type": "Training",
+        "description": "Systems Training"
+    },
+    "SYST": {
+        "type": "Training",
+        "description": "Trainer code for SYS"
+    },
+    "TRNG": {
+        "type": "Training",
+        "description": "Trainers Mtg w /Training Manager"
+    },
+    "USCIS": {
+        "type": "Training",
+        "description": "USCIS Orientation"
+    },
+    "WCRT": {
+        "type": "Training",
+        "description": "Web based Court Training"
+    },
+    "WCST": {
+        "type": "Training",
+        "description": "Web based Customer Service Training"
+    },
+    "WFIN": {
+        "type": "Training",
+        "description": "Web based Financial Training"
+    },
+    "WINS": {
+        "type": "Training",
+        "description": "Web based Insurance Training"
+    },
+    "WMED": {
+        "type": "Training",
+        "description": "Web Based Medical Training"
+    },
+    "WNHO": {
+        "type": "Training",
+        "description": "Web NHO"
+    }
+}

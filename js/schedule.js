@@ -20,6 +20,9 @@ window.onload = setTimeout(Injector, 3000);
 // Variable for Instructions
 let currentInstruction = "";
 
+// Variable for Codes
+let impactCodes;
+
 /**
  * Injector Main function
  *
@@ -131,6 +134,13 @@ async function Injector() {
 
     // Get the iframe and set the listener everytime it loads info
     document.getElementById("mctnt").addEventListener("load", FrameLoaded);
+
+    // Get the impact codes and load them in a file
+    fetch(chrome.runtime.getURL("/js/impactcodes.json")).then(response => {
+        response.json().then(data => {
+            impactCodes = data;
+        });
+    });
 }
 
 /**
@@ -350,74 +360,67 @@ function getInfo() {
                         }
 
                         // Save the minutes depending on the activity
-                        switch (actName) {
-                            // Immediates
-                            case "Immediate":
-                            case "IT":
-                            case "FDBCK":
-                            case "PE":
-                                // Save the start of the immediate shift if not saved yet
-                                if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
-                                // Save the end of the activity as the real end
-                                regDay.shift.realEnd = moment(second).format("kk:mm:ss");
+                        if (impactCodes[actName]) {
+                            // Code Exists in JSON
+                            const codeDesc = impactCodes[actName];
 
-                                regDay.mins.immediate += second.diff(first, "minutes");
-                                break;
+                            switch (codeDesc.type) {
+                                // Immediates
+                                case "Activity":
+                                case "Paid Absence":
+                                case "Paid Leave":
+                                    // Save the start of the immediate shift if not saved yet
+                                    if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
+                                    // Save the end of the activity as the real end
+                                    regDay.shift.realEnd = moment(second).format("kk:mm:ss");
 
-                            // Downtime
-                            case "AP":
-                            case "AAP":
-                            case "UTO":
-                            case "Voluntary Time Off":
-                                regDay.mins.ap += second.diff(first, "minutes");
-                                break;
+                                    regDay.mins.immediate += second.diff(first, "minutes");
+                                    break;
 
-                            // Lunch
-                            case "Lunch":
-                                regDay.mins.lunch += second.diff(first, "minutes");
-                                break;
+                                // Absences
+                                case "Absence":
+                                case "Leave":
+                                    regDay.mins.ap += second.diff(first, "minutes");
+                                    break;
 
-                            // Break
-                            case "Break":
-                                regDay.mins.break += second.diff(first, "minutes");
-                                break;
+                                // Holidays
+                                case "Holiday":
+                                    regDay.type = actName;
+                                    break;
 
-                            // Overtime
-                            case "Additional Hours":
-                                regDay.mins.overtime += second.diff(first, "minutes");
-                                break;
+                                // Overtime
+                                case "Overtime":
+                                    regDay.mins.overtime += second.diff(first, "minutes");
+                                    break;
 
-                            // Gaps
-                            case "Shift/Overtime Gap":
-                                break;
+                                // Break
+                                case "Break":
+                                    regDay.mins.break += second.diff(first, "minutes");
+                                    break;
 
-                            // Training
-                            case "MED":
-                            case "FWA":
-                            case "WMED":
-                                // Save the start of the Training shift if not saved yet
-                                if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
-                                // Save the end of the activity as the real end
-                                regDay.shift.realEnd = moment(second).format("kk:mm:ss");
-                                regDay.mins.training += second.diff(first, "minutes");
-                                break;
+                                // Lunch
+                                case "Lunch":
+                                    regDay.mins.lunch += second.diff(first, "minutes");
+                                    break;
 
-                            // Holidays
-                            case "AE":
-                            case "AEX":
-                            case "MEX":
-                                regDay.type = actName;
-                                break;
+                                // Training
+                                case "Training":
+                                    // Save the start of the Training shift if not saved yet
+                                    if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
+                                    // Save the end of the activity as the real end
+                                    regDay.shift.realEnd = moment(second).format("kk:mm:ss");
+                                    regDay.mins.training += second.diff(first, "minutes");
+                                    break;
 
-                            // No match, let the user know
-                            default:
-                                notifications.showToast(
-                                    `There is an activity on ${moment(date).format(
-                                        "DD-MM-YYYY"
-                                    )} which was not recognized: ${actName}`,
-                                    "bugreport"
-                                );
-                                break;
+                                // Gaps
+                                case "Gap":
+                                    break;
+                            }
+                        } else {
+                            // Code doesn't exist
+                            const tDate = moment(date).format("DD-MM-YYYY");
+                            const toastMsg = `There is an activity on ${tDate} which was not recognized: ${actName}`;
+                            notifications.showToast(toastMsg, "bugreport");
                         }
                     } // end-for
 
