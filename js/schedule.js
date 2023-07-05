@@ -319,7 +319,7 @@ function getInfo() {
 
                     // Check if it's a day off
                     if (shiftInfoTxt == "Off") {
-                        saveDay(moment(date).format("DD-MM-YYYY"), { type: "Off" });
+                        saveSchedule(moment(date).format("DD-MM-YYYY"), { type: "Off" });
                         regsSaved++;
                         // Don't do anything anymore and continue to the next day
                         continue;
@@ -431,7 +431,7 @@ function getInfo() {
                     break;
                 }
 
-                saveDay(moment(date).format("DD-MM-YYYY"), regDay);
+                saveSchedule(moment(date).format("DD-MM-YYYY"), regDay);
             } // end-for
         }
 
@@ -487,7 +487,7 @@ function setTextualView() {
  * @param {object} regDay - The object of the day's records
  *
  */
-function saveDay(date, regDay) {
+function saveSchedule(date, regDay) {
     // Save object on file
     var kKey = "shift-" + date;
     chrome.storage.local.set({ [kKey]: regDay });

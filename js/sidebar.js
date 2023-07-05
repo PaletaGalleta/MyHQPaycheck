@@ -59,6 +59,9 @@ initialize();
  *
  */
 async function getInfo() {
+    // Disable the button
+    document.getElementById("sd-getinfo").disabled = true;
+
     /** Current date (cache) */
     let currentDate = "0";
 
@@ -123,7 +126,7 @@ async function getInfo() {
             // Date not in cache, check if its first run or day change
             if (currentDate != "0") {
                 // Its day change, save the previous object
-                await saveDay(currentDate, callInfo);
+                await saveCallDay(currentDate, callInfo);
                 // Create new CallRec
                 callInfo = [];
             }
@@ -143,7 +146,7 @@ async function getInfo() {
     }
 
     // Save Day
-    await saveDay(currentDate, callInfo);
+    await saveCallDay(currentDate, callInfo);
 
     // Save providers
     saveProviders();
@@ -152,6 +155,9 @@ async function getInfo() {
         const days = savedCalls == 1 ? " day" : " days";
         notifications.showToast(`${rowLength} call records found. ${savedCalls + days} updated`);
     } else notifications.showToast(rowLength + " call records found. No changes detected");
+
+    // Enable the button
+    document.getElementById("sd-getinfo").disabled = false;
 
     console.log(providers);
 }
@@ -163,10 +169,10 @@ async function getInfo() {
  * @param {Array} calls - The array of calls which will be saved
  *
  */
-function saveDay(date, calls) {
+function saveCallDay(date, calls) {
     return new Promise((resolve, reject) => {
         // Check if call record already exists
-        chrome.storage.local.get("rec-" + date, result => {
+        chrome.storage.local.get("rec-" + date).then(result => {
             // Get the records
             const ach = result["rec-" + date];
 
@@ -288,7 +294,7 @@ function saveDay(date, calls) {
             savedCalls++;
             chrome.storage.local.set({ [kKey]: dayRecords }).then(() => {
                 notifications.showToast("Calls Saved on file succesfully - Date: " + date);
-                resolve(true);
+                resolve(1);
             });
         });
     });
