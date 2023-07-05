@@ -356,7 +356,6 @@ function getInfo() {
                             case "IT":
                             case "FDBCK":
                             case "PE":
-                            case "FWA":
                                 // Save the start of the immediate shift if not saved yet
                                 if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
                                 // Save the end of the activity as the real end
@@ -394,6 +393,7 @@ function getInfo() {
 
                             // Training
                             case "MED":
+                            case "FWA":
                             case "WMED":
                                 // Save the start of the Training shift if not saved yet
                                 if (regDay.shift.realStart == "") regDay.shift.realStart = moment(first).format("kk:mm:ss");
