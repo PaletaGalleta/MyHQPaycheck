@@ -50,8 +50,8 @@ async function Injector() {
 
     // Add the custom HTML
     dropDown.innerHTML = `
-        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="/images/brand.svg" alt="Logo" height="30" class="align-text-top" id="extension-logo">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Open extension options">
+            <img src="" alt="Logo" height="30" class="align-text-top" id="extension-logo">
         </button>
         <ul class="dropdown-menu">
         <li><button type="button" class="dropdown-item" id="schedpersonbutton">1: Show Personal Schedule Page</button></li>
