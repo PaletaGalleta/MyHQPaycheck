@@ -1,1142 +1,1582 @@
 <!DOCTYPE html>
 <html data-bs-theme="dark">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css"></script>
-    <script src="js/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="js/options.js"></script>
-    <script src="js/moment.js"></script>
-    <script type="module" src="js/chart/package/dist/chart.umd.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0"/>
-    <title>MyHQPaycheck</title>
-  </head>
-  <body>
-    <div class="container-fluid">
-      <div class="row flex-nowrap">
-        <!-- NavBar -->
-        <div class="col-auto col-lg-auto col-xl-2 px-sm-2 px-0 px-lg-3 primary">
-          <div class="sticky-top d-flex flex-column align-items-stretch align-items-sm-stretch py-2 text-white min-vh-100">
-            <div class="d-flex flex-column align-items-center mt-3 mb-1">
-              <img src="/images/brand.svg" alt="Logo" height="50" class="align-text-top mb-2 d-none d-lg-flex">
-              <img src="/images/icon128.png" alt="Logo" height="64" class="align-text-top mb-2 d-lg-none d-flex px-3">
-              <h5><span class="badge rounded-pill mt-2 d-none d-md-block" id="versionbadge-long">Version</span></h5>
-              <span class="badge rounded-pill mt-2 d-block d-md-none" id="versionbadge-short">V</span>
-            </div>
-            <hr>
-            <ul class="nav nav-pills flex-column mb-sm-auto" id="myTab" role="tablist" aria-orientation="vertical">
-              <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
-                <a style="text-decoration: none;" class="d-flex flex-column" href="#dashboard">
-                  <button class="btn-block d-flex column-gap-2 nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard-tab-pane" type="button" role="tab" aria-controls="dashboard-tab-pane" aria-selected="true">
-                    <span class="material-symbols-outlined">monitoring</span>
-                    <span class="d-none d-md-inline">Dashboard</span>
-                  </button>
-                </a>
-              </li>
-              <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
-                <a style="text-decoration: none;" class="d-flex flex-column" href="#calculator">
-                  <button class="btn-block d-flex column-gap-2 nav-link" id="calculator-tab" data-bs-toggle="tab" data-bs-target="#calculator-tab-pane" type="button" role="tab" aria-controls="calculator-tab-pane" aria-selected="false">
-                    <span class="material-symbols-outlined">calculate</span>
-                    <span class="d-none d-md-inline">Calculator</span>
-                  </button>
-                </a>
-              </li>
-              <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
-                <a style="text-decoration: none;" class="d-flex flex-column" href="#paycheck">
-                  <button class="btn-block d-flex column-gap-2 nav-link" id="paycheck-tab" data-bs-toggle="tab" data-bs-target="#paycheck-tab-pane" type="button" role="tab" aria-controls="paycheck-tab-pane" aria-selected="false">
-                    <span class="material-symbols-outlined">receipt</span>
-                    <span class="d-none d-md-inline">Paychecks</span>
-                  </button>
-                </a>
-              </li>
-              <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
-                <a style="text-decoration: none;" class="d-flex flex-column" href="#milestones">
-                  <button class="btn-block d-flex column-gap-2 nav-link" id="milestones-tab" data-bs-toggle="tab" data-bs-target="#milestones-tab-pane" type="button" role="tab" aria-controls="milestones-tab-pane" aria-selected="false">
-                    <span class="material-symbols-outlined">verified</span>
-                    <span class="d-none d-md-inline">Milestones</span>
-                  </button>
-                </a>
-              </li>
-              <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
-                <a style="text-decoration: none;" class="d-flex flex-column" href="#settings">
-                  <button class="btn-block d-flex column-gap-2 nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-pane" type="button" role="tab" aria-controls="settings-tab-pane" aria-selected="false">
-                    <span class="material-symbols-outlined">settings</span>
-                    <span class="d-none d-md-inline">Settings</span>
-                  </button>
-                </a>
-              </li>
-              <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
-                <a style="text-decoration: none;" class="d-flex flex-column" href="#about">
-                  <button class="btn-block d-flex column-gap-2 nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about-tab-pane" type="button" role="tab" aria-controls="about-tab-pane" aria-selected="false">
-                    <span class="material-symbols-outlined">info</span>
-                    <span class="d-none d-md-inline">About</span>
-                  </button>
-                </a>
-              </li>
-              <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
-                <a style="text-decoration: none;" class="d-flex flex-column" href="#pro">
-                  <button class="btn-block d-flex align-items-center column-gap-2 nav-link" id="pro-tab" data-bs-toggle="tab" data-bs-target="#pro-tab-pane" type="button" role="tab" aria-controls="pro-tab-pane" aria-selected="false">
-                    <span class="material-symbols-outlined position-relative">reviews
-                      <span class="position-absolute top-0 start-100 translate-middle p-2 bg-warning rounded-circle d-block d-md-none visually-hidden"></span>
-                    </span>
-                    <span class="d-none d-md-inline">Feedback</span>
-                    <span class="badge text-bg-warning d-none d-md-inline visually-hidden">PRO</span>
-                  </button>
-                </a>
-              </li>
-            </ul>
-            <hr>
-            <div class="dropdown pb-4 d-flex flex-column align-items-center visually-hidden">
-              <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="/images/user.png" alt="User" width="30" height="30" class="rounded-circle">
-                <span id="username" class="d-none d-md-inline mx-1">Not Signed In</span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                <li><a class="dropdown-item" href="#">Sign in</a></li>
-              </ul>
-            </div>
-            <div class="d-flex flex-column align-items-center mb-4">
-              <span class="badge text-bg-secondary" id="version">V</span>
-            </div>
-          </div>
-        </div>
-        <!-- Content -->
-        <div class="col">
-          <div class="row align-items-center pt-3 px-lg-5 px-md-2 pb-3 mb-4 sticky-top bg-body border-bottom">
-            <div class="col">
-              <h4 id="welcome" class="m-0">Welcome, User</h4>
-            </div>
-            <div class="col-auto">
-              <button type="button" class="btn btn-dark d-flex border border-secondary" id="reload-dashboard"><span class="material-symbols-outlined">refresh</span>&nbsp;Refresh Tabs</button>
-            </div>
-            <div class="col-auto d-flex flex-column align-items-start border-start">
-              <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Quick Links
-                </button>
-                <ul class="dropdown-menu">
-                  <li class="dropdown-header">LLS</li>
-                  <li><a class="dropdown-item" href="https://myllsworld.com" target="_blank">Salesforce</a></li>
-                  <li><a class="dropdown-item" href="https://impact360.languageline.com/wfo/control/myschedule" target="_blank">Impact 360</a></li>
-                  <li><a class="dropdown-item" href="https://apps.rackspace.com/a/webmail.php" target="_blank">Rackspace</a></li>
-                  <li><a class="dropdown-item" href="http://speedtest.llsapi.com" target="_blank">SpeedTest</a></li>
-                  <li><a class="dropdown-item" href="https://wd5.myworkday.com/languageline/d/home.htmld" target="_blank">My WorkDay (Training)</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li class="dropdown-header">Recommended Tools</li>
-                  <li><a class="dropdown-item" href="https://portal.311.nyc.gov/" target="_blank">NYC 311</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li class="dropdown-header">Community Tools</li>
-                  <li><a class="dropdown-item" href="https://lookups.melissa.com/home/addresscheck/address/" target="_blank">Address Verifier</a></li>
-                  <li><a class="dropdown-item" href="https://gethuman.com/" target="_blank">CS Phone Numbers</a></li>
-                  <li class="dropdown-header">More Links Coming Soon</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="tab-content mx-2 mx-lg-5" id="myTabContent">
-            <!-- Dashboard -->
-            <div class="tab-pane fade show active container" id="dashboard-tab-pane" role="tabpanel" aria-labelledby="dashboard-tab" tabindex="0">
-              <div class="row align-items-center mb-3">
-                <h4 class="m-0">Dashboard</h4>
-              </div>
-              <div class="row">
-                <div class="col-12 col-md-6 mb-3" id="todayscard">
-                  <div class="card">
-                    <h5 class="card-header">Today's Progress</h5>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-12 mb-3">
-                          <h5 class="card-title">Calls</h5>
-                          <h2 class="card-title placeholder-glow" id="today-calls">
-                            <span class="placeholder col-2"></span>
-                          </h2>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="css/theme.css" />
+        <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css" />
+        <script src="js/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script type="module" src="js/options.js"></script>
+        <script src="js/moment.js"></script>
+        <script type="module" src="js/chart/package/dist/chart.umd.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+        <title>MyHQPaycheck</title>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row flex-nowrap">
+                <!-- NavBar -->
+                <div class="col-auto col-lg-auto col-xl-2 px-sm-2 px-0 px-lg-3 primary">
+                    <div
+                        class="sticky-top d-flex flex-column align-items-stretch align-items-sm-stretch py-2 text-white min-vh-100">
+                        <div class="d-flex flex-column align-items-center mt-3 mb-1">
+                            <img src="/images/brand.svg" alt="Logo" height="50" class="align-text-top mb-2 d-none d-lg-flex" />
+                            <img
+                                src="/images/icon128.png"
+                                alt="Logo"
+                                height="64"
+                                class="align-text-top mb-2 d-lg-none d-flex px-3" />
+                            <h5><span class="badge rounded-pill mt-2 d-none d-md-block" id="versionbadge-long">Version</span></h5>
+                            <span class="badge rounded-pill mt-2 d-block d-md-none" id="versionbadge-short">V</span>
                         </div>
-                        <div class="col-12 mb-3">
-                          <div class="row">
-      
-                            <h5 class="card-title">Call Time</h5>
-                            <div class="col-6">
-                              <h3 class="card-title placeholder-glow mb-3" id="today-calltime">
-                                <span class="placeholder col-10"></span>
-                              </h3>
-                              <p class="card-text mb-0"><small>Average Call Time</small></p>
-                              <h4 class="card-title placeholder-glow" id="today-callaverage">
-                                <span class="placeholder col-10"></span>
-                              </h4>
-                            </div>
-                            <div class="col-6 mb-3">
-                              <p class="card-text mb-0"><small>Longest Call</small></p>
-                              <p class="card-text placeholder-glow mb-1" id="today-calllongest">
-                                <span class="placeholder col-10"></span>
-                              </p>
-                              <p class="card-text mb-0"><small>Shortest Call</small></p>
-                              <p class="card-text placeholder-glow mb-0" id="today-callshortest">
-                                <span class="placeholder col-10"></span>
-                              </p>
-                            </div>
-                          </div>
+                        <hr />
+                        <ul class="nav nav-pills flex-column mb-sm-auto" id="myTab" role="tablist" aria-orientation="vertical">
+                            <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
+                                <a style="text-decoration: none" class="d-flex flex-column" href="#dashboard">
+                                    <button
+                                        class="btn-block d-flex column-gap-2 nav-link active"
+                                        id="dashboard-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#dashboard-tab-pane"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="dashboard-tab-pane"
+                                        aria-selected="true">
+                                        <span class="material-symbols-outlined">monitoring</span>
+                                        <span class="d-none d-md-inline">Dashboard</span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
+                                <a style="text-decoration: none" class="d-flex flex-column" href="#calculator">
+                                    <button
+                                        class="btn-block d-flex column-gap-2 nav-link"
+                                        id="calculator-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#calculator-tab-pane"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="calculator-tab-pane"
+                                        aria-selected="false">
+                                        <span class="material-symbols-outlined">calculate</span>
+                                        <span class="d-none d-md-inline">Calculator</span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
+                                <a style="text-decoration: none" class="d-flex flex-column" href="#paycheck">
+                                    <button
+                                        class="btn-block d-flex column-gap-2 nav-link"
+                                        id="paycheck-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#paycheck-tab-pane"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="paycheck-tab-pane"
+                                        aria-selected="false">
+                                        <span class="material-symbols-outlined">receipt</span>
+                                        <span class="d-none d-md-inline">Paychecks</span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
+                                <a style="text-decoration: none" class="d-flex flex-column" href="#milestones">
+                                    <button
+                                        class="btn-block d-flex column-gap-2 nav-link"
+                                        id="milestones-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#milestones-tab-pane"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="milestones-tab-pane"
+                                        aria-selected="false">
+                                        <span class="material-symbols-outlined">verified</span>
+                                        <span class="d-none d-md-inline">Milestones</span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
+                                <a style="text-decoration: none" class="d-flex flex-column" href="#settings">
+                                    <button
+                                        class="btn-block d-flex column-gap-2 nav-link"
+                                        id="settings-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#settings-tab-pane"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="settings-tab-pane"
+                                        aria-selected="false">
+                                        <span class="material-symbols-outlined">settings</span>
+                                        <span class="d-none d-md-inline">Settings</span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
+                                <a style="text-decoration: none" class="d-flex flex-column" href="#about">
+                                    <button
+                                        class="btn-block d-flex column-gap-2 nav-link"
+                                        id="about-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#about-tab-pane"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="about-tab-pane"
+                                        aria-selected="false">
+                                        <span class="material-symbols-outlined">info</span>
+                                        <span class="d-none d-md-inline">About</span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="nav-item d-flex flex-column align-items-md-stretch align-items-center" role="presentation">
+                                <a style="text-decoration: none" class="d-flex flex-column" href="#pro">
+                                    <button
+                                        class="btn-block d-flex align-items-center column-gap-2 nav-link"
+                                        id="pro-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#pro-tab-pane"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="pro-tab-pane"
+                                        aria-selected="false">
+                                        <span class="material-symbols-outlined position-relative"
+                                            >reviews
+                                            <span
+                                                class="position-absolute top-0 start-100 translate-middle p-2 bg-warning rounded-circle d-block d-md-none visually-hidden"></span>
+                                        </span>
+                                        <span class="d-none d-md-inline">Feedback</span>
+                                        <span class="badge text-bg-warning d-none d-md-inline visually-hidden">PRO</span>
+                                    </button>
+                                </a>
+                            </li>
+                        </ul>
+                        <hr />
+                        <div class="dropdown pb-4 d-flex flex-column align-items-center visually-hidden">
+                            <a
+                                href="#"
+                                class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                                id="dropdownUser1"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <img src="/images/user.png" alt="User" width="30" height="30" class="rounded-circle" />
+                                <span id="username" class="d-none d-md-inline mx-1">Not Signed In</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                                <li><a class="dropdown-item" href="#">Sign in</a></li>
+                            </ul>
                         </div>
-                        <div class="col-12 mb-3">
-                          <div class="row">
-                            <h5 class="card-title">Total Minutes</h5>
-                            <div class="col-6">
-                              <h3 class="card-title placeholder-glow" id="today-totalminutes">
-                                <span class="placeholder col-10"></span>
-                              </h3>
-                            </div>
-                            <div class="col-6">
-                              <p class="card-text mb-0"><small>AP</small></p>
-                              <p class="card-text mb-1 placeholder-glow" id="today-totalap">
-                                <span class="placeholder col-10"></span>
-                              </p>
-                              <p class="card-text mb-0"><small>Lunch/Breaks</small></p>
-                              <p class="card-text mb-1 placeholder-glow" id="today-totalbreaks">
-                                <span class="placeholder col-10"></span>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-12 mb-3">
-                          <h5 class="card-title">Estimated Income</h5>
-                          <h2 class="card-title placeholder-glow">
-                            <span class="placeholder col-6"></span>
-                          </h2>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 mb-3" id="todayscard-norecs" style="display: none">
-                  <div class="card col-12">
-                    <h5 class="card-header">Today's Progress</h5>
-                    <div class="card-body">
-                      <br>
-                      <h4 class="card-title placeholder-glow" id="week-goal">
-                        No Records Found
-                      </h4>
-                      <p class="card-text">
-                        There are no records for today, make sure you have collected the information manually from Salesforce and Impact360.
-                      </p>
-                      <p class="card-text">
-                        You can use the buttons at the top to go to any of those pages.
-                      </p>
-                      <br>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 mb-3">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Last 7 shifts</h5>
-                    <div class="card-body">
-                      <canvas id="weekChart"></canvas>
-                      <div class="row">
-                        <div class="col-6">
-                          <p class="card-text mb-0"><small>Daily Goal</small></p>
-                          <div class="input-group">
-                            <button type="button" class="btn btn-outline-secondary" id="goaldec">-</button>
-                            <input type="text" class="form-control text-center" id="goal" value="0" disabled>
-                            <button type="button" class="btn btn-outline-secondary" id="goalinc">+</button>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <p class="card-text mb-0"><small>Hour Difference</small></p>
-                          <h4 class="card-title placeholder-glow" id="week-difference">
-                            <span class="placeholder col-9"></span>
-                          </h4>
-                        </div>
-                      </div>
-                      <p class="card-text mt-3">It's very important for you to keep track of missing hours so you can cover them before the paycheck.</p>
-                    </div>
-                  </div>
-                  
-                  <div class="card"  id="paysummary" style="display: none">
-                    <h5 class="card-header">Pay Period Summary</h5>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-6 col-sm-0 mb-3">
-                          <h6 class="card-title">Total calls</h6>
-                          <h1 class="card-title placeholder-glow">
-                            <span class="placeholder col-2"></span>
-                          </h1>
-                        </div>
-                        <div class="col-md-6 col-sm-0 mb-3">
-                          <h6 class="card-title placeholder-glow">Longest call</h6>
-                          <h1 class="card-title placeholder-glow">
-                            <span class="placeholder col-5"></span>
-                          </h1>
-                          <h6 class="card-subtitle mb-2 text-muted placeholder-glow">
-                            <span class="placeholder col-4"></span>
-                          </h6>
-                        </div>
-                        <div class="col-md-6 col-sm-0 mb-3">
-                          <h6 class="card-title">Total Interpreted Time</h6>
-                          <h2 class="card-title placeholder-glow">
-                            <span class="placeholder col-8"></span>
-                          </h2>
-                        </div>
-                        <div class="col-md-6 col-sm-0 mb-3">
-                          <h6 class="card-title">Estimated Paycheck</h6>
-                          <h2 class="card-title placeholder-glow">
-                            <span class="placeholder col-3"></span>
-                          </h2>
-                        </div>
-                      </div>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                  </div>
-                  <div class="card"  id="paysummary-norecs">
-                    <h5 class="card-header">Pay Period Summary</h5>
-                    
-                    <div class="alert alert-warning mb-3">
-                      <div class="card-body">
-                        <span class="material-symbols-outlined">thumb_down</span><br>
-                        The developer has not worked in this part yet. Booooo!<br>
-                        Stay in touch for recent updates about this section and other upcoming features!
-                      </div>
-                    </div>
-                    <div class="card-body visually-hidden">
-                      <h4 class="card-title placeholder-glow" id="week-goal">
-                        Not Enough Data
-                      </h4>
-                      <p class="card-text">
-                        There is no enough data for the system to calculate a paycheck
-                      </p>
-                      <p class="card-text">
-                        Either you started a new payment period or you haven't saved your shifts from Impact360. Make sure you have everything updated and refresh the page
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-            </div>
-      
-            <!-- Calculator -->
-            <div class="tab-pane fade container" id="calculator-tab-pane" role="tabpanel" aria-labelledby="calculator-tab" tabindex="1">
-              <div class="row align-items-center mb-3">
-                <h4 class="m-0">Calculator</h4>
-              </div>
-              <div class="d-flex align-items-center flex-row mb-3">
-                <div class="btn-group" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-secondary d-flex" id="period-first"><span class="material-symbols-outlined">first_page</span></button>
-                  <button type="button" class="btn btn-secondary d-flex" id="period-prev"><span class="material-symbols-outlined">chevron_left</span></button>
-                </div>
-                <button class="btn btn-dark mx-auto my-0" id="period-selector" disabled>Loading</button>
-                <div class="btn-group" role="group" aria-label="First group">
-                  <button type="button" class="btn btn-secondary d-flex" id="period-next"><span class="material-symbols-outlined">chevron_right</span></button>
-                  <button type="button" class="btn btn-secondary d-flex" id="period-last"><span class="material-symbols-outlined">last_page</span></button>
-                </div>
-              </div>
-              <div class="card" id="period-card">
-                <div class="card-body row">
-                  <h3 class="card-title m-0" id="period-number">Loading</h3>
-                  <p class="card-text mb-4 fst-italic border-bottom pb-3" id="period-lapse">00 - 00</p>
-                  <div class="d-flex position-relative">
-                    <div class="row flex-row-reverse" id="calc-content">
-                      <h4 class="card-title mb-4">Breakdown</h4>
-                      <div class="col-0 col-lg-1"></div>
-                      <div class="col-12 col-lg-4 d-flex flex-column mb-4 align-items-center py-3">
-                        <canvas id="period-graph"></canvas>
-                      </div>
-                      <div class="col-12 col-lg-7 mb-4">
                         <div class="d-flex flex-column align-items-center mb-4">
-                          Days Captured in this Period
-                          <div class="row mt-2">
-                            <table class="table w-auto border">
-                              <caption><small>
-                                <div class="d-flex flex-row flex-wrap column-gap-1 row-gap-1 mb-3 align-items-center justify-content-center">
-                                  <small class="text-secondary p-1">Not Captured</small>
-                                  <small class="text-warning p-1">Call Logs Captured</small>
-                                  <small class="text-info p-1">Shift Captured</small>
-                                  <small class="text-success p-1">Call Logs and Shift Captured</small>
-                                </div>
-                              </small></caption>
-                              <thead>
-                                <tr>
-                                  <th scope="col" class="text-center text-body"><small>M</small></th>
-                                  <th scope="col" class="text-center text-body"><small>T</small></th>
-                                  <th scope="col" class="text-center text-body"><small>W</small></th>
-                                  <th scope="col" class="text-center text-body"><small>T</small></th>
-                                  <th scope="col" class="text-center text-body"><small>F</small></th>
-                                  <th scope="col" class="text-center text-body"><small>S</small></th>
-                                  <th scope="col" class="text-center text-body"><small>S</small></th>
-                                </tr>
-                              </thead>
-                              <tbody id="registered-days">
-                              </tbody>
-                            </table>
-                          </div>
+                            <span class="badge text-bg-secondary" id="version">V</span>
                         </div>
-                        <div class="d-flex flex-row justify-content-center">
-                          <table class="table table-dark table-hover w-auto">
-                            <caption><small>The breakdown total should match what you're going to see on the paycheck's .xls file</small></caption>
-                            <thead>
-                              <tr>
-                                <th scope="col" class="text-center text-body">Concept</th>
-                                <th scope="col" class="text-center text-body">Rate</th>
-                                <th scope="col"></th>
-                                <th scope="col" class="text-center text-body">Hrs/Days</th>
-                                <th scope="col"></th>
-                                <th scope="col" class="text-center text-body">Total</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td class="text-end text-body">Scheduled</td>
-                                <td class="text-end"><code class="placeholder-glow mb-1" id="rate-scheduled"><span class="placeholder col-12"></span></code></td>
-                                <td class="text-body">*</td>
-                                <td class="text-center"><code class="placeholder-glow" id="hrs-scheduled"><span class="placeholder col-12"></span></code></td>
-                                <td class="text-body">=</td>
-                                <td class="text-end"><code class="text-success placeholder-glow" id="total-scheduled"><span class="placeholder col-12"></span></code></td>
-                              </tr>
-                              <tr>
-                                <td class="text-end text-body">AEX Holiday</td>
-                                <td class="text-end"><code class="placeholder-glow" id="rate-aex"><span class="placeholder col-12"></span></code></td>
-                                <td class="text-body">*</td>
-                                <td class="text-center"><code class="placeholder-glow" id="hrs-aex"><span class="placeholder col-12"></span></code></td>
-                                <td class="text-body">=</td>
-                                <td class="text-end"><code class="text-success placeholder-glow" id="total-aex"><span class="placeholder col-12"></span></code></td>
-                              </tr>
-                              <tr>
-                                <td class="text-end text-body">MEX Holiday</td>
-                                <td class="text-end"><code class="placeholder-glow" id="rate-mex"><span class="placeholder col-12"></span></code></td>
-                                <td class="text-body">*</td>
-                                <td class="text-center"><code class="placeholder-glow" id="hrs-mex"><span class="placeholder col-12"></span></code></td>
-                                <td class="text-body">=</td>
-                                <td class="text-end"><code class="text-success placeholder-glow" id="total-mex"><span class="placeholder col-12"></span></code></td>
-                              </tr>
-                              <tr>
-                                <td class="text-end text-body">Overtime</td>
-                                <td class="text-end"><code class="placeholder-glow" id="rate-overtime"><span class="placeholder col-12"></span></code></td>
-                                <td class="text-body">*</td>
-                                <td class="text-center"><code class="placeholder-glow" id="hrs-overtime"><span class="placeholder col-12"></span></code></td>
-                                <td class="text-body">=</td>
-                                <td class="text-end"><code class="text-success placeholder-glow" id="total-overtime"><span class="placeholder col-12"></span></code></td>
-                              </tr>
-                              <tr>
-                                <td class="text-end text-body">Discounts</td>
-                                <td class="text-end"><code class="placeholder-glow" id="rate-discounts"><span class="placeholder col-12"></span></code></td>
-                                <td class="text-body">*</td>
-                                <td class="text-center"><code class="placeholder-glow" id="hrs-discounts"><span class="placeholder col-12"></span></code></td>
-                                <td class="text-body">=</td>
-                                <td class="text-end"><code class="text-danger placeholder-glow" id="total-discounts"><span class="placeholder col-12"></span></code></td>
-                              </tr>
-                              <tr>
-                                <td colspan="3" class="text-end text-body"><strong>Total</strong></td>
-                                <td class="text-center"><code class="text-light placeholder-glow" id="total-hours"><span class="placeholder col-12"></span></code></td>
-                                <td class="text-body">=</td>
-                                <td class="text-end"><code class="text-light placeholder-glow" id="total-total"><span class="placeholder col-12">$1000.0</span></code></td>
-                              </tr>
-                            </tbody>
-                          </table>
+                    </div>
+                </div>
+                <!-- Content -->
+                <div class="col">
+                    <div class="row align-items-center pt-3 px-lg-5 px-md-2 pb-3 mb-4 sticky-top bg-body border-bottom">
+                        <div class="col">
+                            <h4 id="welcome" class="m-0">Welcome, User</h4>
                         </div>
-                      </div>
-                      <div class="d-flex align-items-start justify-content-end">
-                        <div class="me-4">
-                          <h4 class="card-title">Estimated Paycheck</h4>
-                          <h2 class="card-title text-body-emphasis" id="total-paycheck">$0</h2>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-dark d-flex border border-secondary" id="reload-dashboard">
+                                <span class="material-symbols-outlined">refresh</span>&nbsp;Refresh Tabs
+                            </button>
                         </div>
-                        <div class="">
-                          <h4 class="card-title">Reported Paycheck</h4>
-                          <div class="d-flex flex-row align-items-center column-gap-2 mb-3">
-                            <h2 class="card-title m-0" id="total-reported">$0</h2>
-                            <p class="card-text m-0" id="total-difference">(+$0)</p>
-                          </div>
-                          <div class="d-flex flex-row align-items-center column-gap-2" id="calc-notreported">
-                            <p class="card-text m-0">Not yet Reported</p>
-                            <button type="button" class="btn btn-primary btn-sm" id="reportpaycheck">Report</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row position-absolute bg-body w-100 h-100 fade" id="calc-load" style="pointer-events: none;">
-                      <div class="col-12 align-items-center d-flex flex-column py-5">
-                        <h1 class="text-muted">Loading...</h1>
-                        <div class="spinner-border" role="status">
-                          <span class="visually-hidden">Loading...</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                </div>
-              </div>
-            </div>
-      
-            <div class="row visually-hidden">
-              Log
-              - Historic Data
-              - Paycheck Comparator
-              - Export Data
-            </div>
-            <!-- Paycheck -->
-            <div class="tab-pane fade container" id="paycheck-tab-pane" role="tabpanel" aria-labelledby="paycheck-tab" tabindex="2">
-              <div class="row align-items-center mb-3">
-                <h4 class="m-0">My Paychecks</h4>
-              </div>
-              <div class="alert alert-warning mb-3">
-                <div class="card-body">
-                  <span class="material-symbols-outlined">thumb_down</span><br>
-                  The developer has not worked in this part yet. Booooo!<br>
-                  Stay in touch for recent updates about this section and other upcoming features!
-                </div>
-              </div>
-              <div class="accordion visually-hidden" id="accordionExample">
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                      Accordion Item #1
-                    </button>
-                  </h2>
-                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                      <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                      Accordion Item #2
-                    </button>
-                  </h2>
-                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                      <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="headingThree">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                      Accordion Item #3
-                    </button>
-                  </h2>
-                  <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                      <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Milestones -->
-            <div class="tab-pane fade container" id="milestones-tab-pane" role="tabpanel" aria-labelledby="milestones-tab" tabindex="3">
-              <!-- Milestones / Achievements Modal -->
-              <div class="modal fade" id="achievementsModal" tabindex="-1" aria-labelledby="milestonesModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-body">
-                      <div class="d-flex flex-row justify-content-center my-4">
-                        <div class="col align-items-center d-flex flex-column flex-wrap">
-                          <h1 class="mb-5">Achievement Unlocked!</h1>
-                          <h4 class="md-3" id="achievementmodal-title">Where's the title?</h4>
-                          <div class="row">
-                            <div class="col position-relative m-0" style="height: 256px; width: 256px;">
-                              <img src="/images/ach/rays-1.svg" alt="Logo" height="256" class="position-absolute rotate-fast" style="left: 0; top: 0;">
-                              <img src="/images/ach/rays-2.svg" alt="Logo" height="256" class="position-absolute rotate-slow" style="left: 0; top: 0;">
-                              <img id="achievementmodal-img" src="/images/ach/achievement.png" alt="Logo" height="128" class="position-absolute" style="left: 64px; top: 64px;">
+                        <div class="col-auto d-flex flex-column align-items-start border-start">
+                            <div class="dropdown">
+                                <button
+                                    class="btn btn-primary dropdown-toggle"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Quick Links
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header">LLS</li>
+                                    <li><a class="dropdown-item" href="https://myllsworld.com" target="_blank">Salesforce</a></li>
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="https://impact360.languageline.com/wfo/control/myschedule"
+                                            target="_blank"
+                                            >Impact 360</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="https://apps.rackspace.com/a/webmail.php" target="_blank"
+                                            >Rackspace</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="http://speedtest.llsapi.com" target="_blank">SpeedTest</a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="https://wd5.myworkday.com/languageline/d/home.htmld"
+                                            target="_blank"
+                                            >My WorkDay (Training)</a
+                                        >
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li class="dropdown-header">Recommended Tools</li>
+                                    <li>
+                                        <a class="dropdown-item" href="https://portal.311.nyc.gov/" target="_blank">NYC 311</a>
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li class="dropdown-header">Community Tools</li>
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="https://lookups.melissa.com/home/addresscheck/address/"
+                                            target="_blank"
+                                            >Address Verifier</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="https://gethuman.com/" target="_blank">CS Phone Numbers</a>
+                                    </li>
+                                    <li class="dropdown-header">More Links Coming Soon</li>
+                                </ul>
                             </div>
-                          </div>
-                          <h5 class="mt-4 mb-2 text-center"  id="achievementmodal-desc">Apparently there's no description</h5>
-                          <p class="mb-0 text-muted text-center" id="achievementmodal-desc2">Not at all</p>
                         </div>
-                      </div>
+                    </div>
+                    <div class="tab-content mx-2 mx-lg-5" id="myTabContent">
+                        <!-- Dashboard -->
+                        <div
+                            class="tab-pane fade show active container"
+                            id="dashboard-tab-pane"
+                            role="tabpanel"
+                            aria-labelledby="dashboard-tab"
+                            tabindex="0">
+                            <div class="row align-items-center mb-3">
+                                <h4 class="m-0">Dashboard</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-6 mb-3" id="todayscard">
+                                    <div class="card">
+                                        <h5 class="card-header">Today's Progress</h5>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12 mb-3">
+                                                    <h5 class="card-title">Calls</h5>
+                                                    <h2 class="card-title placeholder-glow" id="today-calls">
+                                                        <span class="placeholder col-2"></span>
+                                                    </h2>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                    <div class="row">
+                                                        <h5 class="card-title">Call Time</h5>
+                                                        <div class="col-6">
+                                                            <h3 class="card-title placeholder-glow mb-3" id="today-calltime">
+                                                                <span class="placeholder col-10"></span>
+                                                            </h3>
+                                                            <p class="card-text mb-0"><small>Average Call Time</small></p>
+                                                            <h4 class="card-title placeholder-glow" id="today-callaverage">
+                                                                <span class="placeholder col-10"></span>
+                                                            </h4>
+                                                        </div>
+                                                        <div class="col-6 mb-3">
+                                                            <p class="card-text mb-0"><small>Longest Call</small></p>
+                                                            <p class="card-text placeholder-glow mb-1" id="today-calllongest">
+                                                                <span class="placeholder col-10"></span>
+                                                            </p>
+                                                            <p class="card-text mb-0"><small>Shortest Call</small></p>
+                                                            <p class="card-text placeholder-glow mb-0" id="today-callshortest">
+                                                                <span class="placeholder col-10"></span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                    <div class="row">
+                                                        <h5 class="card-title">Total Minutes</h5>
+                                                        <div class="col-6">
+                                                            <h3 class="card-title placeholder-glow" id="today-totalminutes">
+                                                                <span class="placeholder col-10"></span>
+                                                            </h3>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="card-text mb-0"><small>AP</small></p>
+                                                            <p class="card-text mb-1 placeholder-glow" id="today-totalap">
+                                                                <span class="placeholder col-10"></span>
+                                                            </p>
+                                                            <p class="card-text mb-0"><small>Lunch/Breaks</small></p>
+                                                            <p class="card-text mb-1 placeholder-glow" id="today-totalbreaks">
+                                                                <span class="placeholder col-10"></span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 mb-3">
+                                                    <h5 class="card-title">Estimated Income</h5>
+                                                    <h2 class="card-title placeholder-glow">
+                                                        <span class="placeholder col-6"></span>
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3" id="todayscard-norecs" style="display: none">
+                                    <div class="card col-12">
+                                        <h5 class="card-header">Today's Progress</h5>
+                                        <div class="card-body">
+                                            <br />
+                                            <h4 class="card-title placeholder-glow" id="week-goal">No Records Found</h4>
+                                            <p class="card-text">
+                                                There are no records for today, make sure you have collected the information
+                                                manually from Salesforce and Impact360.
+                                            </p>
+                                            <p class="card-text">
+                                                You can use the buttons at the top to go to any of those pages.
+                                            </p>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <div class="card mb-4">
+                                        <h5 class="card-header">Last 7 shifts</h5>
+                                        <div class="card-body">
+                                            <canvas id="weekChart"></canvas>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <p class="card-text mb-0"><small>Daily Goal</small></p>
+                                                    <div class="input-group">
+                                                        <button type="button" class="btn btn-outline-secondary" id="goaldec">
+                                                            -
+                                                        </button>
+                                                        <input
+                                                            type="text"
+                                                            class="form-control text-center"
+                                                            id="goal"
+                                                            value="0"
+                                                            disabled />
+                                                        <button type="button" class="btn btn-outline-secondary" id="goalinc">
+                                                            +
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p class="card-text mb-0"><small>Hour Difference</small></p>
+                                                    <h4 class="card-title placeholder-glow" id="week-difference">
+                                                        <span class="placeholder col-9"></span>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            <p class="card-text mt-3">
+                                                It's very important for you to keep track of missing hours so you can cover them
+                                                before the paycheck.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <h5 class="card-header">Pay Period Summary</h5>
+                                        <div class="card-body">
+                                            <div class="col-12 alert alert-info" id="paysummary-norecs" style="display: none">
+                                                There is no information for the current period. Stats will appear here when the
+                                                schedule and calls are captured.
+                                            </div>
+                                            <div class="row" id="paysummary">
+                                                <div class="col-md-6 col-sm-0 mb-3">
+                                                    <h6 class="card-title">Total calls</h6>
+                                                    <h1 class="card-title placeholder-glow" id="paysummary-total-calls">
+                                                        <span class="placeholder col-2"></span>
+                                                    </h1>
+                                                </div>
+                                                <div class="col-md-6 col-sm-0 mb-3">
+                                                    <h6 class="card-title">Longest call</h6>
+                                                    <h3 class="card-title placeholder-glow" id="paysummary-longest-call">
+                                                        <span class="placeholder col-5"></span>
+                                                    </h3>
+                                                    <h6
+                                                        class="card-subtitle mb-2 text-muted placeholder-glow"
+                                                        id="paysummary-total-call-time">
+                                                        <span class="placeholder col-4"></span>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-md-6 col-sm-0 mb-3">
+                                                    <h6 class="card-title">Total Time Online</h6>
+                                                    <h2 class="card-title placeholder-glow" id="paysummary-mins-online">
+                                                        <span class="placeholder col-8"></span>
+                                                    </h2>
+                                                </div>
+                                                <div class="col-md-6 col-sm-0 mb-3">
+                                                    <h6 class="card-title">Estimated Paycheck</h6>
+                                                    <h2 class="card-title placeholder-glow" id="paysummary-paycheck">
+                                                        <span class="placeholder col-3"></span>
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body visually-hidden">
+                                            <h4 class="card-title placeholder-glow" id="week-goal">Not Enough Data</h4>
+                                            <p class="card-text">
+                                                There is no enough data for the system to calculate a paycheck
+                                            </p>
+                                            <p class="card-text">
+                                                Either you started a new payment period or you haven't saved your shifts from
+                                                Impact360. Make sure you have everything updated and refresh the page
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Calculator -->
+                        <div
+                            class="tab-pane fade container"
+                            id="calculator-tab-pane"
+                            role="tabpanel"
+                            aria-labelledby="calculator-tab"
+                            tabindex="1">
+                            <div class="row align-items-center mb-3">
+                                <h4 class="m-0">Calculator</h4>
+                            </div>
+                            <div class="d-flex align-items-center flex-row mb-3">
+                                <div class="btn-group" role="group" aria-label="First group">
+                                    <button type="button" class="btn btn-secondary d-flex" id="period-first">
+                                        <span class="material-symbols-outlined">first_page</span>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary d-flex" id="period-prev">
+                                        <span class="material-symbols-outlined">chevron_left</span>
+                                    </button>
+                                </div>
+                                <button class="btn btn-dark mx-auto my-0" id="period-selector" disabled>Loading</button>
+                                <div class="btn-group" role="group" aria-label="First group">
+                                    <button type="button" class="btn btn-secondary d-flex" id="period-next">
+                                        <span class="material-symbols-outlined">chevron_right</span>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary d-flex" id="period-last">
+                                        <span class="material-symbols-outlined">last_page</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card" id="period-card">
+                                <div class="card-body row">
+                                    <h3 class="card-title m-0" id="period-number">Loading</h3>
+                                    <p class="card-text mb-4 fst-italic border-bottom pb-3" id="period-lapse">00 - 00</p>
+                                    <div class="d-flex position-relative">
+                                        <div class="row flex-row-reverse" id="calc-content">
+                                            <h4 class="card-title mb-4">Breakdown</h4>
+                                            <div class="col-0 col-lg-1"></div>
+                                            <div class="col-12 col-lg-4 d-flex flex-column mb-4 align-items-center py-3">
+                                                <canvas id="period-graph"></canvas>
+                                            </div>
+                                            <div class="col-12 col-lg-7 mb-4">
+                                                <div class="d-flex flex-column align-items-center mb-4">
+                                                    Days Captured in this Period
+                                                    <div class="row mt-2">
+                                                        <table class="table w-auto border">
+                                                            <caption>
+                                                                <small>
+                                                                    <div
+                                                                        class="d-flex flex-row flex-wrap column-gap-1 row-gap-1 mb-3 align-items-center justify-content-center">
+                                                                        <small class="text-secondary p-1">Not Captured</small>
+                                                                        <small class="text-warning p-1">Call Logs Captured</small>
+                                                                        <small class="text-info p-1">Shift Captured</small>
+                                                                        <small class="text-success p-1"
+                                                                            >Call Logs and Shift Captured</small
+                                                                        >
+                                                                    </div>
+                                                                </small>
+                                                            </caption>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col" class="text-center text-body">
+                                                                        <small>M</small>
+                                                                    </th>
+                                                                    <th scope="col" class="text-center text-body">
+                                                                        <small>T</small>
+                                                                    </th>
+                                                                    <th scope="col" class="text-center text-body">
+                                                                        <small>W</small>
+                                                                    </th>
+                                                                    <th scope="col" class="text-center text-body">
+                                                                        <small>T</small>
+                                                                    </th>
+                                                                    <th scope="col" class="text-center text-body">
+                                                                        <small>F</small>
+                                                                    </th>
+                                                                    <th scope="col" class="text-center text-body">
+                                                                        <small>S</small>
+                                                                    </th>
+                                                                    <th scope="col" class="text-center text-body">
+                                                                        <small>S</small>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="registered-days"></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-row justify-content-center">
+                                                    <table class="table table-dark table-hover w-auto">
+                                                        <caption>
+                                                            <small
+                                                                >The breakdown total should match what you're going to see on the
+                                                                paycheck's .xls file</small
+                                                            >
+                                                        </caption>
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="text-center text-body">Concept</th>
+                                                                <th scope="col" class="text-center text-body">Rate</th>
+                                                                <th scope="col"></th>
+                                                                <th scope="col" class="text-center text-body">Hrs/Days</th>
+                                                                <th scope="col"></th>
+                                                                <th scope="col" class="text-center text-body">Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="text-end text-body">Scheduled</td>
+                                                                <td class="text-end">
+                                                                    <code class="placeholder-glow mb-1" id="rate-scheduled"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                                <td class="text-body">*</td>
+                                                                <td class="text-center">
+                                                                    <code class="placeholder-glow" id="hrs-scheduled"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                                <td class="text-body">=</td>
+                                                                <td class="text-end">
+                                                                    <code
+                                                                        class="text-success placeholder-glow"
+                                                                        id="total-scheduled"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-end text-body">AEX Holiday</td>
+                                                                <td class="text-end">
+                                                                    <code class="placeholder-glow" id="rate-aex"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                                <td class="text-body">*</td>
+                                                                <td class="text-center">
+                                                                    <code class="placeholder-glow" id="hrs-aex"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                                <td class="text-body">=</td>
+                                                                <td class="text-end">
+                                                                    <code class="text-success placeholder-glow" id="total-aex"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-end text-body">MEX Holiday</td>
+                                                                <td class="text-end">
+                                                                    <code class="placeholder-glow" id="rate-mex"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                                <td class="text-body">*</td>
+                                                                <td class="text-center">
+                                                                    <code class="placeholder-glow" id="hrs-mex"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                                <td class="text-body">=</td>
+                                                                <td class="text-end">
+                                                                    <code class="text-success placeholder-glow" id="total-mex"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-end text-body">Overtime</td>
+                                                                <td class="text-end">
+                                                                    <code class="placeholder-glow" id="rate-overtime"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                                <td class="text-body">*</td>
+                                                                <td class="text-center">
+                                                                    <code class="placeholder-glow" id="hrs-overtime"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                                <td class="text-body">=</td>
+                                                                <td class="text-end">
+                                                                    <code
+                                                                        class="text-success placeholder-glow"
+                                                                        id="total-overtime"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-end text-body">Discounts</td>
+                                                                <td class="text-end">
+                                                                    <code class="placeholder-glow" id="rate-discounts"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                                <td class="text-body">*</td>
+                                                                <td class="text-center">
+                                                                    <code class="placeholder-glow" id="hrs-discounts"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                                <td class="text-body">=</td>
+                                                                <td class="text-end">
+                                                                    <code
+                                                                        class="text-danger placeholder-glow"
+                                                                        id="total-discounts"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3" class="text-end text-body">
+                                                                    <strong>Total</strong>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <code class="text-light placeholder-glow" id="total-hours"
+                                                                        ><span class="placeholder col-12"></span
+                                                                    ></code>
+                                                                </td>
+                                                                <td class="text-body">=</td>
+                                                                <td class="text-end">
+                                                                    <code class="text-light placeholder-glow" id="total-total"
+                                                                        ><span class="placeholder col-12">$1000.0</span></code
+                                                                    >
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-start justify-content-end">
+                                                <div class="me-4">
+                                                    <h4 class="card-title">Estimated Paycheck</h4>
+                                                    <h2 class="card-title text-body-emphasis" id="total-paycheck">$0</h2>
+                                                </div>
+                                                <div class="">
+                                                    <h4 class="card-title">Reported Paycheck</h4>
+                                                    <div class="d-flex flex-row align-items-center column-gap-2 mb-3">
+                                                        <h2 class="card-title m-0" id="total-reported">$0</h2>
+                                                        <p class="card-text m-0" id="total-difference">(+$0)</p>
+                                                    </div>
+                                                    <div
+                                                        class="d-flex flex-row align-items-center column-gap-2"
+                                                        id="calc-notreported">
+                                                        <p class="card-text m-0">Not yet Reported</p>
+                                                        <button type="button" class="btn btn-primary btn-sm" id="reportpaycheck">
+                                                            Report
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="row position-absolute bg-body w-100 h-100 fade"
+                                            id="calc-load"
+                                            style="pointer-events: none">
+                                            <div class="col-12 align-items-center d-flex flex-column py-5">
+                                                <h1 class="text-muted">Loading...</h1>
+                                                <div class="spinner-border" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row visually-hidden">Log - Historic Data - Paycheck Comparator - Export Data</div>
+                        <!-- Paycheck -->
+                        <div
+                            class="tab-pane fade container"
+                            id="paycheck-tab-pane"
+                            role="tabpanel"
+                            aria-labelledby="paycheck-tab"
+                            tabindex="2">
+                            <div class="row align-items-center mb-3">
+                                <h4 class="m-0">My Paychecks</h4>
+                            </div>
+                            <div class="alert alert-warning mb-3">
+                                <div class="card-body">
+                                    <span class="material-symbols-outlined">thumb_down</span><br />
+                                    The developer has not worked in this part yet. Booooo!<br />
+                                    Stay in touch for recent updates about this section and other upcoming features!
+                                </div>
+                            </div>
+                            <div class="accordion visually-hidden" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button
+                                            class="accordion-button"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseOne"
+                                            aria-expanded="true"
+                                            aria-controls="collapseOne">
+                                            Accordion Item #1
+                                        </button>
+                                    </h2>
+                                    <div
+                                        id="collapseOne"
+                                        class="accordion-collapse collapse show"
+                                        aria-labelledby="headingOne"
+                                        data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <strong>This is the first item's accordion body.</strong> It is shown by default,
+                                            until the collapse plugin adds the appropriate classes that we use to style each
+                                            element. These classes control the overall appearance, as well as the showing and
+                                            hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                                            our default variables. It's also worth noting that just about any HTML can go within
+                                            the <code>.accordion-body</code>, though the transition does limit overflow.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwo">
+                                        <button
+                                            class="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseTwo"
+                                            aria-expanded="false"
+                                            aria-controls="collapseTwo">
+                                            Accordion Item #2
+                                        </button>
+                                    </h2>
+                                    <div
+                                        id="collapseTwo"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="headingTwo"
+                                        data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <strong>This is the second item's accordion body.</strong> It is hidden by default,
+                                            until the collapse plugin adds the appropriate classes that we use to style each
+                                            element. These classes control the overall appearance, as well as the showing and
+                                            hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                                            our default variables. It's also worth noting that just about any HTML can go within
+                                            the <code>.accordion-body</code>, though the transition does limit overflow.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <button
+                                            class="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseThree"
+                                            aria-expanded="false"
+                                            aria-controls="collapseThree">
+                                            Accordion Item #3
+                                        </button>
+                                    </h2>
+                                    <div
+                                        id="collapseThree"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="headingThree"
+                                        data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <strong>This is the third item's accordion body.</strong> It is hidden by default,
+                                            until the collapse plugin adds the appropriate classes that we use to style each
+                                            element. These classes control the overall appearance, as well as the showing and
+                                            hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                                            our default variables. It's also worth noting that just about any HTML can go within
+                                            the <code>.accordion-body</code>, though the transition does limit overflow.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Milestones -->
+                        <div
+                            class="tab-pane fade container"
+                            id="milestones-tab-pane"
+                            role="tabpanel"
+                            aria-labelledby="milestones-tab"
+                            tabindex="3">
+                            <!-- Milestones / Achievements Modal -->
+                            <div
+                                class="modal fade"
+                                id="achievementsModal"
+                                tabindex="-1"
+                                aria-labelledby="milestonesModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="d-flex flex-row justify-content-center my-4">
+                                                <div class="col align-items-center d-flex flex-column flex-wrap">
+                                                    <h1 class="mb-5">Achievement Unlocked!</h1>
+                                                    <h4 class="md-3" id="achievementmodal-title">Where's the title?</h4>
+                                                    <div class="row">
+                                                        <div
+                                                            class="col position-relative m-0"
+                                                            style="height: 256px; width: 256px">
+                                                            <img
+                                                                src="/images/ach/rays-1.svg"
+                                                                alt="Logo"
+                                                                height="256"
+                                                                class="position-absolute rotate-fast"
+                                                                style="left: 0; top: 0" />
+                                                            <img
+                                                                src="/images/ach/rays-2.svg"
+                                                                alt="Logo"
+                                                                height="256"
+                                                                class="position-absolute rotate-slow"
+                                                                style="left: 0; top: 0" />
+                                                            <img
+                                                                id="achievementmodal-img"
+                                                                src="/images/ach/achievement.png"
+                                                                alt="Logo"
+                                                                height="128"
+                                                                class="position-absolute"
+                                                                style="left: 64px; top: 64px" />
+                                                        </div>
+                                                    </div>
+                                                    <h5 class="mt-4 mb-2 text-center" id="achievementmodal-desc">
+                                                        Apparently there's no description
+                                                    </h5>
+                                                    <p class="mb-0 text-muted text-center" id="achievementmodal-desc2">
+                                                        Not at all
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row align-items-center mb-3">
+                                <h4>Milestones and Achievements</h4>
+                                <p>
+                                    Show off your interpreting skills to the world! Because who wouldn't want to know how good you
+                                    can interpret statements with mediocre accuracy?
+                                </p>
+                                <p>
+                                    You can also view the progress and completion of your achievements. I'm sure that's all you've
+                                    ever wanted in life. Catch 'em all!
+                                </p>
+                            </div>
+                            <h3>Milestones</h3>
+                            <div class="alert alert-warning mb-3">
+                                <div class="card-body">
+                                    <span class="material-symbols-outlined">thumb_down</span><br />
+                                    The Milestones section has not been implemented yet. Booooo!<br />
+                                    You can review your achievements in the meantime, you can unlock almost all of them! They are
+                                    located down below<br /><br />
+                                    Stay in touch for recent updates about this section and other upcoming features!
+                                </div>
+                            </div>
+                            <div class="row mb-5 visually-hidden" id="milestonescontainer">
+                                <!-- Autogenerated -->
+                                <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
+                                    <div class="card">
+                                        <div class="card-body text-start">
+                                            <h5 class="card-title placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </h5>
+                                            <h2 class="card-text placeholder-glow">
+                                                <span class="placeholder col-4"></span>
+                                            </h2>
+                                            <p class="card-text text-muted placeholder-glow">
+                                                <span class="placeholder col-9"></span>
+                                                <span class="placeholder col-11"></span>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer text-muted placeholder-glow">
+                                            <span class="placeholder col-5"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
+                                    <div class="card">
+                                        <div class="card-body text-start">
+                                            <h5 class="card-title placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </h5>
+                                            <h2 class="card-text placeholder-glow">
+                                                <span class="placeholder col-4"></span>
+                                            </h2>
+                                            <p class="card-text text-muted placeholder-glow">
+                                                <span class="placeholder col-9"></span>
+                                                <span class="placeholder col-11"></span>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer text-muted placeholder-glow">
+                                            <span class="placeholder col-5"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
+                                    <div class="card">
+                                        <div class="card-body text-start">
+                                            <h5 class="card-title placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </h5>
+                                            <h2 class="card-text placeholder-glow">
+                                                <span class="placeholder col-4"></span>
+                                            </h2>
+                                            <p class="card-text text-muted placeholder-glow">
+                                                <span class="placeholder col-9"></span>
+                                                <span class="placeholder col-11"></span>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer text-muted placeholder-glow">
+                                            <span class="placeholder col-5"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
+                                    <div class="card">
+                                        <div class="card-body text-start">
+                                            <h5 class="card-title placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </h5>
+                                            <h2 class="card-text placeholder-glow">
+                                                <span class="placeholder col-4"></span>
+                                            </h2>
+                                            <p class="card-text text-muted placeholder-glow">
+                                                <span class="placeholder col-9"></span>
+                                                <span class="placeholder col-11"></span>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer text-muted placeholder-glow">
+                                            <span class="placeholder col-5"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3>Achievements</h3>
+                            <div class="mb-4">
+                                <p id="acoveralltxt">0/23 Achievements unlocked</p>
+                                <div
+                                    class="progress"
+                                    role="progressbar"
+                                    aria-label="Example with label"
+                                    aria-valuenow="0"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100">
+                                    <div class="progress-bar bg-success" id="acoverall" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="row" id="achievementscontainer">
+                                <!-- Autogenerated -->
+                                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+                                    <div class="card mb-3">
+                                        <div class="row g-0">
+                                            <div class="col-4"></div>
+                                            <div class="col-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title placeholder-glow">
+                                                        <span class="placeholder col-12"></span>
+                                                    </h5>
+                                                    <p class="card-text placeholder-glow">
+                                                        <span class="placeholder col-9"></span>
+                                                        <span class="placeholder col-11"></span>
+                                                        <span class="placeholder col-7"></span>
+                                                    </p>
+                                                    <p class="card-text placeholder-glow">
+                                                        <small>
+                                                            <span class="placeholder col-8"></span>
+                                                            <span class="placeholder col-5"></span>
+                                                        </small>
+                                                    </p>
+                                                    <div class="placeholder-wave">
+                                                        <span class="placeholder col-12 bg-success"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer text-secondary placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+                                    <div class="card mb-3">
+                                        <div class="row g-0">
+                                            <div class="col-4"></div>
+                                            <div class="col-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title placeholder-glow">
+                                                        <span class="placeholder col-12"></span>
+                                                    </h5>
+                                                    <p class="card-text placeholder-glow">
+                                                        <span class="placeholder col-9"></span>
+                                                        <span class="placeholder col-11"></span>
+                                                        <span class="placeholder col-7"></span>
+                                                    </p>
+                                                    <p class="card-text placeholder-glow">
+                                                        <small>
+                                                            <span class="placeholder col-8"></span>
+                                                            <span class="placeholder col-5"></span>
+                                                        </small>
+                                                    </p>
+                                                    <div class="placeholder-wave">
+                                                        <span class="placeholder col-12 bg-success"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer text-secondary placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+                                    <div class="card mb-3">
+                                        <div class="row g-0">
+                                            <div class="col-4"></div>
+                                            <div class="col-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title placeholder-glow">
+                                                        <span class="placeholder col-12"></span>
+                                                    </h5>
+                                                    <p class="card-text placeholder-glow">
+                                                        <span class="placeholder col-9"></span>
+                                                        <span class="placeholder col-11"></span>
+                                                        <span class="placeholder col-7"></span>
+                                                    </p>
+                                                    <p class="card-text placeholder-glow">
+                                                        <small>
+                                                            <span class="placeholder col-8"></span>
+                                                            <span class="placeholder col-5"></span>
+                                                        </small>
+                                                    </p>
+                                                    <div class="placeholder-wave">
+                                                        <span class="placeholder col-12 bg-success"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer text-secondary placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+                                    <div class="card mb-3">
+                                        <div class="row g-0">
+                                            <div class="col-4"></div>
+                                            <div class="col-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title placeholder-glow">
+                                                        <span class="placeholder col-12"></span>
+                                                    </h5>
+                                                    <p class="card-text placeholder-glow">
+                                                        <span class="placeholder col-9"></span>
+                                                        <span class="placeholder col-11"></span>
+                                                        <span class="placeholder col-7"></span>
+                                                    </p>
+                                                    <p class="card-text placeholder-glow">
+                                                        <small>
+                                                            <span class="placeholder col-8"></span>
+                                                            <span class="placeholder col-5"></span>
+                                                        </small>
+                                                    </p>
+                                                    <div class="placeholder-wave">
+                                                        <span class="placeholder col-12 bg-success"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer text-secondary placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+                                    <div class="card mb-3">
+                                        <div class="row g-0">
+                                            <div class="col-4"></div>
+                                            <div class="col-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title placeholder-glow">
+                                                        <span class="placeholder col-12"></span>
+                                                    </h5>
+                                                    <p class="card-text placeholder-glow">
+                                                        <span class="placeholder col-9"></span>
+                                                        <span class="placeholder col-11"></span>
+                                                        <span class="placeholder col-7"></span>
+                                                    </p>
+                                                    <p class="card-text placeholder-glow">
+                                                        <small>
+                                                            <span class="placeholder col-8"></span>
+                                                            <span class="placeholder col-5"></span>
+                                                        </small>
+                                                    </p>
+                                                    <div class="placeholder-wave">
+                                                        <span class="placeholder col-12 bg-success"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer text-secondary placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
+                                    <div class="card mb-3">
+                                        <div class="row g-0">
+                                            <div class="col-4"></div>
+                                            <div class="col-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title placeholder-glow">
+                                                        <span class="placeholder col-12"></span>
+                                                    </h5>
+                                                    <p class="card-text placeholder-glow">
+                                                        <span class="placeholder col-9"></span>
+                                                        <span class="placeholder col-11"></span>
+                                                        <span class="placeholder col-7"></span>
+                                                    </p>
+                                                    <p class="card-text placeholder-glow">
+                                                        <small>
+                                                            <span class="placeholder col-8"></span>
+                                                            <span class="placeholder col-5"></span>
+                                                        </small>
+                                                    </p>
+                                                    <div class="placeholder-wave">
+                                                        <span class="placeholder col-12 bg-success"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer text-secondary placeholder-glow">
+                                                <span class="placeholder col-6"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Settings -->
+                        <div
+                            class="tab-pane fade container"
+                            id="settings-tab-pane"
+                            role="tabpanel"
+                            aria-labelledby="settings-tab"
+                            tabindex="4">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item" role="presentation">
+                                    <button
+                                        class="nav-link active"
+                                        id="settingstab-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#settingstab"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="settingstab"
+                                        aria-selected="true">
+                                        Settings
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button
+                                        class="nav-link"
+                                        id="importexport-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#importexport"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="importexport"
+                                        aria-selected="false">
+                                        Import/Export
+                                    </button>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div
+                                    class="tab-pane active"
+                                    id="settingstab"
+                                    role="tabpanel"
+                                    aria-labelledby="settingstab-tab"
+                                    tabindex="0">
+                                    <div class="row align-items-center mb-3">
+                                        <h4 class="m-0 mt-4">Settings</h4>
+                                    </div>
+                                    <div class="alert alert-danger mb-3" id="missinginfo" style="display: none">
+                                        <div class="card-body">
+                                            The extension has detected some missing information. Maybe it's caused by a new
+                                            installation or update.<br />
+                                            MyHQ Paycheck <strong>will not work</strong> if the settings in this page are missing
+                                            or incorrect.
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-info mb-3">
+                                        The settings in this page help generate a paycheck estimate as accurate as possible.<br />
+                                        This information is private, and not shared with anyone else.
+                                    </div>
+                                    <br />
+                                    <form id="settingsform">
+                                        <div class="row">
+                                            <div class="mb-3 col-md-6">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="text" class="form-control" id="email" required disabled />
+                                                <div class="form-text">
+                                                    This will be the email attached to the PRO and Early Access versions
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="nickname" class="form-label">Nickname</label>
+                                                <input type="text" class="form-control" id="nickname" required />
+                                            </div>
+                                            <div class="mb-3 col-md-6 col-lg-3">
+                                                <label for="radiolevels" class="form-label">Interpreter Level </label>
+                                                <br />
+                                                <div
+                                                    class="btn-group"
+                                                    id="radiolevels"
+                                                    role="group"
+                                                    aria-label="radio toggle button group">
+                                                    <input
+                                                        type="radio"
+                                                        class="btn-check"
+                                                        name="radiolevel"
+                                                        id="radiolevel3"
+                                                        value="3"
+                                                        autocomplete="off"
+                                                        required />
+                                                    <label class="btn btn-outline-primary" for="radiolevel3">L3</label>
+                                                    <input
+                                                        type="radio"
+                                                        class="btn-check"
+                                                        name="radiolevel"
+                                                        id="radiolevel4"
+                                                        value="4"
+                                                        autocomplete="off" />
+                                                    <label class="btn btn-outline-primary" for="radiolevel4">L4</label>
+                                                    <input
+                                                        type="radio"
+                                                        class="btn-check"
+                                                        name="radiolevel"
+                                                        id="radiolevel5"
+                                                        value="5"
+                                                        autocomplete="off" />
+                                                    <label class="btn btn-outline-primary" for="radiolevel5">L5</label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-md-6 col-lg-3">
+                                                <label for="radiotypes" class="form-label">Salary Type</label>
+                                                <br />
+                                                <div
+                                                    class="btn-group"
+                                                    id="radiotypes"
+                                                    role="group"
+                                                    aria-label="radio toggle button group">
+                                                    <input
+                                                        type="radio"
+                                                        class="btn-check"
+                                                        name="radiotype"
+                                                        id="radiotypenormal"
+                                                        value="normal"
+                                                        autocomplete="off"
+                                                        required />
+                                                    <label class="btn btn-outline-primary" for="radiotypenormal">Normal</label>
+                                                    <input
+                                                        type="radio"
+                                                        class="btn-check"
+                                                        name="radiotype"
+                                                        id="radiotypefrontier"
+                                                        value="frontier"
+                                                        autocomplete="off" />
+                                                    <label class="btn btn-outline-primary" for="radiotypefrontier">Border</label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="startwork" class="form-label">Job Start Date</label>
+                                                <input class="form-control" type="date" id="startwork" />
+                                                <div class="form-text">
+                                                    The date you started working formally in HQ (the day you took calls for the
+                                                    first time)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="d-flex mb-3 justify-content-start flex-row-reverse">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="checkdev" />
+                                                    <label class="form-check-label" for="checkdev">Developer mode</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" id="savesettings">Save Settings</button>
+                                    </form>
+                                </div>
+                                <div
+                                    class="tab-pane"
+                                    id="importexport"
+                                    role="tabpanel"
+                                    aria-labelledby="importexport-tab"
+                                    tabindex="0">
+                                    <div class="row align-items-center mb-3">
+                                        <h4 class="m-0 mt-4">Import / Export</h4>
+                                    </div>
+                                    <div class="alert alert-info mb-3">
+                                        All your data is currently being saved locally, and it doesn't allow syncing across
+                                        devices (yet).<br />
+                                        If you need to backup/update/reinstall/change/move to another device/burn your
+                                        computer/etc. You can use this tool to export all your saved data into a nice file which
+                                        you can later import into another instance of the extension.
+                                        <br />
+                                        <br />
+                                        Keep in mind that the import/export will work ONLY if the email corresponds to the one in
+                                        the file
+                                    </div>
+                                    <br />
+                                    <div class="row align-items-center mb-3">
+                                        <h4 class="m-0 mt-4">Import</h4>
+                                    </div>
+                                    <form class="row" id="import-form">
+                                        <div class="col-auto">
+                                            <input class="form-control" type="file" id="import-file" />
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" class="btn btn-primary" id="import-button" disabled>
+                                                Import From File
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <p class="small mt-3" id="import-label"></p>
+                                    <br />
+                                    <div class="row align-items-center mb-3">
+                                        <h4 class="m-0 mt-4">Export</h4>
+                                    </div>
+                                    <p>
+                                        When you click the button below, MyHQPaycheck will generate a JSON file that contains all
+                                        the captured shifts, as well as the settings and paycheck info.
+                                    </p>
+                                    <p>
+                                        Once you've saved the file, you can use the import function in another instance of the
+                                        extension to restore your backup
+                                    </p>
+                                    <h6>Choose what to export</h6>
+                                    <form id="export-form">
+                                        <div class="form-check py-2">
+                                            <input class="form-check-input" type="checkbox" value="" id="export-all" />
+                                            <label class="form-check-label" for="export-all">All content</label>
+                                        </div>
+                                        <hr />
+                                        <div class="form-check py-2">
+                                            <input class="form-check-input" type="checkbox" value="" id="export-settings" />
+                                            <label class="form-check-label" for="export-settings">Settings</label>
+                                        </div>
+                                        <div class="form-check py-2">
+                                            <input class="form-check-input" type="checkbox" value="" id="export-calls" />
+                                            <label class="form-check-label" for="export-calls">Calls</label>
+                                        </div>
+                                        <div class="form-check py-2">
+                                            <input class="form-check-input" type="checkbox" value="" id="export-shifts" />
+                                            <label class="form-check-label" for="export-shifts">Shifts</label>
+                                        </div>
+                                        <div class="form-check py-2">
+                                            <input class="form-check-input" type="checkbox" value="" id="export-paycheck" />
+                                            <label class="form-check-label" for="export-paycheck">Paycheck Information</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-3" id="export-button" disabled>
+                                            Download Export File
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- About -->
+                        <div
+                            class="tab-pane fade container"
+                            id="about-tab-pane"
+                            role="tabpanel"
+                            aria-labelledby="about-tab"
+                            tabindex="5">
+                            <div class="row align-items-center mb-3">
+                                <h4 class="m-0">About Us</h4>
+                            </div>
+                            <div class="alert alert-success mb-3">
+                                Thank you for installing this extension! We are dedicated to providing you with the best possible
+                                experience and continuously improving our product. If you encounter any issues while using our
+                                extension, please don't hesitate to reach out by using the feedback button in the 'Support Us'
+                                tab. We value your input and are always working to improve our offerings. <br />Thank you for
+                                choosing <strong>MyHQ Paycheck</strong> and we hope it exceeds your expectations.<br /><br />
+                                Happy Terping!
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-1 col-0"></div>
+                                <div class="col-lg-6 col-md-10 col-12">
+                                    <div class="card mb-3 text-center">
+                                        <div class="card-body">
+                                            <img
+                                                src="/images/brand.svg"
+                                                alt="Logo"
+                                                height="80"
+                                                class="d-inline-block align-text-top" />
+                                            <p class="card-text text-muted">By Abdiel Jiménez & Mario Estrada</p>
+                                            <p class="card-text">
+                                                Original Concept by Abdiel Jiménez<br />
+                                                Paycheck Changes by Human Quality<br />
+                                                Chrome Extension Adaptation by Mario Estrada<br />
+                                                Formula Modifications by Abdiel Jiménez<br />
+                                                Graphics by Mario Estrada<br />
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-1 col-0"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 col-0"></div>
+                                <div class="col-lg-8 col-12" id="changelog-container">
+                                    <h5>Changelog</h5>
+                                    <!-- Autogenerated -->
+                                </div>
+                                <div class="col-lg-2 col-0"></div>
+                            </div>
+                        </div>
+
+                        <!-- Pro -->
+                        <div
+                            class="tab-pane fade container"
+                            id="pro-tab-pane"
+                            role="tabpanel"
+                            aria-labelledby="pro-tab"
+                            tabindex="6">
+                            <div class="row align-items-center mb-3">
+                                <!-- <h4 class="m-0">Support Us!</h4> -->
+                                <h4 class="m-0">Early Access Feedback</h4>
+                            </div>
+                            <iframe id="feedback-form" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0"
+                                >Loading…</iframe
+                            >
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <div class="container">
+                        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                            <div class="container col-md-4 d-flex align-items-center">
+                                <span class="mb-2 mb-md-0 text-muted">© 2023 Estrada, L. Jiménez, A</span>
+                            </div>
+                            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex mx-5">
+                                <li class="ms-3">
+                                    <a class="text-muted" href="mailto:abdiel.gtr@gmail.com"
+                                        ><span class="material-symbols-outlined">mail</span></a
+                                    >
+                                </li>
+                            </ul>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Early Access Modal -->
+        <div class="modal fade" id="betaModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <img src="/images/brand.svg" alt="Logo" height="50" />
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">MyHQ Paycheck - Chrome Extension</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex flex-row justify-content-center mt-5">
+                            <div class="col align-items-center d-flex flex-column flex-wrap">
+                                <h1>Welcome!</h1>
+                                <h5>To the <strong class="text-success">Early Access</strong> version of the extension</h5>
+
+                                <p>This extension is in Closed Beta stage</p>
+                                <p>Only the emails registered will be granted unlimited access to the extension</p>
+                                <div class="btn-toolbar mb-3" role="toolbar">
+                                    <div class="input-group">
+                                        <div class="input-group-text" id="btnGroupAddon">@</div>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Please enter Email"
+                                            id="emailverif" />
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-lg" id="verify-email">Verify</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="importWarning" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Warning</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            The extension has saved records. If you proceed with the import, the imported data will be merged with
+                            the current data, which means that new days will be added, and duplicated records will be overridden.
+                            Do you wish to continue?
+                        </p>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="import-button-override" data-bs-dismiss="modal">
+                            Import
+                        </button>
                     </div>
-                  </div>
                 </div>
-              </div>
-              <div class="row align-items-center mb-3">
-                <h4>Milestones and Achievements</h4>
-                <p>Show off your interpreting skills to the world! Because who wouldn't want to know how good you can interpret statements with mediocre accuracy? </p>
-                <p>You can also view the progress and completion of your achievements. I'm sure that's all you've ever wanted in life. Catch 'em all!</p>
-              </div>
-              <h3>Milestones</h3>
-              <div class="alert alert-warning mb-3">
-                <div class="card-body">
-                  <span class="material-symbols-outlined">thumb_down</span><br>
-                  The Milestones section has not been implemented yet. Booooo!<br>
-                  You can review your achievements in the meantime, you can unlock almost all of them! They are located down below<br><br>
-                  Stay in touch for recent updates about this section and other upcoming features!
-                </div>
-              </div>
-              <div class="row mb-5 visually-hidden" id="milestonescontainer">
-                <!-- Autogenerated -->
-                <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
-                  <div class="card">
-                    <div class="card-body text-start">
-                      <h5 class="card-title placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                      </h5>
-                      <h2 class="card-text placeholder-glow">
-                        <span class="placeholder col-4"></span>
-                      </h2>
-                      <p class="card-text text-muted placeholder-glow">
-                        <span class="placeholder col-9"></span>
-                        <span class="placeholder col-11"></span>
-                      </p>
-                    </div>
-                    <div class="card-footer text-muted placeholder-glow">
-                      <span class="placeholder col-5"></span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
-                  <div class="card">
-                    <div class="card-body text-start">
-                      <h5 class="card-title placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                      </h5>
-                      <h2 class="card-text placeholder-glow">
-                        <span class="placeholder col-4"></span>
-                      </h2>
-                      <p class="card-text text-muted placeholder-glow">
-                        <span class="placeholder col-9"></span>
-                        <span class="placeholder col-11"></span>
-                      </p>
-                    </div>
-                    <div class="card-footer text-muted placeholder-glow">
-                      <span class="placeholder col-5"></span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
-                  <div class="card">
-                    <div class="card-body text-start">
-                      <h5 class="card-title placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                      </h5>
-                      <h2 class="card-text placeholder-glow">
-                        <span class="placeholder col-4"></span>
-                      </h2>
-                      <p class="card-text text-muted placeholder-glow">
-                        <span class="placeholder col-9"></span>
-                        <span class="placeholder col-11"></span>
-                      </p>
-                    </div>
-                    <div class="card-footer text-muted placeholder-glow">
-                      <span class="placeholder col-5"></span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-6 col-sm-12 mb-3 mb-sm-3">
-                  <div class="card">
-                    <div class="card-body text-start">
-                      <h5 class="card-title placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                      </h5>
-                      <h2 class="card-text placeholder-glow">
-                        <span class="placeholder col-4"></span>
-                      </h2>
-                      <p class="card-text text-muted placeholder-glow">
-                        <span class="placeholder col-9"></span>
-                        <span class="placeholder col-11"></span>
-                      </p>
-                    </div>
-                    <div class="card-footer text-muted placeholder-glow">
-                      <span class="placeholder col-5"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h3>Achievements</h3>
-              <div class="mb-4">
-                <p id="acoveralltxt">0/23 Achievements unlocked</p>
-                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                  <div class="progress-bar bg-success" id="acoverall" style="width:0%"></div>
-                </div>
-              </div>
-              <div class="row" id="achievementscontainer">
-                <!-- Autogenerated -->
-                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
-                  <div class="card mb-3">
-                    <div class="row g-0">
-                      <div class="col-4">
-                      </div>
-                      <div class="col-8">
-                          <div class="card-body">
-                              <h5 class="card-title placeholder-glow">
-                                <span class="placeholder col-12"></span>
-                              </h5>
-                              <p class="card-text placeholder-glow">
-                                <span class="placeholder col-9"></span>
-                                <span class="placeholder col-11"></span>
-                                <span class="placeholder col-7"></span>
-                              </p>
-                              <p class="card-text placeholder-glow">
-                                <small>
-                                  <span class="placeholder col-8"></span>
-                                  <span class="placeholder col-5"></span>
-                                </small>
-                              </p>
-                              <div class="placeholder-wave  ">
-                                <span class="placeholder col-12 bg-success"></span>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="card-footer text-secondary placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
-                  <div class="card mb-3">
-                    <div class="row g-0">
-                      <div class="col-4">
-                      </div>
-                      <div class="col-8">
-                          <div class="card-body">
-                              <h5 class="card-title placeholder-glow">
-                                <span class="placeholder col-12"></span>
-                              </h5>
-                              <p class="card-text placeholder-glow">
-                                <span class="placeholder col-9"></span>
-                                <span class="placeholder col-11"></span>
-                                <span class="placeholder col-7"></span>
-                              </p>
-                              <p class="card-text placeholder-glow">
-                                <small>
-                                  <span class="placeholder col-8"></span>
-                                  <span class="placeholder col-5"></span>
-                                </small>
-                              </p>
-                              <div class="placeholder-wave  ">
-                                <span class="placeholder col-12 bg-success"></span>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="card-footer text-secondary placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
-                  <div class="card mb-3">
-                    <div class="row g-0">
-                      <div class="col-4">
-                      </div>
-                      <div class="col-8">
-                          <div class="card-body">
-                              <h5 class="card-title placeholder-glow">
-                                <span class="placeholder col-12"></span>
-                              </h5>
-                              <p class="card-text placeholder-glow">
-                                <span class="placeholder col-9"></span>
-                                <span class="placeholder col-11"></span>
-                                <span class="placeholder col-7"></span>
-                              </p>
-                              <p class="card-text placeholder-glow">
-                                <small>
-                                  <span class="placeholder col-8"></span>
-                                  <span class="placeholder col-5"></span>
-                                </small>
-                              </p>
-                              <div class="placeholder-wave">
-                                <span class="placeholder col-12 bg-success"></span>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="card-footer text-secondary placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
-                  <div class="card mb-3">
-                    <div class="row g-0">
-                      <div class="col-4">
-                      </div>
-                      <div class="col-8">
-                          <div class="card-body">
-                              <h5 class="card-title placeholder-glow">
-                                <span class="placeholder col-12"></span>
-                              </h5>
-                              <p class="card-text placeholder-glow">
-                                <span class="placeholder col-9"></span>
-                                <span class="placeholder col-11"></span>
-                                <span class="placeholder col-7"></span>
-                              </p>
-                              <p class="card-text placeholder-glow">
-                                <small>
-                                  <span class="placeholder col-8"></span>
-                                  <span class="placeholder col-5"></span>
-                                </small>
-                              </p>
-                              <div class="placeholder-wave">
-                                <span class="placeholder col-12 bg-success"></span>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="card-footer text-secondary placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
-                  <div class="card mb-3">
-                    <div class="row g-0">
-                      <div class="col-4">
-                      </div>
-                      <div class="col-8">
-                          <div class="card-body">
-                              <h5 class="card-title placeholder-glow">
-                                <span class="placeholder col-12"></span>
-                              </h5>
-                              <p class="card-text placeholder-glow">
-                                <span class="placeholder col-9"></span>
-                                <span class="placeholder col-11"></span>
-                                <span class="placeholder col-7"></span>
-                              </p>
-                              <p class="card-text placeholder-glow">
-                                <small>
-                                  <span class="placeholder col-8"></span>
-                                  <span class="placeholder col-5"></span>
-                                </small>
-                              </p>
-                              <div class="placeholder-wave">
-                                <span class="placeholder col-12 bg-success"></span>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="card-footer text-secondary placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-sm-6 mb-3 mb-sm-0">
-                  <div class="card mb-3">
-                    <div class="row g-0">
-                      <div class="col-4">
-                      </div>
-                      <div class="col-8">
-                          <div class="card-body">
-                              <h5 class="card-title placeholder-glow">
-                                <span class="placeholder col-12"></span>
-                              </h5>
-                              <p class="card-text placeholder-glow">
-                                <span class="placeholder col-9"></span>
-                                <span class="placeholder col-11"></span>
-                                <span class="placeholder col-7"></span>
-                              </p>
-                              <p class="card-text placeholder-glow">
-                                <small>
-                                  <span class="placeholder col-8"></span>
-                                  <span class="placeholder col-5"></span>
-                                </small>
-                              </p>
-                              <div class="placeholder-wave">
-                                <span class="placeholder col-12 bg-success"></span>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="card-footer text-secondary placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-      
-            <!-- Settings -->
-            <div class="tab-pane fade container" id="settings-tab-pane" role="tabpanel" aria-labelledby="settings-tab" tabindex="4">
-              <ul class="nav nav-pills">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="settingstab-tab" data-bs-toggle="tab" data-bs-target="#settingstab" type="button" role="tab" aria-controls="settingstab" aria-selected="true">Settings</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="importexport-tab" data-bs-toggle="tab" data-bs-target="#importexport" type="button" role="tab" aria-controls="importexport" aria-selected="false">Import/Export</button>
-                </li>
-              </ul>
-              <div class="tab-content">
-                <div class="tab-pane active" id="settingstab" role="tabpanel" aria-labelledby="settingstab-tab" tabindex="0">
-                  <div class="row align-items-center mb-3">
-                    <h4 class="m-0 mt-4">Settings</h4>
-                  </div>
-                  <div class="alert alert-danger mb-3" id="missinginfo" style="display:none">
-                    <div class="card-body">
-                      The extension has detected some missing information. Maybe it's caused by a new installation or update.<br>
-                      MyHQ Paycheck <strong>will not work</strong> if the settings in this page are missing or incorrect.
+        </div>
+        <div class="modal fade" id="import-error" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Error</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                  </div>
-                  <div class="alert alert-info mb-3">
-                    The settings in this page help generate a paycheck estimate as accurate as possible.<br>
-                    This information is private, and not shared with anyone else.
-                  </div>
-                  <br>
-                  <form id="settingsform">
-                    <div class="row">
-                      <div class="mb-3 col-md-6">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="email" required disabled>
-                        <div class="form-text">This will be the email attached to the PRO and Early Access versions</div>
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="nickname" class="form-label">Nickname</label>
-                        <input type="text" class="form-control" id="nickname" required>
-                      </div>
-                      <div class="mb-3 col-md-6 col-lg-3">
-                        <label for="radiolevels" class="form-label">Interpreter Level </label>
-                        <br>
-                        <div class="btn-group" id="radiolevels" role="group" aria-label="radio toggle button group">
-                          <input type="radio" class="btn-check" name="radiolevel" id="radiolevel3" value="3" autocomplete="off" required>
-                          <label class="btn btn-outline-primary" for="radiolevel3">L3</label>
-                          <input type="radio" class="btn-check" name="radiolevel" id="radiolevel4" value="4" autocomplete="off">
-                          <label class="btn btn-outline-primary" for="radiolevel4">L4</label>
-                          <input type="radio" class="btn-check" name="radiolevel" id="radiolevel5" value="5" autocomplete="off">
-                          <label class="btn btn-outline-primary" for="radiolevel5">L5</label>
-                        </div>
-                      </div>
-                      <div class="mb-3 col-md-6 col-lg-3">
-                        <label for="radiotypes" class="form-label">Salary Type</label>
-                        <br>
-                        <div class="btn-group" id="radiotypes" role="group" aria-label="radio toggle button group">
-                          <input type="radio" class="btn-check" name="radiotype" id="radiotypenormal" value="normal" autocomplete="off" required>
-                          <label class="btn btn-outline-primary" for="radiotypenormal">Normal</label>
-                          <input type="radio" class="btn-check" name="radiotype" id="radiotypefrontier" value="frontier" autocomplete="off">
-                          <label class="btn btn-outline-primary" for="radiotypefrontier">Border</label>
-                        </div>
-                      </div>
-                      <div class="mb-3 col-md-6">
-                        <label for="startwork" class="form-label">Job Start Date</label>
-                        <input class="form-control" type="date" id="startwork"/>
-                        <div class="form-text">The date you started working formally in HQ (the day you took calls for the first time)</div>
-                      </div>
+                    <div class="modal-body">
+                        <p id="import-error-text"></p>
                     </div>
-                    <div class="row">
-                      <div class="d-flex mb-3 justify-content-start flex-row-reverse">
-                        <div class="form-check form-switch">
-                          <input class="form-check-input" type="checkbox" role="switch" id="checkdev">
-                          <label class="form-check-label" for="checkdev">Developer mode</label>
-                        </div>
-                      </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="savesettings">Save Settings</button>
-                  </form>
                 </div>
-                <div class="tab-pane" id="importexport" role="tabpanel" aria-labelledby="importexport-tab" tabindex="0">
-                  <div class="row align-items-center mb-3">
-                    <h4 class="m-0 mt-4">Import / Export</h4>
-                  </div>
-                  <div class="alert alert-info mb-3">
-                    All your data is currently being saved locally, and it doesn't allow syncing across devices (yet).<br>
-                    If you need to backup/update/reinstall/change/move to another device/burn your computer/etc. You can use this tool to export all your saved data into a nice file which you can later import into another instance of the extension.
-                    <br>
-                    <br>
-                    Keep in mind that the import/export will work ONLY if the email corresponds to the one in the file
-                  </div>
-                  <br>
-                  <div class="row align-items-center mb-3">
-                    <h4 class="m-0 mt-4">Import</h4>
-                  </div>
-                  <form class="row" id="import-form">
-                    <div class="col-auto">
-                      <input class="form-control" type="file" id="import-file">
-                    </div>
-                    <div class="col-auto">
-                      <button type="submit" class="btn btn-primary" id="import-button" disabled>Import From File</button>
-                    </div>
-                  </form>
-                  <p class="small mt-3" id="import-label"></p>
-                  <br>
-                  <div class="row align-items-center mb-3">
-                    <h4 class="m-0 mt-4">Export</h4>
-                  </div>
-                  <p>When you click the button below, MyHQPaycheck will generate a JSON file that contains all the captured shifts, as well as the settings and paycheck info.</p>
-                  <p>Once you've saved the file, you can use the import function in another instance of the extension to restore your backup</p>
-                  <h6>Choose what to export</h6>
-                  <form id="export-form">
-                    <div class="form-check py-2">
-                      <input class="form-check-input" type="checkbox" value="" id="export-all">
-                      <label class="form-check-label" for="export-all">All content</label>
-                    </div>
-                    <hr>
-                    <div class="form-check py-2">
-                      <input class="form-check-input" type="checkbox" value="" id="export-settings">
-                      <label class="form-check-label" for="export-settings">Settings</label>
-                    </div>
-                    <div class="form-check py-2">
-                      <input class="form-check-input" type="checkbox" value="" id="export-calls">
-                      <label class="form-check-label" for="export-calls">Calls</label>
-                    </div>
-                    <div class="form-check py-2">
-                      <input class="form-check-input" type="checkbox" value="" id="export-shifts">
-                      <label class="form-check-label" for="export-shifts">Shifts</label>
-                    </div>
-                    <div class="form-check py-2">
-                      <input class="form-check-input" type="checkbox" value="" id="export-paycheck">
-                      <label class="form-check-label" for="export-paycheck">Paycheck Information</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3" id="export-button" disabled>Download Export File</button>
-                  </form>
-                </div>
-              </div>
-              
             </div>
-      
-            <!-- About -->
-            <div class="tab-pane fade container" id="about-tab-pane" role="tabpanel" aria-labelledby="about-tab" tabindex="5">
-              <div class="row align-items-center mb-3">
-                <h4 class="m-0">About Us</h4>
-              </div>
-              <div class="alert alert-success mb-3">
-                Thank you for installing this extension! We are dedicated to providing you with the best possible experience and continuously improving our product. If you encounter any issues while using our extension, please don't hesitate to reach out by using the feedback button in the 'Support Us' tab. We value your input and are always working to improve our offerings. <br>Thank you for choosing <strong>MyHQ Paycheck</strong> and we hope it exceeds your expectations.<br><br>
-                Happy Terping!
-              </div>
-              <div class="row">
-                <div class="col-lg-3 col-md-1 col-0"></div>
-                <div class="col-lg-6 col-md-10 col-12">
-      
-                  <div class="card mb-3 text-center">
-                    <div class="card-body">
-                      <img src="/images/brand.svg" alt="Logo" height="80" class="d-inline-block align-text-top">
-                      <p class="card-text text-muted">
-                        By Abdiel Jiménez & Mario Estrada
-                      </p>
-                      <p class="card-text">
-                        Original Concept by Abdiel Jiménez<br>
-                        Paycheck Changes by Human Quality<br>
-                        Chrome Extension Adaptation by Mario Estrada<br>
-                        Formula Modifications by Abdiel Jiménez<br>
-                        Graphics by Mario Estrada<br>
-                      </p>
+        </div>
+        <!-- Toast Container -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastcontainer">
+            <div id="liveToast" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <!-- <img src="..." class="rounded me-2" alt="..."> -->
+                    <strong class="me-auto">Achievement unlocked!</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <h6>Title</h6>
+                    <p>Description</p>
+                    <div class="mt-2 pt-2 border-top">
+                        <button type="button" class="btn btn-light btn-sm">Milestones Page</button>
                     </div>
-                  </div>
                 </div>
-                <div class="col-lg-3 col-md-1 col-0"></div>
-              </div>
-              <div class="row">
-                <div class="col-lg-2 col-0"></div>
-                <div class="col-lg-8 col-12" id="changelog-container">
-                  <h5>Changelog</h5>
-                  <!-- Autogenerated -->
-                </div>
-                <div class="col-lg-2 col-0"></div>
-              </div>
-      
             </div>
-      
-            <!-- Pro -->
-            <div class="tab-pane fade container" id="pro-tab-pane" role="tabpanel" aria-labelledby="pro-tab" tabindex="6">
-              <div class="row align-items-center mb-3">
-                <!-- <h4 class="m-0">Support Us!</h4> -->
-                <h4 class="m-0">Early Access Feedback</h4>
-              </div>
-              <iframe id="feedback-form" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-            </div>
-          </div>
-          <!-- Footer -->
-          <div class="container">
-            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-              <div class="container col-md-4 d-flex align-items-center">
-                <span class="mb-2 mb-md-0 text-muted">© 2023 Estrada, L. Jiménez, A</span>
-              </div>
-              <ul class="nav col-md-4 justify-content-end list-unstyled d-flex mx-5">
-                <li class="ms-3"><a class="text-muted" href="mailto:abdiel.gtr@gmail.com"><span class="material-symbols-outlined">mail</span></a></li>
-              </ul>
-            </footer>
-          </div>
         </div>
-      </div>
-    </div>
-    <!-- Early Access Modal -->
-    <div class="modal fade" id="betaModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <img src="/images/brand.svg" alt="Logo" height="50">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">MyHQ Paycheck - Chrome Extension</h1>
-          </div>
-          <div class="modal-body">
-            <div class="d-flex flex-row justify-content-center mt-5">
-              <div class="col align-items-center d-flex flex-column flex-wrap">
-
-                <h1>Welcome!</h1>
-                <h5>To the <strong class="text-success">Early Access</strong> version of the extension</h5>
-
-                <p>This extension is in Closed Beta stage</p>
-                <p>Only the emails registered will be granted unlimited access to the extension</p>
-                <div class="btn-toolbar mb-3" role="toolbar">
-                  <div class="input-group">
-                    <div class="input-group-text" id="btnGroupAddon">@</div>
-                    <input type="text" class="form-control" placeholder="Please enter Email" id="emailverif">
-                  </div>
-                </div>
-                <button type="button" class="btn btn-primary btn-lg" id="verify-email">Verify</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal fade" id="importWarning" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Warning</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p>The extension has saved records. If you proceed with the import, the imported data will be merged with the current data, which means that new days will be added, and duplicated records will be overridden. Do you wish to continue?</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" id="import-button-override" data-bs-dismiss="modal">Import</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal fade" id="import-error" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Error</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p id="import-error-text"></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Toast Container -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastcontainer">
-      <div id="liveToast" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-          <!-- <img src="..." class="rounded me-2" alt="..."> -->
-          <strong class="me-auto">Achievement unlocked!</strong>
-          <small>11 mins ago</small>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-          <h6>Title</h6>
-          <p>Description</p>
-          <div class="mt-2 pt-2 border-top">
-            <button type="button" class="btn btn-light btn-sm">Milestones Page</button>
-          </div>
-        </div>
-      </div>
-    </div>
- </body>
+    </body>
 </html>

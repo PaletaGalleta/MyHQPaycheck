@@ -8,6 +8,7 @@
 // Imports
 import * as storage from "./storage.js";
 import * as settings from "./settings.js";
+import * as period from "./periodhandler.js";
 import * as notifications from "./notifications.js";
 
 /**
@@ -22,9 +23,7 @@ let weekGraphLoaded = null;
 let weekGraphInfo;
 
 // Add listener for the Refresh button
-document.getElementById("reload-dashboard").addEventListener("click", () => {
-    location.reload();
-});
+document.getElementById("reload-dashboard").addEventListener("click", location.reload);
 
 // Listeners for goal increase/decrease
 document.getElementById("goalinc").addEventListener("click", increaseGoal);
@@ -269,20 +268,73 @@ function calculateHrDiff() {
 }
 
 /**
- * Loads the card for Today's Progress
+ * Loads the card for the Period Progress
  *
  */
-function loadPeriod() {
+async function loadPeriod() {
+    // Get estimated paycheck for this period
+    const periodInfo = period.getPeriodOf(moment(new Date()));
+    const periodDates = period.getDatesOf(periodInfo.period, periodInfo.taxYear);
+    const paycheckInfo = await period.getPeriodInfo(periodInfo.period, periodInfo.taxYear);
+
+    const firstDay = moment(periodDates.startDate, "DD-MM-YYYY");
+    const lastDay = moment(periodDates.endDate, "DD-MM-YYYY");
+    const totalDays = lastDay.diff(firstDay, "days");
+
+    let totalCalls = 0;
+    let longestCall = moment("00:00:00", "HH:mm:ss");
+    let callTime = moment("00:00:00", "HH:mm:ss");
+    let minsOnline = 0;
+
+    for (let iDay = moment(periodDates.startDate, "DD-MM-YYYY"); lastDay.diff(iDay, "days") >= 0; iDay.add(1, "d")) {
+        const recs = await storage.getDataFromLocalStorage("rec-" + iDay.format("DD-MM-YYYY"));
+        const shift = await storage.getDataFromLocalStorage("shift-" + moment().format("DD-MM-YYYY"));
+
+        // If no records, continue to next day
+        if (recs.empty) continue;
+
+        // Call records are present
+
+        // Get longest call
+        const highestC = moment(recs.highestDuration, "HH:mm:ss");
+        if (highestC.diff(longestCall) > 0) longestCall = highestC;
+
+        // Add day's total calls
+        totalCalls += recs.calls.length;
+
+        // Add today's calls duration
+
+        const callDuration = moment(recs.totalDuration, "HH:mm:ss");
+        callTime.add(callDuration.format("ss"), "s");
+        callTime.add(callDuration.format("mm"), "m");
+        callTime.add(callDuration.format("HH"), "h");
+
+        if (shift.empty) continue;
+
+        // NOT CONSIDERING DAYS OFF
+        minsOnline += shift.mins.immediate;
+    }
+
+    minsOnline /= 60;
+
+    document.getElementById("paysummary-total-calls").innerHTML = totalCalls;
+    document.getElementById("paysummary-longest-call").innerHTML = longestCall.format("HH:mm:ss");
+    document.getElementById("paysummary-total-call-time").innerHTML = callTime.format("HH:mm:ss") + " total call time";
+    document.getElementById("paysummary-mins-online").innerHTML = minsOnline + " hours";
+
     // Check if there's something already available on storage for today
-    storage.getDataFromLocalStorage("per-" + moment().format("DD-MM-YYYY")).then(function (value) {
-        if (!value.empty) {
-            // Call records are present, display the information
-            document.getElementById("paysummary").style.display = "flex";
-            document.getElementById("paysummary-norecs").style.display = "none";
-        } else {
-            // Call records not present, show additional info
-            document.getElementById("paysummary").style.display = "none";
-            document.getElementById("paysummary-norecs").style.display = "flex";
-        }
+
+    // Format the estimated Paycheck
+    const formattedValue = paycheckInfo.grandTotal.toLocaleString("es-MX", {
+        style: "currency",
+        currency: "MXN",
+        minimumFractionDigits: 2,
     });
+
+    document.getElementById("paysummary-paycheck").innerHTML = formattedValue;
+
+    if (totalCalls == 0) {
+        // Call records not present, show additional info
+        document.getElementById("paysummary-norecs").style.display = "flex";
+    }
 }

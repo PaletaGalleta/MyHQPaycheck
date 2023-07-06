@@ -69,10 +69,6 @@ async function initialize() {
     const periodDates = period.getDatesOf(periodInfo.period, periodInfo.taxYear);
     const paycheckInfo = await period.getPeriodInfo(periodInfo.period, periodInfo.taxYear);
 
-    console.log(periodInfo);
-    console.log(periodDates);
-    console.log(paycheckInfo);
-
     periodInfoCont.innerHTML = `Period ${periodInfo.period} - ${periodInfo.taxYear}`;
 
     // Format the period dates
