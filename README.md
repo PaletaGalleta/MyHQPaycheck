@@ -45,7 +45,9 @@ The project is currently in a Closed Beta stage. So even if you download the ext
 
 # 📦 Assets and Libraries
 
-| Link                                               | Type      | Use      |
-| -------------------------------------------------- | --------- | -------- |
-| [Bootstrap](https://getbootstrap.com/)             | Framework | Styling  |
-| [Material Symbols](https://fonts.google.com/icons) | Icons     | UI Icons |
+| Link                                               | Type               | Use                    |
+| -------------------------------------------------- | ------------------ | ---------------------- |
+| [Bootstrap](https://getbootstrap.com/)             | Framework          | Styling                |
+| [Material Symbols](https://fonts.google.com/icons) | Icons              | UI Icons               |
+| [Moment.js](https://momentjs.com/)                 | Javascript Library | Time/Date manipulation |
+| [Chart.js](https://www.chartjs.org/)               | Javascript Library | Chart creation         |
