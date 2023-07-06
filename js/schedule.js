@@ -8,11 +8,17 @@
 // notifications script variable
 let notifications;
 
+// Possible schedule pages
+const pages = [
+    "https://impact360.languageline.com/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=2_FS_MYSCHEDULE_PERSONAL&navparent%5BworkspaceId%5D=",
+    "https://impact360.languageline.com/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
+];
+
 // Load script
-(async () => {
+async () => {
     const src = chrome.runtime.getURL("js/notifications.js");
     notifications = await import(src);
-})();
+};
 
 // Set Timeout for the Injector to start working, because the page is so old that it doesn't load everything before displaying it to the user...
 window.onload = setTimeout(Injector, 3000);
@@ -202,9 +208,7 @@ function FrameLoaded() {
  */
 function checkPage() {
     // Check if the current page matches the "My Schedule -> Personal" page
-    let chk = window.location.href.match(
-        "https://impact360.languageline.com/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL"
-    );
+    let chk = pages.includes(window.location.href);
 
     // Set enabled state of the buttons accordingly
     document.getElementById("schedpersonbutton").disabled = chk;
