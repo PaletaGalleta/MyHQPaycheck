@@ -36,7 +36,7 @@ async function initialize() {
         <div id="sd-body" class="sidebarModuleBody">
             <span id="sd-status">No Results</span>
             <br>
-            <button id="sd-getinfo" disabled>Save Call Records</button>
+            <input type="button" id="sd-getinfo" value="Save Call Records">
         </div>
     `;
     sidebar.append(sidebarPanel);
@@ -155,6 +155,13 @@ async function getInfo() {
         const days = savedCalls == 1 ? " day" : " days";
         notifications.showToast(`${rowLength} call records found. ${savedCalls + days} updated`);
     } else notifications.showToast(rowLength + " call records found. No changes detected");
+
+    // Get settings
+    const resSettings = await chrome.storage.local.get(["settings"]);
+    const stng = resSettings.settings;
+    // Add call date
+    stng["lastCapturedCalls"] = moment().format("DD/MMMM/YY HH:mm:ss");
+    await chrome.storage.local.set({ settings: stng });
 
     // Enable the button
     document.getElementById("sd-getinfo").disabled = false;
@@ -290,7 +297,7 @@ function saveCallDay(date, calls) {
             dayRecords.availableTime = availableTime;
 
             // Save object on file
-            var kKey = "rec-" + date;
+            const kKey = "rec-" + date;
             savedCalls++;
             chrome.storage.local.set({ [kKey]: dayRecords }).then(() => {
                 notifications.showToast("Calls Saved on file succesfully - Date: " + date);

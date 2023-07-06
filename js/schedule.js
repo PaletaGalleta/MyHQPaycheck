@@ -218,7 +218,7 @@ function checkPage() {
  * Function that get the information displayed on the "My Schedule -> Personal" page
  *
  */
-function getInfo() {
+async function getInfo() {
     // Generate today's date
     const now = moment();
 
@@ -440,6 +440,12 @@ function getInfo() {
             regsSaved == 1
                 ? notifications.showToast("1 day have been saved in the system", "success")
                 : notifications.showToast(regsSaved + " days have been saved in the system", "success");
+        // Get settings
+        const resSettings = await chrome.storage.local.get(["settings"]);
+        const stng = resSettings.settings;
+        // Add call date
+        stng["lastCapturedSchedule"] = moment().format("DD/MMMM/YY HH:mm:ss");
+        await chrome.storage.local.set({ settings: stng });
     } else {
         // The user has graphical mode
 

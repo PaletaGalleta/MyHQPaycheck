@@ -262,8 +262,9 @@ function saveInfo() {
 export async function saveSettings() {
     // Save settings
     return new Promise((resolve, reject) => {
-        chrome.storage.local.set({ settings: savedSettings });
-        resolve();
+        chrome.storage.local.set({ settings: savedSettings }).then(() => {
+            resolve();
+        });
     });
 }
 
