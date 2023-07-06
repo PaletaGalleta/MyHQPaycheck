@@ -47,6 +47,9 @@
         "holiday": {
             "mex": 2,
             "aex": 0
+        },
+        "training": {
+            "rate": 77
         }
     },
     "validEmails": [
