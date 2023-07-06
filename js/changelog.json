@@ -1,7 +1,27 @@
 {
   "changelog": [
     {
-      "version": "0.7.0 (Current)",
+      "version": "0.8.0 (Current)",
+      "date": "06-07-2023",
+      "changes": [
+        "Added HQ Referral Program Link",
+        "Added training rate at $77",
+        "Added the pay period summary in dashboard",
+        "Impact360 Injector now recognizes the schedule page right away",
+        "Added the timestamp of latest capture (calls and shifts)",
+        "Changed two function definitions",
+        "Adjusted the image loading in the extension dropdown for Impact",
+        "Added 1 new Beta Tester",
+        "Added all impact360 codes according to libraries",
+        "Moved FWA to training, not Immediate",
+        "Added changes to the Sidebar info retrieval",
+        "Added 'Master Scheduler' achievement",
+        "Changed the Impact360 injector layout to a dropdown",
+        "Added a 'No calls to save' toast message for salesforce"
+      ]
+    },
+    {
+      "version": "0.7.0",
       "date": "02-07-2023",
       "changes": [
         "Added Information to popup page",
