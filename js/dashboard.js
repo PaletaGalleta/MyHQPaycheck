@@ -85,8 +85,12 @@ function loadToday() {
 async function loadWeek() {
     // Graph options
     const opts = {
-        aspectRatio: 2,
+        aspectRatio: 1.5,
         responsive: true,
+        interaction: {
+            intersect: false,
+            mode: "index",
+        },
         scales: {
             x: {
                 stacked: true,
@@ -102,10 +106,15 @@ async function loadWeek() {
         plugins: {
             legend: {
                 position: "bottom",
+                align: "start",
+                labels: {
+                    usePointStyle: true,
+                    pointStyle: "rectRounded",
+                },
             },
             title: {
                 display: true,
-                text: "Minutes per day",
+                text: "Minutes/day",
             },
         },
     };
@@ -152,32 +161,24 @@ async function loadWeek() {
         // Generate a new Promise for the data to load
         const promise = new Promise((resolve, reject) => {
             // Get the shift data of the day
-            storage
-                .getDataFromLocalStorage(
-                    "shift-" +
-                        moment(now)
-                            .add(i * -1, "days")
-                            .format("DD-MM-YYYY")
-                )
-                .then(value => {
-                    // Check if shift records are present
-                    if (!value.empty && value.type != "Off") {
-                        // Set the labels for the day
-                        weekGraphInfo.labels.unshift(
-                            moment(now)
-                                .add(i * -1, "days")
-                                .format("ddd DD/MM")
-                        );
-                        // Add the values
-                        weekGraphInfo.datasets[0].data.unshift(value.mins.immediate);
-                        weekGraphInfo.datasets[1].data.unshift(value.mins.ap * -1);
-                        weekGraphInfo.datasets[2].data.unshift(value.mins.lunch + value.mins.break);
-                        // Increase the value of the loaded days
-                        loadedDays++;
-                    }
-                    // Send the resolve to the promise
-                    resolve(value);
-                });
+            const iDay = moment(now).add(i * -1, "days");
+
+            storage.getDataFromLocalStorage("shift-" + iDay.format("DD-MM-YYYY")).then(value => {
+                // Check if shift records are present
+                if (!value.empty && value.type != "Off") {
+                    // Set the labels for the day
+                    weekGraphInfo.labels.unshift(iDay.format("ddd DD/MM"));
+
+                    // Add the values
+                    weekGraphInfo.datasets[0].data.unshift(value.mins.immediate);
+                    weekGraphInfo.datasets[1].data.unshift(value.mins.ap * -1);
+                    weekGraphInfo.datasets[2].data.unshift(value.mins.lunch + value.mins.break);
+                    // Increase the value of the loaded days
+                    loadedDays++;
+                }
+                // Send the resolve to the promise
+                resolve(value);
+            });
         });
         // Add the generated promise to the Promises array
         dataPromises.push(promise);
