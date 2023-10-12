@@ -1,142 +1,147 @@
 {
-  "changelog": [
-    {
-      "version": "0.8.0 (Current)",
-      "date": "06-07-2023",
-      "changes": [
-        "Added HQ Referral Program Link",
-        "Added training rate at $77",
-        "Added the pay period summary in dashboard",
-        "Impact360 Injector now recognizes the schedule page right away",
-        "Added the timestamp of latest capture (calls and shifts)",
-        "Changed two function definitions",
-        "Adjusted the image loading in the extension dropdown for Impact",
-        "Added 1 new Beta Tester",
-        "Added all impact360 codes according to libraries",
-        "Moved FWA to training, not Immediate",
-        "Added changes to the Sidebar info retrieval",
-        "Added 'Master Scheduler' achievement",
-        "Changed the Impact360 injector layout to a dropdown",
-        "Added a 'No calls to save' toast message for salesforce"
-      ]
-    },
-    {
-      "version": "0.7.0",
-      "date": "02-07-2023",
-      "changes": [
-        "Added Information to popup page",
-        "Removed all dependencies from the Storage module",
-        "Changed AEX multiplier to 0. They are not paid",
-        "Added FDBCK and FWA codes as immediate",
-        "Added Import/export feature. Available in settings page",
-        "Changed the way how Injectors handle JS modules",
-        "Changed function definitions",
-        "Added Daily Hour calculations for Last 7 Days card",
-        "Added a 'saveSettings' export function",
-        "Dashboard Graph no longer shows days off",
-        "Changed 'Frontier' to 'Border' in settings"
-      ]
-    },
-    {
-      "version": "0.6.0",
-      "date": "25-06-2023",
-      "changes": [
-        "Changed the Quick Links Section: Added Rackspace and SpeedTest",
-        "Fixed the Salesforce Button not showing on updated web apps",
-        "Changed Labels of Longest, Shortest and Average calls",
-        "Added AAP, PE and Voluntary Time Off to supported schedules in Verint",
-        "Added tips file, for Tip of the Day and FAQ",
-        "Updated Salesforce Notifications and achievements fetcher",
-        "Added 'Tools' and 'Community Tools' quick link support",
-        "Fixed schedule reading on Impact, now it can read all months at the same time",
-        "Changed Labels of Longest, Shortest and Average calls"
-      ]
-    },
-    {
-      "version": "0.5.0",
-      "date": "28-02-2023",
-      "changes": [
-        "Early Access release",
-        "Added a Feedback form, only for testers",
-        "Reviewed all functional features",
-        "Changed the calculator table so it substracts the AP instead of only showing it for informative purposes",
-        "The Settings page now gets locked until the initial settings are set",
-        "Added development warning messages to the Paychecks and Milestones section",
-        "Added a popup message on the extension icon. It doesn't work but you can see the potential :v",
-        "Removed the User Sign In badge",
-        "Fixed general bugs"
-      ]
-    },
-    {
-      "version": "0.4.5",
-      "date": "25-02-2023",
-      "changes": [
-        "Added Achievement icons",
-        "Added Early Access wall, accesible only for registered emails",
-        "Added achievement 'Getting paid for watching Netflix'",
-        "Updated Documentation",
-        "Added general Achievements Unlock System, using toasts and browser notifications",
-        "Minor stability and performance changes",
-        "Added support for Call reg achievements",
-        "Added two secret achievements",
-        "'Sending the devil to buy tortillas' renamed to 'Sending the devil to get his WIC card'",
-        "Updated achievement descriptions",
-        "Added achievement 'The Survivors' Club'",
-        "Temporarily renamed the Support section to Feedback",
-        "Embedded a Report form in the Feedback tab",
-        "Added a providers counter",
-        "Moved the AP bar of the Weekly bar chart to the bottom, showing negative numbers",
-        "Renamed 'Paycheck' tab to 'Paychecks'",
-        "Added dynamic loaders for Milestones and Feedback Forms",
-        "Added Achievement visualizers",
-        "Updated function descriptions",
-        "Added unlock system for 'The Veteran' achievement"
-      ],
-      "fixes": [
-        "Fixed a bug where call records of the same day were being overwritten and counted as double",
-        "Fixed a bug where days off were interfering with weekly calculations"
-      ]
-    },
-    {
-      "version": "0.4.0",
-      "date": "22-02-2023",
-      "changes": [
-        "Added Calculator UI",
-        "Added Payment Periods Calculator",
-        "Added Calculator Breakdown",
-        "Removed 'Shift Start', 'Shift End' and 'Hours' from Settings, now calculated automatically",
-        "Added Donut Graph in Calculator"
-      ]
-    },
-    {
-      "version": "0.3.0",
-      "date": "20-02-2023",
-      "changes": [
-        "Early Alpha release",
-        "Redesigned Dashboard Layout",
-        "Added Extension icon",
-        "Added Changelog",
-        "Added Extension JSON Constants",
-        "Added Paycheck JSON Constants",
-        "Added a general Refresh button",
-        "Refactored the milestones/achievements list (Milestones still not working)",
-        "Added a dynamic badge below the logo, depending on the type of version",
-        "Added Email field in Settings",
-        "Added Salary Type selector in Settings",
-        "Added Job Start Date field in Settings"
-      ]
-    },
-    {
-      "version": "0.2.0",
-      "date": "15-02-2023",
-      "changes": [
-        "Divided code into modules",
-        "Added Toasts",
-        "Added Salesforce scraper",
-        "Added Impact360 scraper",
-        "Added Graph to the Weekly Summary",
-        "Added a refresh button to the top of the Dashboard"
-      ]
-    }
-  ]
+    "changelog": [
+        {
+            "version": "0.8.2 (Current)",
+            "date": "12-10-2023",
+            "changes": ["Updated Salesforce URL", "Added TimeSpan, Shift and Call classes"]
+        },
+        {
+            "version": "0.8.0",
+            "date": "06-07-2023",
+            "changes": [
+                "Added HQ Referral Program Link",
+                "Added training rate at $77",
+                "Added the pay period summary in dashboard",
+                "Impact360 Injector now recognizes the schedule page right away",
+                "Added the timestamp of latest capture (calls and shifts)",
+                "Changed two function definitions",
+                "Adjusted the image loading in the extension dropdown for Impact",
+                "Added 1 new Beta Tester",
+                "Added all impact360 codes according to libraries",
+                "Moved FWA to training, not Immediate",
+                "Added changes to the Sidebar info retrieval",
+                "Added 'Master Scheduler' achievement",
+                "Changed the Impact360 injector layout to a dropdown",
+                "Added a 'No calls to save' toast message for salesforce"
+            ]
+        },
+        {
+            "version": "0.7.0",
+            "date": "02-07-2023",
+            "changes": [
+                "Added Information to popup page",
+                "Removed all dependencies from the Storage module",
+                "Changed AEX multiplier to 0. They are not paid",
+                "Added FDBCK and FWA codes as immediate",
+                "Added Import/export feature. Available in settings page",
+                "Changed the way how Injectors handle JS modules",
+                "Changed function definitions",
+                "Added Daily Hour calculations for Last 7 Days card",
+                "Added a 'saveSettings' export function",
+                "Dashboard Graph no longer shows days off",
+                "Changed 'Frontier' to 'Border' in settings"
+            ]
+        },
+        {
+            "version": "0.6.0",
+            "date": "25-06-2023",
+            "changes": [
+                "Changed the Quick Links Section: Added Rackspace and SpeedTest",
+                "Fixed the Salesforce Button not showing on updated web apps",
+                "Changed Labels of Longest, Shortest and Average calls",
+                "Added AAP, PE and Voluntary Time Off to supported schedules in Verint",
+                "Added tips file, for Tip of the Day and FAQ",
+                "Updated Salesforce Notifications and achievements fetcher",
+                "Added 'Tools' and 'Community Tools' quick link support",
+                "Fixed schedule reading on Impact, now it can read all months at the same time",
+                "Changed Labels of Longest, Shortest and Average calls"
+            ]
+        },
+        {
+            "version": "0.5.0",
+            "date": "28-02-2023",
+            "changes": [
+                "Early Access release",
+                "Added a Feedback form, only for testers",
+                "Reviewed all functional features",
+                "Changed the calculator table so it substracts the AP instead of only showing it for informative purposes",
+                "The Settings page now gets locked until the initial settings are set",
+                "Added development warning messages to the Paychecks and Milestones section",
+                "Added a popup message on the extension icon. It doesn't work but you can see the potential :v",
+                "Removed the User Sign In badge",
+                "Fixed general bugs"
+            ]
+        },
+        {
+            "version": "0.4.5",
+            "date": "25-02-2023",
+            "changes": [
+                "Added Achievement icons",
+                "Added Early Access wall, accesible only for registered emails",
+                "Added achievement 'Getting paid for watching Netflix'",
+                "Updated Documentation",
+                "Added general Achievements Unlock System, using toasts and browser notifications",
+                "Minor stability and performance changes",
+                "Added support for Call reg achievements",
+                "Added two secret achievements",
+                "'Sending the devil to buy tortillas' renamed to 'Sending the devil to get his WIC card'",
+                "Updated achievement descriptions",
+                "Added achievement 'The Survivors' Club'",
+                "Temporarily renamed the Support section to Feedback",
+                "Embedded a Report form in the Feedback tab",
+                "Added a providers counter",
+                "Moved the AP bar of the Weekly bar chart to the bottom, showing negative numbers",
+                "Renamed 'Paycheck' tab to 'Paychecks'",
+                "Added dynamic loaders for Milestones and Feedback Forms",
+                "Added Achievement visualizers",
+                "Updated function descriptions",
+                "Added unlock system for 'The Veteran' achievement"
+            ],
+            "fixes": [
+                "Fixed a bug where call records of the same day were being overwritten and counted as double",
+                "Fixed a bug where days off were interfering with weekly calculations"
+            ]
+        },
+        {
+            "version": "0.4.0",
+            "date": "22-02-2023",
+            "changes": [
+                "Added Calculator UI",
+                "Added Payment Periods Calculator",
+                "Added Calculator Breakdown",
+                "Removed 'Shift Start', 'Shift End' and 'Hours' from Settings, now calculated automatically",
+                "Added Donut Graph in Calculator"
+            ]
+        },
+        {
+            "version": "0.3.0",
+            "date": "20-02-2023",
+            "changes": [
+                "Early Alpha release",
+                "Redesigned Dashboard Layout",
+                "Added Extension icon",
+                "Added Changelog",
+                "Added Extension JSON Constants",
+                "Added Paycheck JSON Constants",
+                "Added a general Refresh button",
+                "Refactored the milestones/achievements list (Milestones still not working)",
+                "Added a dynamic badge below the logo, depending on the type of version",
+                "Added Email field in Settings",
+                "Added Salary Type selector in Settings",
+                "Added Job Start Date field in Settings"
+            ]
+        },
+        {
+            "version": "0.2.0",
+            "date": "15-02-2023",
+            "changes": [
+                "Divided code into modules",
+                "Added Toasts",
+                "Added Salesforce scraper",
+                "Added Impact360 scraper",
+                "Added Graph to the Weekly Summary",
+                "Added a refresh button to the top of the Dashboard"
+            ]
+        }
+    ]
 }
