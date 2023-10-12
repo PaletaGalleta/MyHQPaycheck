@@ -8,12 +8,13 @@ export class TimeSpan {
     /**
      * Constructor
      *
-     * @param {string} type - The Code of the timespan
+     * @param {string} type     - The Code of the timespan
      * @param {number} duration - The duration of the timespan
      */
     constructor(type, duration) {
         /** The Code of the timespan */
         this.type = type;
+
         /** The duration of the timespan */
         this.duration = duration;
     }
@@ -23,18 +24,21 @@ export class Call {
     /**
      * Constructor
      *
-     * @param {number} duration - The duration (in ms) of the call
-     * @param {moment} startTime - The time the call started
-     * @param {moment} endTime - The time the call ended
-     * @param {boolean} report - Whether the call was reported or not
+     * @param {number} duration     - The duration (in ms) of the call
+     * @param {string} startTime    - The time the call started
+     * @param {string} endTime      - The time the call ended
+     * @param {boolean} report      - Whether the call was reported or not
      */
     constructor(duration, startTime, endTime, report) {
         /** The duration (in ms) of the call */
         this.duration = duration;
+
         /** The time the call started */
         this.startTime = startTime;
+
         /** The time the call ended */
         this.endTime = endTime;
+
         /** Whether the call was reported or not */
         this.report = report;
     }
@@ -49,22 +53,31 @@ export class Shift {
     constructor(date) {
         /** The type of shift (schedule or adherence) */
         this.type = SHIFT_TYPE_ADHERENCE;
+
         /** The date of the Shift */
         this.date = date;
+
         /** Array of Calls of the shift */
         this.calls = [];
+
         /** Array of Timespans of the Shift */
         this.shift = [];
-        /** The total time the interpreter was available */
+
+        /** @property {number} The total time the interpreter was available */
         this.availableTime = 0;
+
         /** The amount (in ms) of the longest call */
         this.highestDuration = 0;
+
         /** The amount (in ms) of the shortest call */
         this.lowestDuration = 9999999;
+
         /** The amount (in ms) of the total duration of all calls */
         this.totalDuration = 0;
+
         /** The average duration (in ms) of all the calls */
         this.avgDuration = 0;
+
         /** The amount of call reports on that day */
         this.reports = 0;
     }
@@ -74,16 +87,20 @@ export class Shift {
      *
      * @deprecated This reverts the object to type SHIFT_TYPE_SCHEDULE
      *
-     * @param {JSON} mins - JSON containing the minute information such as AP, break, immediate, lunch, overtime, training
-     * @param {JSON} shift - JSON containing the shift information such as end, realEnd, realStart, start
-     * @param {string} code - The type of shift (Impact code)
+     * @param {JSON} mins       - JSON containing the minute information such as AP, break, immediate,
+     *                              lunch, overtime, training
+     * @param {JSON} shift      - JSON containing the shift information such as end, realEnd, realStart, start
+     * @param {string} code     - The type of shift (Impact code)
      */
     setShift(code, mins = undefined, shift = undefined) {
         this.type = SHIFT_TYPE_SCHEDULE;
+
         /** The type of shift (Impact code) */
         this.code = code;
+
         /** JSON containing the minute information such as AP, break, immediate, lunch, overtime, training */
         this.mins = mins;
+
         /** JSON containing the shift information such as end, realEnd, realStart, start */
         this.schedule = shift;
     }

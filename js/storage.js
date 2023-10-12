@@ -41,7 +41,7 @@ export function getDataFromLocalStorage(key) {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get([key], result => {
             const objectResult = result[key];
-            resolve(objectResult ? objectResult : { empty: true });
+            resolve(objectResult ? objectResult : {empty: true});
         });
     });
 }
@@ -53,10 +53,10 @@ export function getDataFromLocalStorage(key) {
  *
  * @param {string} filename - The filename of the achievement, in full path
  *
- * @return {JSON} - The Object loaded from the JSON file
+ * @return {JSON} The Object loaded from the JSON file
  *
  */
-export async function loadJSON(filename) {
+export function loadJSON(filename) {
     return new Promise((resolve, reject) => {
         fetch(filename).then(response => {
             response.json().then(data => {
@@ -69,7 +69,7 @@ export async function loadJSON(filename) {
 /**
  * Export Data
  */
-export async function exportData() {
+export function exportData() {
     return new Promise((resolve, reject) => {
         // Verify if an option is selected
         const exportSettings = document.getElementById("export-settings").checked;
@@ -129,7 +129,7 @@ export async function exportData() {
  */
 function exportJSONToFile(jsonData, filename) {
     const jsonString = JSON.stringify(jsonData);
-    const blob = new Blob([jsonString], { type: "application/json" });
+    const blob = new Blob([jsonString], {type: "application/json"});
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
