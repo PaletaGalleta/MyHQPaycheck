@@ -59,6 +59,9 @@ export function load() {
             // Get saved settings
             savedSettings = value;
 
+            // Check Convert
+            checkConvert();
+
             // Check if version matches with the one that is needed
             if (savedSettings.settingsversion < settingsVersion) {
                 // Version mismatched
@@ -130,9 +133,6 @@ export function load() {
             if (res) notifications.showToast("Records Imported Succesfully", "info");
         });
     });
-
-    // Check Convert
-    checkConvert();
 }
 
 /**
@@ -391,6 +391,10 @@ function checkConvert() {
     }
 }
 async function convertCalls() {
+    notifications.showToast("Converting Calls and shiftt info to new format...");
+    // Create the Shifts array
+    const shifts = {};
+
     // Get object keys
     chrome.storage.local.get(null).then(data => {
         const keys = Object.keys(data);
@@ -399,16 +403,54 @@ async function convertCalls() {
             const key = keys[i];
 
             // Get recs
-            if (key.startsWith("rec-")) {
-                // Save the date and create a call if not needed
-            }
-            // get schedules
-            if (key.startsWith("shift-")) {
-            }
+            if (key.startsWith("rec-") || key.startsWith("shift-")) {
+                // Check if date is already on array
+                const parts = key.split("-");
+                const tmpDate = parts.slice(1).join("-");
 
-            objectData[key] = data[key];
+                /** @var {Shift[]} existingDate */
+                let existingDate = shifts[`s-${tmpDate}`];
+
+                if (!existingDate) {
+                    let newShift = new ShiftController.Shift(tmpDate);
+                    shifts[`s-${tmpDate}`] = newShift;
+                    existingDate = shifts[`s-${tmpDate}`];
+                }
+
+                const info = data[key];
+                if (key.startsWith("rec-")) {
+                    info.calls.forEach(call => {
+                        const tmpCall = new ShiftController.Call(call.duration, call.startTime, call.endTime, call.report);
+                        existingDate.addCall(tmpCall);
+                    });
+                }
+                // get schedules
+                else if (key.startsWith("shift-")) {
+                    existingDate.setShift(info.type, info.mins, info.shift);
+                }
+            }
         }
 
-        resolve(true);
+        console.log("New converted format:", shifts, "saving");
+
+        // Save new data
+        chrome.storage.local.set(shifts).then(() => {
+            // Erase Old data
+            for (let i = 0; i < keys.length; i++) {
+                const key = keys[i];
+
+                // Get recs
+                if (key.startsWith("rec-") || key.startsWith("shift-")) {
+                    chrome.storage.local.remove(key);
+                }
+            }
+
+            // Save setting
+            savedSettings.callsConverted = 1;
+            saveSettings();
+
+            // Reload the current page
+            location.reload();
+        });
     });
 }
