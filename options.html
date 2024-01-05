@@ -319,8 +319,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12 mb-3">
-                                                    <h5 class="card-title">Estimated Income</h5>
-                                                    <h2 class="card-title placeholder-glow">
+                                                    <h5 class="card-title">Estimated Income for Today</h5>
+                                                    <h2 class="card-title placeholder-glow" id="income-today">
                                                         <span class="placeholder col-6"></span>
                                                     </h2>
                                                 </div>
@@ -354,8 +354,11 @@
                                                 <div class="col-6">
                                                     <p class="card-text mb-0"><small>Daily Goal</small></p>
                                                     <div class="input-group">
-                                                        <button type="button" class="btn btn-outline-secondary" id="goaldec">
-                                                            -
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-outline-secondary d-flex"
+                                                            id="goaldec">
+                                                            <span class="material-symbols-outlined">remove</span>
                                                         </button>
                                                         <input
                                                             type="text"
@@ -363,8 +366,11 @@
                                                             id="goal"
                                                             value="0"
                                                             disabled />
-                                                        <button type="button" class="btn btn-outline-secondary" id="goalinc">
-                                                            +
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-outline-secondary d-flex"
+                                                            id="goalinc">
+                                                            <span class="material-symbols-outlined">add</span>
                                                         </button>
                                                     </div>
                                                 </div>
