@@ -7,6 +7,7 @@
 
 /** Notifications variable */
 let notifications;
+let storage;
 
 /** Providers Variable */
 let providers;
@@ -26,6 +27,7 @@ let savedCalls = 0;
 async function initialize() {
     // Get notifications library
     notifications = await import(chrome.runtime.getURL("js/notifications.js"));
+    storage = await import(chrome.runtime.getURL("js/storage.js"));
     // Add sidebar to Page
     const sidebar = document.querySelector("#sidebarDiv");
     const sidebarPanel = document.createElement("div");
@@ -137,12 +139,19 @@ async function getInfo() {
         // Save row info in object
         callDay.startTime = moment(startTime).format("HH:mm:ss");
         callDay.endTime = moment(endTime).format("HH:mm:ss");
-        callDay.account = acct;
         callDay.duration = +dur;
         callDay.language = lang;
 
+        // Get the providers info and send it to the function
+        addProvider(acct, dur);
+
+        // Check if the call was in another language
+        if (callDay.language != "SPANISH") UnlockAchievement("otherlang", currentDate, callDay.startTime);
+
+        const callObject = new Call(callDay.duration, callDay.startTime, callDay.endTime, callDay.report);
+
         // Save object in array
-        callInfo.push(callDay);
+        callInfo.push(callObject);
     }
 
     // Save Day
@@ -161,7 +170,7 @@ async function getInfo() {
     const stng = resSettings.settings;
     // Add call date
     stng["lastCapturedCalls"] = moment().format("DD/MMMM/YY HH:mm:ss");
-    await chrome.storage.local.set({ settings: stng });
+    await chrome.storage.local.set({settings: stng});
 
     // Enable the button
     document.getElementById("sd-getinfo").disabled = false;
@@ -177,62 +186,17 @@ async function getInfo() {
  *
  */
 function saveCallDay(date, calls) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         // Check if call record already exists
-        chrome.storage.local.get("rec-" + date).then(result => {
-            // Get the records
-            const ach = result["rec-" + date];
+        getShift(date).then(shift => {
+            for (let i = 0; i < calls.length; i++) {
+                const call = calls[i];
+                shift.addCall(call);
 
-            // Check if theres already a record saved on file
-            if (ach) {
-                // Check if the amount of calls is the same
-                if (ach.calls.length == calls.length) {
-                    resolve(false); // Don't save anything
-                    return;
-                }
-            }
+                let shortCalls = [];
 
-            // Generate DayRecords object
-            let dayRecords = {
-                calls: calls,
-                reports: 0,
-            };
-
-            // Create counters
-            let totalDuration = 0;
-            let highestDuration = 0;
-            let lowestDuration = 99999;
-            let shortCalls = [];
-            let availableTime = 0;
-
-            // Iterate through calls
-            for (var i = 0; i < dayRecords.calls.length; i++) {
-                const callRec = dayRecords.calls[i];
                 // Shortcut to duration
-                const dur = callRec.duration;
-
-                // Get time between calls
-                if (i > 0) {
-                    let tim = moment(callRec.startTime, "HH:mm:ss").diff(
-                        moment(dayRecords.calls[i - 1].endTime, "HH:mm:ss"),
-                        "seconds"
-                    );
-                    availableTime += tim;
-                }
-
-                // Add duration to totals
-                totalDuration += dur;
-
-                // Unlock devil achievement
-                if (totalDuration / 60 > 666) {
-                    UnlockAchievement("devil", date, callRec.endTime, 666);
-                }
-
-                // Check if it's higher
-                if (dur > highestDuration) highestDuration = dur;
-
-                // Check if it's lower
-                if (dur < lowestDuration) lowestDuration = dur;
+                const dur = call.duration;
 
                 // Check if duration is less than permitted time for shortcalls
                 if (dur < minDuration) {
@@ -244,7 +208,7 @@ function saveCallDay(date, calls) {
 
                         // Cycle between short calls
                         for (let s = 0; s < shortCalls.length; s++) {
-                            const diff = moment(callRec.startTime, "HH:mm:ss").diff(moment(shortCalls[s], "HH:mm:ss"), "minutes");
+                            const diff = moment(call.startTime, "HH:mm:ss").diff(moment(shortCalls[s], "HH:mm:ss"), "minutes");
                             if (diff > shortCallsMins) {
                                 // It's not in the half hour range anymore, increase the counter
                                 miniCtr++;
@@ -258,66 +222,34 @@ function saveCallDay(date, calls) {
                         }
                     }
                     // Add the short call
-                    shortCalls.push(callRec.startTime);
+                    shortCalls.push(call.startTime);
 
                     // Check if short call amount is 5
-                    if (shortCalls.length >= 5) UnlockAchievement("pinLocked", date, callRec.startTime);
-                    // Check if short call amount is 4
-                    else if (shortCalls.length == 4) UnlockAchievement("pinAlmostLocked", date, callRec.startTime);
+                    setAchievementProgress("pinLocked", shortCalls.length, true);
+                    setAchievementProgress("pinAlmostLocked", shortCalls.length, true);
 
                     // Check if duration is 1 second
-                    if (dur == 1) UnlockAchievement("onesec", date, callRec.startTime);
+                    if (dur == 1) UnlockAchievement("onesec", date, call.startTime);
 
                     // Check if duration is 0 seconds
-                    if (dur == 0) UnlockAchievement("zerosec", date, callRec.startTime);
+                    if (dur == 0) UnlockAchievement("zerosec", date, call.startTime);
                 }
 
-                // Check if the call was in another language
-                if (callRec.language != "SPANISH") UnlockAchievement("otherlang", date, callRec.startTime);
-
-                // Increase the counter if call reports is YES
-                if (callRec.report) dayRecords.reports++;
-
-                // Delete the language field
-                delete callRec.language;
-
-                // Get the providers info and send it to the function
-                addProvider(callRec.account, dur);
-
                 // Delete the provider field
-                delete callRec.account;
+                delete call.account;
             }
 
-            // Save counters
-            let avgDuration = Math.trunc(totalDuration / dayRecords.calls.length);
-            dayRecords.avgDuration = moment().startOf("day").second(avgDuration).format("HH:mm:ss");
-            dayRecords.totalDuration = moment().startOf("day").second(totalDuration).format("HH:mm:ss");
-            dayRecords.highestDuration = moment().startOf("day").second(highestDuration).format("HH:mm:ss");
-            dayRecords.lowestDuration = moment().startOf("day").second(lowestDuration).format("HH:mm:ss");
-            dayRecords.availableTime = availableTime;
+            // Unlock devil achievement
+            setAchievementProgress("devil", shift.totalDuration / 60, true);
 
             // Save object on file
-            const kKey = "rec-" + date;
-            savedCalls++;
-            chrome.storage.local.set({ [kKey]: dayRecords }).then(() => {
+            saveShift(shift).then(() => {
+                savedCalls++;
                 notifications.showToast("Calls Saved on file succesfully - Date: " + date);
                 resolve(1);
             });
         });
     });
-}
-
-/**
- * Display a custom message on the sidebar
- *
- * @param {string} msg - The message on the sidebar
- */
-function updateSidebar(msg) {
-    // Get status area
-    let status = document.querySelector("#sd-status");
-
-    // Update status
-    status.innerHTML = msg;
 }
 
 /**
@@ -392,7 +324,7 @@ function UnlockAchievement(name, date, time, value = 1) {
                     unlockedAchievements[name] = tmp;
 
                     // Save list on local storage
-                    chrome.storage.local.set({ achievements: unlockedAchievements }).then(() => {
+                    chrome.storage.local.set({achievements: unlockedAchievements}).then(() => {
                         console.log("Achievement list updated");
                         console.log(unlockedAchievements);
                     });
@@ -401,6 +333,87 @@ function UnlockAchievement(name, date, time, value = 1) {
                     console.log("Achievement -" + name + "- not present in the JSON");
                 }
             });
+        });
+    });
+}
+
+/**
+ * Sets the progress of an achievement
+ *
+ * @param {string} name - The code of the achievement
+ * @param {number} value - The value which will be set
+ * @param {boolean} onlyifHigher - Flag that defines if the value is set only if it's higher than the current value
+ *
+ */
+function setAchievementProgress(name, value, onlyifHigher = false) {
+    // Create object
+    var tmp;
+
+    // Load json achievements
+    let unlockedAchievements = {};
+    let achievements = {};
+
+    storage.getDataFromLocalStorage("achievements").then(uAch => {
+        // Load achievement list
+        // Get extension's url
+        const extensionUrl = chrome.runtime.getURL("");
+        storage.loadJSON(extensionUrl + "js/achievements.json").then(jsonAch => {
+            // Create achievement skeleton
+            tmp = {
+                progress: 0,
+                unlockDate: "",
+                seen: false,
+            };
+
+            if (!uAch.empty) {
+                unlockedAchievements = uAch;
+            }
+
+            // Save objects
+            achievements = jsonAch;
+
+            // Check if achievement exists
+            if (unlockedAchievements[name]) {
+                // Check if its already unlocked
+                if (unlockedAchievements[name].unlockDate == "") {
+                    // Not unlocked yet. Get info
+                    tmp = unlockedAchievements[name];
+
+                    // Check if the function needs to check if the new value is higher than current
+                    if (onlyifHigher && tmp.progress >= value) return; // Progress is lower than current, exit
+                } else return; // Achievement already unlocked, dont do anything
+            }
+
+            // Check if achievement exists in the list
+            if (achievements[name]) {
+                // Check if new value is between limits of the goal of the achievement
+                if (value < 0) {
+                    // Value is negative, set it to 0
+                    tmp.progress = 0;
+                } else if (value >= achievements[name].goal) {
+                    // Value exceeds or is equal to the achievement goal (good boy!)
+                    // Unlock it!
+                    console.log("Unlocking achievement with code " + name);
+                    tmp.progress = achievements[name].goal;
+                    tmp.unlockDate = moment().format("DD-MM-YYYY HH:mm");
+                    notifications.showAchievementToast(name);
+                } else {
+                    // Value is set, but it's not unlocked yet
+                    tmp.progress = value;
+                }
+
+                // Add temporary skeleton to the list
+                unlockedAchievements[name] = tmp;
+
+                // Save list on local storage
+                chrome.storage.local.set({achievements: unlockedAchievements}).then(() => {
+                    console.log("Achievement list updated");
+                    console.log(unlockedAchievements);
+                });
+            } else {
+                // Achievement not valid, exit
+                console.log("Achievement -" + name + "- not present in the JSON");
+            }
         });
     });
 }
@@ -435,8 +448,44 @@ function addProvider(name, duration) {
  */
 function saveProviders() {
     // Save list on local storage
-    chrome.storage.local.set({ providers: providers }).then(() => {
+    chrome.storage.local.set({providers: providers}).then(() => {
         // Update milestones
         // console.log(providers);
+    });
+}
+
+/**
+ * Gets a specific shift from the system
+ *
+ * @param {string} date The requested date in DD-MM-YYYY format
+ * @returns Promise with the `Shift` object of that date, `undefined` otherwise
+ */
+function getShift(date) {
+    return new Promise(resolve => {
+        storage.getDataFromLocalStorage(`s-${date}`).then(result => {
+            const objShift = new Shift(date);
+            if (!result.empty) {
+                console.log(result);
+                objShift.parse(result);
+            }
+            resolve(objShift);
+        });
+    });
+}
+
+/**
+ * Saves a shift in LocalStorage
+ *
+ * @param {Shift} shift The shift to save
+ * @returns Promise with `true` when fullfilled
+ */
+function saveShift(shift) {
+    return new Promise(resolve => {
+        const date = `s-${shift.date}`;
+
+        chrome.storage.local.set({[date]: shift}).then(() => {
+            console.log("shift saved", shift);
+            resolve(true);
+        });
     });
 }

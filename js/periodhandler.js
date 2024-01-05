@@ -210,7 +210,7 @@ async function countMinutes(periodDate) {
     // Load the info of the period
     for (let i = 0; i < dif + 1; i++) {
         // Generate a new Promise for the data to load
-        const promise = new Promise((resolve, reject) => {
+        const promise = new Promise(resolve => {
             /** Counter for registries */
             let amt = 0;
 

@@ -8,17 +8,13 @@
 // notifications script variable
 let notifications;
 
+let storage;
+
 // Possible schedule pages
 const pages = [
     "https://impact360.languageline.com/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=2_FS_MYSCHEDULE_PERSONAL&navparent%5BworkspaceId%5D=",
     "https://impact360.languageline.com/wfo/ui/#wsm%5Bws%5D=legacyWorkspace&url=..%2Fcontrol%2Fmyschedule%3FNEWUINAV%3D1&selTab=1_MY_HOME-%3E1_FS_MYSCHEDULE-%3E2_FS_MYSCHEDULE_PERSONAL",
 ];
-
-// Load script
-async () => {
-    const src = chrome.runtime.getURL("js/notifications.js");
-    notifications = await import(src);
-};
 
 // Set Timeout for the Injector to start working, because the page is so old that it doesn't load everything before displaying it to the user...
 const maxRetries = 10;
@@ -34,10 +30,10 @@ let currentInstruction = "";
 let impactCodes;
 
 async function load() {
-    if (!notifications) {
-        const src = chrome.runtime.getURL("js/notifications.js");
-        notifications = await import(src);
-    }
+    const srcNotif = chrome.runtime.getURL("js/notifications.js");
+    notifications = await import(srcNotif);
+    const srcStorage = chrome.runtime.getURL("js/storage.js");
+    storage = await import(srcStorage);
     checkLoadedContent(maxRetries, retryInterval);
 }
 
@@ -473,10 +469,10 @@ async function getInfo() {
         }
 
         if (regsSaved == 0) notifications.showToast("No days have been saved in the system", "warning");
-        else
-            regsSaved == 1
-                ? notifications.showToast("1 day have been saved in the system", "success")
-                : notifications.showToast(regsSaved + " days have been saved in the system", "success");
+        else {
+            const day = regsSaved == 1 ? "day has" : "days have";
+            notifications.showToast(`${regsSaved} ${day} been saved in the system`, "success");
+        }
         // Get settings
         const resSettings = await chrome.storage.local.get(["settings"]);
         const stng = resSettings.settings;
@@ -532,6 +528,44 @@ function setTextualView() {
  */
 function saveSchedule(date, regDay) {
     // Save object on file
-    var kKey = "shift-" + date;
-    chrome.storage.local.set({[kKey]: regDay});
+    getShift(date).then(tmpShift => {
+        tmpShift.setShift(regDay.type, regDay.mins, regDay.shift);
+        saveShift(tmpShift);
+    });
+}
+
+/**
+ * Gets a specific shift from the system
+ *
+ * @param {string} date The requested date in DD-MM-YYYY format
+ * @returns Promise with the `Shift` object of that date, `undefined` otherwise
+ */
+function getShift(date) {
+    return new Promise(resolve => {
+        storage.getDataFromLocalStorage(`s-${date}`).then(result => {
+            const objShift = new Shift(date);
+            if (!result.empty) {
+                console.log(result);
+                objShift.parse(result);
+            }
+            resolve(objShift);
+        });
+    });
+}
+
+/**
+ * Saves a shift in LocalStorage
+ *
+ * @param {Shift} shift The shift to save
+ * @returns Promise with `true` when fullfilled
+ */
+function saveShift(shift) {
+    return new Promise(resolve => {
+        const date = `s-${shift.date}`;
+
+        chrome.storage.local.set({[date]: shift}).then(() => {
+            console.log("shift saved", shift);
+            resolve(true);
+        });
+    });
 }
