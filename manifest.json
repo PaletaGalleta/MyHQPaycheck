@@ -24,12 +24,12 @@
     "content_scripts": [
         {
             "matches": ["https://*.vf.force.com/apex/ContactCallRecordPlugin*"],
-            "js": ["js/moment.js", "js/bootstrap/js/bootstrap.bundle.min.js", "js/Shift.js", "js/storage.js", "js/sidebar.js"],
+            "js": ["js/moment.js", "js/bootstrap/js/bootstrap.bundle.min.js", "js/Shift.js", "js/sidebar.js"],
             "css": ["js/bootstrap/css/bootstrap.min.css"]
         },
         {
             "matches": ["https://impact360.languageline.com/wfo/ui/*"],
-            "js": ["js/moment.js", "js/bootstrap/js/bootstrap.bundle.min.js", "js/Shift.js", "js/storage.js", "js/schedule.js"],
+            "js": ["js/moment.js", "js/bootstrap/js/bootstrap.bundle.min.js", "js/Shift.js", "js/schedule.js"],
             "css": ["js/bootstrap/css/bootstrap.min.css", "css/sidebar.css"]
         }
     ],
