@@ -5,6 +5,8 @@
  * Date: 09-02-2023
  */
 
+import {Shift} from "./Shift";
+
 // Constants
 const BACKUP_VERSION = "1";
 
@@ -38,10 +40,29 @@ export function fileExists(url) {
  *
  */
 export function getDataFromLocalStorage(key) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         chrome.storage.local.get([key], result => {
             const objectResult = result[key];
             resolve(objectResult ? objectResult : {empty: true});
+        });
+    });
+}
+
+/**
+ * Gets a specific shift from the system
+ *
+ * @param {string} date The requested date in DD-MM-YYYY format
+ * @returns The `Shift` object of that date, `undefined` otherwise
+ */
+export function getShift(date) {
+    return new Promise(resolve => {
+        getDataFromLocalStorage(`s-${date}`).then(result => {
+            if (result.empty) resolve(undefined);
+            else {
+                const objShift = new Shift(date);
+                objShift.parse(result);
+                resolve(objShift);
+            }
         });
     });
 }
@@ -95,6 +116,7 @@ export function exportData() {
                 if ((key.startsWith("rec-") || key === "providers") && !exportCalls) continue;
                 // get schedules
                 if (key.startsWith("shift-") && !exportShifts) continue;
+                if (key.startsWith("s-") && !exportShifts) continue;
                 // Get periods
                 if (key.startsWith("per-") && !exportPaycheck) continue;
 
