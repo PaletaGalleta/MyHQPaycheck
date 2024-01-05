@@ -50,29 +50,27 @@ function loadToday() {
     // Get Elements
     const todayCard = document.getElementById("todayscard");
     // Check if there's something already available on storage for today
-    storage.getDataFromLocalStorage("rec-" + moment().format("DD-MM-YYYY")).then(value => {
-        if (!value.empty) {
+    storage.getDataFromLocalStorage("s-" + moment().format("DD-MM-YYYY")).then(shift => {
+        if (shift.calls) {
             // Call records are present, display the information
             todayCard.style.display = "flex";
             document.getElementById("todayscard-norecs").style.display = "none";
-            document.getElementById("today-calls").innerHTML = value.calls.length;
-            document.getElementById("today-calltime").innerHTML = value.totalDuration;
-            document.getElementById("today-calllongest").innerHTML = value.highestDuration;
-            document.getElementById("today-callshortest").innerHTML = value.lowestDuration;
-            document.getElementById("today-callaverage").innerHTML = value.avgDuration;
+            document.getElementById("today-calls").innerHTML = shift.calls.length;
+            document.getElementById("today-calltime").innerHTML = shift.totalDuration;
+            document.getElementById("today-calllongest").innerHTML = shift.highestDuration;
+            document.getElementById("today-callshortest").innerHTML = shift.lowestDuration;
+            document.getElementById("today-callaverage").innerHTML = shift.avgDuration;
         } else {
             // Call records not present, show additional info
             todayCard.style.display = "none";
             document.getElementById("todayscard-norecs").style.display = "flex";
         }
-    });
-    storage.getDataFromLocalStorage("shift-" + moment().format("DD-MM-YYYY")).then(value => {
-        if (!value.empty) {
+        if (shift.schedule) {
             // NOT CONSIDERING DAYS OFF
             // Shift records are present
-            document.getElementById("today-totalminutes").innerHTML = value.mins.immediate + " mins";
-            document.getElementById("today-totalap").innerHTML = value.mins.ap + " mins";
-            document.getElementById("today-totalbreaks").innerHTML = value.mins.lunch + value.mins.break + " mins";
+            document.getElementById("today-totalminutes").innerHTML = shift.mins.immediate + " mins";
+            document.getElementById("today-totalap").innerHTML = shift.mins.ap + " mins";
+            document.getElementById("today-totalbreaks").innerHTML = shift.mins.lunch + shift.mins.break + " mins";
         }
     });
 }
@@ -163,21 +161,21 @@ async function loadWeek() {
             // Get the shift data of the day
             const iDay = moment(now).add(i * -1, "days");
 
-            storage.getDataFromLocalStorage("shift-" + iDay.format("DD-MM-YYYY")).then(value => {
+            storage.getDataFromLocalStorage("s-" + iDay.format("DD-MM-YYYY")).then(shift => {
                 // Check if shift records are present
-                if (!value.empty && value.type != "Off") {
+                if (shift.code && shift.code != "Off") {
                     // Set the labels for the day
                     weekGraphInfo.labels.unshift(iDay.format("ddd DD/MM"));
 
                     // Add the values
-                    weekGraphInfo.datasets[0].data.unshift(value.mins.immediate);
-                    weekGraphInfo.datasets[1].data.unshift(value.mins.ap * -1);
-                    weekGraphInfo.datasets[2].data.unshift(value.mins.lunch + value.mins.break);
+                    weekGraphInfo.datasets[0].data.unshift(shift.mins.immediate);
+                    weekGraphInfo.datasets[1].data.unshift(shift.mins.ap * -1);
+                    weekGraphInfo.datasets[2].data.unshift(shift.mins.lunch + shift.mins.break);
                     // Increase the value of the loaded days
                     loadedDays++;
                 }
                 // Send the resolve to the promise
-                resolve(value);
+                resolve(shift);
             });
         });
         // Add the generated promise to the Promises array
@@ -288,32 +286,31 @@ async function loadPeriod() {
     let minsOnline = 0;
 
     for (let iDay = moment(periodDates.startDate, "DD-MM-YYYY"); lastDay.diff(iDay, "days") >= 0; iDay.add(1, "d")) {
-        const recs = await storage.getDataFromLocalStorage("rec-" + iDay.format("DD-MM-YYYY"));
-        const shift = await storage.getDataFromLocalStorage("shift-" + moment().format("DD-MM-YYYY"));
+        const Shift = await storage.getDataFromLocalStorage("s-" + iDay.format("DD-MM-YYYY"));
 
         // If no records, continue to next day
-        if (recs.empty) continue;
+        if (!Shift.calls) continue;
 
         // Call records are present
 
         // Get longest call
-        const highestC = moment(recs.highestDuration, "HH:mm:ss");
+        const highestC = moment(Shift.highestDuration, "HH:mm:ss");
         if (highestC.diff(longestCall) > 0) longestCall = highestC;
 
         // Add day's total calls
-        totalCalls += recs.calls.length;
+        totalCalls += Shift.calls.length;
 
         // Add today's calls duration
 
-        const callDuration = moment(recs.totalDuration, "HH:mm:ss");
+        const callDuration = moment(Shift.totalDuration, "HH:mm:ss");
         callTime.add(callDuration.format("ss"), "s");
         callTime.add(callDuration.format("mm"), "m");
         callTime.add(callDuration.format("HH"), "h");
 
-        if (shift.empty) continue;
+        if (!Shift.mins) continue;
 
         // NOT CONSIDERING DAYS OFF
-        minsOnline += shift.mins.immediate;
+        minsOnline += Shift.mins.immediate;
     }
 
     minsOnline /= 60;

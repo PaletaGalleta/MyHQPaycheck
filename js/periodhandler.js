@@ -73,7 +73,7 @@ export function getPeriodOf(date) {
     let period = mths * 2 + 1 + offset;
 
     // Return the object with the period and the tax year
-    return { period: period, taxYear: +moment(taxStartYear).year(taxYr).format("YYYY") };
+    return {period: period, taxYear: +moment(taxStartYear).year(taxYr).format("YYYY")};
 }
 
 /**
@@ -111,7 +111,7 @@ export function getDatesOf(period, year) {
         endDate = moment(startDate).endOf("month");
     }
 
-    return { startDate: moment(startDate).format("DD-MM-YYYY"), endDate: moment(endDate).format("DD-MM-YYYY") };
+    return {startDate: moment(startDate).format("DD-MM-YYYY"), endDate: moment(endDate).format("DD-MM-YYYY")};
 }
 
 /**
@@ -215,47 +215,45 @@ async function countMinutes(periodDate) {
             let amt = 0;
 
             // Get the shift data of the day
-            storage.getDataFromLocalStorage("shift-" + moment(tmpDate).add(i, "days").format("DD-MM-YYYY")).then(shift => {
-                storage.getDataFromLocalStorage("rec-" + moment(tmpDate).add(i, "days").format("DD-MM-YYYY")).then(callReg => {
-                    // Check if shift records are present
-                    if (!shift.empty) {
-                        // Add the bitFlag
-                        amt += 1;
-                        // Check if there's a Normal Shift
-                        if (shift.type == "Normal") {
-                            // Add the counters to the object
-                            counters.immediate += shift.mins.immediate;
-                            counters.ap += shift.mins.ap;
-                            counters.training += shift.mins.training;
-                        } else {
-                            // Check if it's a day off
-                            if (shift.type == "Off") {
-                                // Remove all bitFlags
-                                amt = 0;
-                            }
-
-                            // No matches, get the type and save it as a key
-                            if (!counters[shift.type]) counters[shift.type] = 1;
-                            else counters[shift.type]++;
+            storage.getDataFromLocalStorage("s-" + moment(tmpDate).add(i, "days").format("DD-MM-YYYY")).then(shift => {
+                // Check if shift records are present
+                if (shift.code) {
+                    // Add the bitFlag
+                    amt += 1;
+                    // Check if there's a Normal Shift
+                    if (shift.code == "Normal") {
+                        // Add the counters to the object
+                        counters.immediate += shift.mins.immediate;
+                        counters.ap += shift.mins.ap;
+                        counters.training += shift.mins.training;
+                    } else {
+                        // Check if it's a day off
+                        if (shift.code == "Off") {
+                            // Remove all bitFlags
+                            amt = 0;
                         }
-                    }
-                    // Check if call records are present
-                    if (!callReg.empty) {
-                        amt += 2;
-                    }
 
-                    // If there's calls and shift info, calculate the Overtime
-                    if (amt == 3) {
-                        // Check if it's not calculated yet
-                        if (shift.mins.overtime == 0) {
-                            // Calculate the overtime
-                            counters.overtime += calculateOvertime(shift, callReg);
-                        }
+                        // No matches, get the type and save it as a key
+                        if (!counters[shift.code]) counters[shift.code] = 1;
+                        else counters[shift.code]++;
                     }
+                }
+                // Check if call records are present
+                if (shift.calls) {
+                    amt += 2;
+                }
 
-                    // Send the resolve to the promise
-                    resolve(shift);
-                });
+                // If there's calls and shift info, calculate the Overtime
+                if (amt == 3) {
+                    // Check if it's not calculated yet
+                    if (shift.mins.overtime == 0) {
+                        // Calculate the overtime
+                        counters.overtime += calculateOvertime(shift);
+                    }
+                }
+
+                // Send the resolve to the promise
+                resolve(shift);
             });
         });
         // Add the generated promise to the Promises array
@@ -269,19 +267,19 @@ async function countMinutes(periodDate) {
     return counters;
 }
 
-function calculateOvertime(shiftInfo, callReg) {
+function calculateOvertime(shiftInfo) {
     /** Additional seconds accumulator */
     let overtime = 0;
 
-    for (let i = 0; i < callReg.calls.length; i++) {
+    for (let i = 0; i < shiftInfo.calls.length; i++) {
         /** Call Start Time, minus 2 to be consistent with PST */
-        let callStartTime = moment(callReg.calls[i].startTime, "HH:mm:SS").add(-2, "hours");
+        let callStartTime = moment(shiftInfo.calls[i].startTime, "HH:mm:SS").add(-2, "hours");
 
         /** Call End Time, minus 2 to be consistent with PST */
-        let callEndTime = moment(callReg.calls[i].endTime, "HH:mm:SS").add(-2, "hours");
+        let callEndTime = moment(shiftInfo.calls[i].endTime, "HH:mm:SS").add(-2, "hours");
 
         /** Shift real end time */
-        let shiftEndTime = moment(shiftInfo.shift.realEnd, "HH:mm:SS");
+        let shiftEndTime = moment(shiftInfo.schedule.realEnd, "HH:mm:SS");
 
         /** Difference between the end of the shift and the end of the call, in milliseconds */
         let diff = callEndTime.diff(shiftEndTime);
@@ -291,7 +289,7 @@ function calculateOvertime(shiftInfo, callReg) {
             // Check if the call started after the shift (Maybe all of them, except for the first one after the shift)
             if (callStartTime.diff(shiftEndTime) > 0) {
                 // The call started and ended after the shift ended. So just add the duration
-                overtime += callReg.calls[i].duration;
+                overtime += shiftInfo.calls[i].duration;
             } else {
                 // The call started on the shift, but ended after. Count those minutes after
                 overtime += callEndTime.diff(shiftEndTime, "seconds");
