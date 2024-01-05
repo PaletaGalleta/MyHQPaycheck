@@ -53,6 +53,20 @@ export class Shift {
     }
 
     /**
+     * Parses the Shift string from storage and saves all parameters in it
+     * @param {string} jsonString The string retrieved directly from storage
+     */
+    parse(jsonString) {
+        const parsedJSON = JSON.parse(jsonString);
+        const objKeys = Object.keys(parsedJSON);
+
+        for (let i = 0; i < objKeys.length; i++) {
+            const key = objKeys[i];
+            this[key] = parsedJSON[key];
+        }
+    }
+
+    /**
      * Sets the shift information according to Personal->Schedule on Impact360
      *
      * @deprecated This reverts the object to type SHIFT_TYPE_SCHEDULE
@@ -98,6 +112,8 @@ export class Shift {
             /** The amount of call reports on that day */
             this.reports = 0;
         }
+
+        // Check if call is not already there
         this.calls.push(call);
         if (call.report) this.reports++;
         this.totalDuration += call.duration;
