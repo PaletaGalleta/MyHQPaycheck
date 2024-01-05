@@ -124,5 +124,12 @@
         "description": "You have made a full backup of your schedule",
         "description2": "Hail the Guardian of Time! Congratulations on safeguarding your mundane records. Now you can take your regrets along with you.",
         "goal": 1
+    },
+    "noAP": {
+        "secret": false,
+        "title": "Week of Unwavering Presence",
+        "description": "You did not have any AP time in a week",
+        "description2": "By erasing any trace of personal time, you've ascended to the status of a glorious stalker, never letting a moment escape your watchful eyes.",
+        "goal": 5
     }
 }
