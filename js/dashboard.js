@@ -190,7 +190,7 @@ async function loadWeek() {
     // Get the canvas container
     const wkChrt = document.getElementById("weekChart");
     // Create the chart
-    if (!weekGraphLoaded) weekGraphLoaded = new Chart(wkChrt, { type: "bar", data: weekGraphInfo, options: opts });
+    if (!weekGraphLoaded) weekGraphLoaded = new Chart(wkChrt, {type: "bar", data: weekGraphInfo, options: opts});
     else {
         // Chart is already loaded, so just update the data
         weekGraphLoaded.data = weekGraphInfo;

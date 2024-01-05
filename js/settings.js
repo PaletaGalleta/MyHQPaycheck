@@ -9,6 +9,7 @@
 import * as storage from "./storage.js";
 import * as notifications from "./notifications.js";
 import * as achievements from "./achievement.js";
+import * as ShiftController from "./Shift.js";
 
 // Constants
 export const settingsVersion = 3;
@@ -35,7 +36,7 @@ let exportButton;
 /**
  * Saved Settings container
  */
-export let savedSettings = { loading: true };
+export let savedSettings = {loading: true};
 
 /**
  * Beta Modal reference
@@ -47,7 +48,7 @@ let betaModal;
  */
 export function load() {
     // Create the Beta modal
-    betaModal = new bootstrap.Modal("#betaModal", { keyboard: false, focus: true, backdrop: "static" });
+    betaModal = new bootstrap.Modal("#betaModal", {keyboard: false, focus: true, backdrop: "static"});
 
     // Get settings storage
     storage.getDataFromLocalStorage("settings").then(value => {
@@ -129,6 +130,9 @@ export function load() {
             if (res) notifications.showToast("Records Imported Succesfully", "info");
         });
     });
+
+    // Check Convert
+    checkConvert();
 }
 
 /**
@@ -261,8 +265,8 @@ function saveInfo() {
  */
 export async function saveSettings() {
     // Save settings
-    return new Promise((resolve, reject) => {
-        chrome.storage.local.set({ settings: savedSettings }).then(() => {
+    return new Promise(resolve => {
+        chrome.storage.local.set({settings: savedSettings}).then(() => {
             resolve();
         });
     });
@@ -375,5 +379,36 @@ function importData(e) {
     e.preventDefault();
     storage.importData(savedSettings.email).then(res => {
         if (res) notifications.showToast("Records Imported Succesfully", "info");
+    });
+}
+
+function checkConvert() {
+    // Check if calls are already converted, by checking the settings flag
+    const isConverted = savedSettings.callsConverted;
+    if (!isConverted || isConverted != 1) {
+        // If not, convert them
+        convertCalls();
+    }
+}
+async function convertCalls() {
+    // Get object keys
+    chrome.storage.local.get(null).then(data => {
+        const keys = Object.keys(data);
+
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+
+            // Get recs
+            if (key.startsWith("rec-")) {
+                // Save the date and create a call if not needed
+            }
+            // get schedules
+            if (key.startsWith("shift-")) {
+            }
+
+            objectData[key] = data[key];
+        }
+
+        resolve(true);
     });
 }
