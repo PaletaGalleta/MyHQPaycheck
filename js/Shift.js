@@ -1,7 +1,7 @@
 /**
  * @class TimeSpan Class for periods of time on the adherence page on Impact360
  */
-export class TimeSpan {
+class TimeSpan {
     /**
      * Constructor
      *
@@ -17,7 +17,7 @@ export class TimeSpan {
     }
 }
 
-export class Call {
+class Call {
     /**
      * Constructor
      *
@@ -41,7 +41,7 @@ export class Call {
     }
 }
 
-export class Shift {
+class Shift {
     /**
      * Constructor
      *
@@ -54,10 +54,9 @@ export class Shift {
 
     /**
      * Parses the Shift string from storage and saves all parameters in it
-     * @param {string} jsonString The string retrieved directly from storage
+     * @param {string} parsedJSON The string retrieved directly from storage
      */
-    parse(jsonString) {
-        const parsedJSON = JSON.parse(jsonString);
+    parse(parsedJSON) {
         const objKeys = Object.keys(parsedJSON);
 
         for (let i = 0; i < objKeys.length; i++) {
@@ -93,6 +92,7 @@ export class Shift {
      * @param {Call} call - The call to add to the shift
      */
     addCall(call) {
+        // Check if array exists
         if (!this.calls) {
             /** The calls array */
             this.calls = [];
@@ -113,13 +113,22 @@ export class Shift {
             this.reports = 0;
         }
 
-        // Check if call is not already there
-        this.calls.push(call);
-        if (call.report) this.reports++;
-        this.totalDuration += call.duration;
-        if (call.duration > this.highestDuration) this.highestDuration = call.duration;
-        if (call.duration < this.lowestDuration) this.lowestDuration = call.duration;
-        this.avgDuration = Math.floor(this.totalDuration / this.calls.length);
+        // Check if same call exists
+        const foundCall = this.calls.find(
+            cl => call.duration == cl.duration && call.startTime == cl.startTime && call.endTime == cl.endTime
+        );
+        if (foundCall) {
+            // Update report if needed
+            if (foundCall.report != call.report) foundCall.report = call.report;
+        } else {
+            // Add call to array and update the numbers
+            this.calls.push(call);
+            if (call.report) this.reports++;
+            this.totalDuration += call.duration;
+            if (call.duration > this.highestDuration) this.highestDuration = call.duration;
+            if (call.duration < this.lowestDuration) this.lowestDuration = call.duration;
+            this.avgDuration = Math.floor(this.totalDuration / this.calls.length);
+        }
     }
 
     /**
@@ -146,4 +155,16 @@ export class Shift {
             else this.shift.push(timeSpan);
         } else this.shift.push(timeSpan);
     }
+}
+
+// Export an object containing all classes
+const MyClasses = {
+    TimeSpan,
+    Call,
+    Shift,
+};
+
+// Export the object (optional)
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+    module.exports = MyClasses;
 }
