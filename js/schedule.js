@@ -21,7 +21,11 @@ async () => {
 };
 
 // Set Timeout for the Injector to start working, because the page is so old that it doesn't load everything before displaying it to the user...
-window.onload = setTimeout(Injector, 3000);
+const maxRetries = 10;
+const retryInterval = 3000; // 3 seconds
+
+// window.onload = setTimeout(Injector, 3000);
+window.onload = load();
 
 // Variable for Instructions
 let currentInstruction = "";
@@ -29,17 +33,19 @@ let currentInstruction = "";
 // Variable for Codes
 let impactCodes;
 
+async function load() {
+    if (!notifications) {
+        const src = chrome.runtime.getURL("js/notifications.js");
+        notifications = await import(src);
+    }
+    checkLoadedContent(maxRetries, retryInterval);
+}
+
 /**
  * Injector Main function
  *
  */
 async function Injector() {
-    if (!notifications) {
-        const src = chrome.runtime.getURL("js/notifications.js");
-        notifications = await import(src);
-    }
-    notifications.showToast("Loaded for Impact360");
-
     // Get workspace container
     // const content = document.querySelector("#workspaceContainer");
     const content = document.querySelector("#viewport-innerCt");
@@ -121,9 +127,11 @@ async function Injector() {
     // Check if the container is already loaded
     if (content == undefined) {
         // Container not loaded. Let the user know
-        notifications.showToast("MyHQ Paycheck: The extension has not loaded on time, please reload the page.");
+        notifications.showToast("An error has ocurred when starting the extension");
         // Exit the function
         return;
+    } else {
+        notifications.showToast("Loaded for Impact360");
     }
 
     // Container loaded, insert it before the iframe
@@ -147,6 +155,30 @@ async function Injector() {
             impactCodes = data;
         });
     });
+}
+
+function checkLoadedContent(maxRetries, interval) {
+    let retries = 0;
+
+    function check() {
+        const content = document.querySelector("#viewport-innerCt");
+        if (content != undefined) {
+            Injector();
+        } else {
+            retries++;
+            if (retries < maxRetries) {
+                notifications.showToast(`Attempting to load MyHQ Paycheck on a 20 year-old page... Attempt ${retries}/10`);
+                setTimeout(check, interval);
+            } else {
+                notifications.showToast(
+                    `MyHQ Paycheck was not able to load after ${maxRetries} attempts, please reload the page`
+                );
+            }
+        }
+    }
+
+    // Start the initial check
+    check();
 }
 
 /**
@@ -323,7 +355,7 @@ async function getInfo() {
 
                     // Check if it's a day off
                     if (shiftInfoTxt == "Off") {
-                        saveSchedule(moment(date).format("DD-MM-YYYY"), { type: "Off" });
+                        saveSchedule(moment(date).format("DD-MM-YYYY"), {type: "Off"});
                         regsSaved++;
                         // Don't do anything anymore and continue to the next day
                         continue;
@@ -449,7 +481,7 @@ async function getInfo() {
         const stng = resSettings.settings;
         // Add call date
         stng["lastCapturedSchedule"] = moment().format("DD/MMMM/YY HH:mm:ss");
-        await chrome.storage.local.set({ settings: stng });
+        await chrome.storage.local.set({settings: stng});
     } else {
         // The user has graphical mode
 
@@ -500,5 +532,5 @@ function setTextualView() {
 function saveSchedule(date, regDay) {
     // Save object on file
     var kKey = "shift-" + date;
-    chrome.storage.local.set({ [kKey]: regDay });
+    chrome.storage.local.set({[kKey]: regDay});
 }
