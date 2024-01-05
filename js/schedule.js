@@ -167,7 +167,8 @@ function checkLoadedContent(maxRetries, interval) {
         } else {
             retries++;
             if (retries < maxRetries) {
-                notifications.showToast(`Attempting to load MyHQ Paycheck on a 20 year-old page... Attempt ${retries}/10`);
+                if (retries > 1)
+                    notifications.showToast(`Attempting to load MyHQ Paycheck on a 20 year-old page... Attempt ${retries}/10`);
                 setTimeout(check, interval);
             } else {
                 notifications.showToast(
