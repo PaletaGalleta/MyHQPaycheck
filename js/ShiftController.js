@@ -1,7 +1,7 @@
 /**
  * @class TimeSpan Class for periods of time on the adherence page on Impact360
  */
-class TimeSpan {
+export class TimeSpan {
     /**
      * Constructor
      *
@@ -17,7 +17,7 @@ class TimeSpan {
     }
 }
 
-class Call {
+export class Call {
     /**
      * Constructor
      *
@@ -41,7 +41,7 @@ class Call {
     }
 }
 
-class Shift {
+export class Shift {
     /**
      * Constructor
      *
