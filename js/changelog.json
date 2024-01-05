@@ -1,7 +1,16 @@
 {
     "changelog": [
         {
-            "version": "0.8.2 (Current)",
+            "version": "0.8.3 (Current)",
+            "date": "06-01-2024",
+            "changes": [
+                "Added AP Achievement",
+                "Change daily goal signs to Material Icons",
+                "Updated the way the extension loads in Impact360. It no longer requires a reload (unless completely necessary)"
+            ]
+        },
+        {
+            "version": "0.8.2",
             "date": "12-10-2023",
             "changes": ["Updated Salesforce URL", "Added TimeSpan, Shift and Call classes"]
         },
