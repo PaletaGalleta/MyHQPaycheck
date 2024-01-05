@@ -102,14 +102,14 @@
         "title": "Living on the edge",
         "description": "Your PIN almost gets locked because of continued short calls",
         "description2": "Only four bad calls in a row? You must be slacking off. Come on, you can do better than that!",
-        "goal": 1
+        "goal": 4
     },
     "pinLocked": {
         "secret": true,
         "title": "A Five-Call Catastrophe",
         "description": "Your PIN got locked because of continued short calls",
         "description2": "Looks like you're on a roll today. Five bad calls in a row? That's impressive. At this rate, you'll be the star of the next company meeting...if you're still employed by then, that is.",
-        "goal": 1
+        "goal": 5
     },
     "survivor": {
         "secret": false,
