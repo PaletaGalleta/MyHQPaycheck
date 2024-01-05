@@ -56,7 +56,7 @@ async function Injector() {
     // Add class and ID
     dropDown.classList.add("sidebarModule", "position-absolute", "dropdown");
     dropDown.id = "sd-panel";
-    dropDown.style.zIndex = 200000;
+    dropDown.style.zIndex = 15000;
     dropDown.style.right = "10px";
     dropDown.style.top = "43px";
 
