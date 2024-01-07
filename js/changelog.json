@@ -4,9 +4,13 @@
             "version": "0.8.3 (Current)",
             "date": "06-01-2024",
             "changes": [
-                "Added AP Achievement",
-                "Change daily goal signs to Material Icons",
-                "Updated the way the extension loads in Impact360. It no longer requires a reload (unless completely necessary)"
+                "Added 'Week of Unwavering Presence' Achievement",
+                "Changed daily goal signs to Material Icons",
+                "Updated the way the extension loads in Impact360. It no longer requires a reload (unless completely necessary)",
+                "Converted saving method to Shifts, instead of Calls & Schedule",
+                "Updated pages so they work with new format",
+                "Improved the way the system checks for call related achievements",
+                "Reduced local storage size"
             ]
         },
         {
