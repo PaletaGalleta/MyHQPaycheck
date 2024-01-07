@@ -9,7 +9,7 @@
 import * as storage from "./storage.js";
 import * as notifications from "./notifications.js";
 import * as achievements from "./achievement.js";
-import * as ShiftController from "./Shift.js";
+import {Shift} from "./ShiftController.js";
 
 // Constants
 export const settingsVersion = 3;
@@ -451,6 +451,42 @@ async function convertCalls() {
 
             // Reload the current page
             location.reload();
+        });
+    });
+}
+
+/**
+ * Gets a specific shift from the system
+ *
+ * @param {string} date The requested date in DD-MM-YYYY format
+ * @returns Promise with the `Shift` object of that date, `undefined` otherwise
+ */
+export function getShift(date) {
+    return new Promise(resolve => {
+        storage.getDataFromLocalStorage(`s-${date}`).then(result => {
+            const objShift = new Shift(date);
+            if (!result.empty) {
+                console.log(result);
+                objShift.parse(result);
+            }
+            resolve(objShift);
+        });
+    });
+}
+
+/**
+ * Saves a shift in LocalStorage
+ *
+ * @param {Shift} shift The shift to save
+ * @returns Promise with `true` when fullfilled
+ */
+export function saveShift(shift) {
+    return new Promise(resolve => {
+        const date = `s-${shift.date}`;
+
+        chrome.storage.local.set({[date]: shift}).then(() => {
+            console.log("shift saved", shift);
+            resolve(true);
         });
     });
 }
